@@ -133,7 +133,7 @@ O projeto foi dividido em módulos, cada um desenvolvido por um squad específic
     
     Copy
     
-    git clone https://github.com/seu-usuario/GameLeague.git
+    git clone https://github.com/wellmsan/game-league.git
     
 2.  Importe o projeto na sua IDE.
     
