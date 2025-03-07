@@ -140,7 +140,7 @@ O projeto foi dividido em módulos, cada um desenvolvido por um squad específic
     
     Copy
     
-    git clone https://github.com/eGameLeague/egame-league
+    git clone [https://github.com/eGameLeague/egame-league](https://github.com/eGameLeague/egame-league.git)
     
 2.  Importe o projeto na sua IDE.
     
