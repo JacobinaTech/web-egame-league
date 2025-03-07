@@ -1,7 +1,7 @@
 
-# 🎮 GameLeague - Sistema de Gestão de Campeonatos de eSports
+# 🎮 eGameLeague - Sistema de Gestão de Campeonatos de eSports
 
-Bem-vindo ao repositório oficial do  **GameLeague**, um sistema completo para organização e gerenciamento de torneios de eSports, desenvolvido como parte das UCs de **Programação de Sistemas Computacionais** e **Sistemas Computacionais e Segurança**.
+Bem-vindo ao repositório oficial do  **eGameLeague**, um sistema completo para organização e gerenciamento de torneios de eSports, desenvolvido como parte das UCs de **Programação de Sistemas Computacionais** e **Sistemas Computacionais e Segurança**.
 
 Este projeto utiliza  **Java**  e  **JavaFX**  para criar uma interface gráfica interativa, permitindo o cadastro de times, criação de partidas, geração de tabelas e análise de estatísticas.
 
@@ -11,7 +11,7 @@ Este projeto utiliza  **Java**  e  **JavaFX**  para criar uma interface gráfica
 
 ### **Objetivo**
 
-O  **GameLeague**  foi desenvolvido para proporcionar uma experiência prática em desenvolvimento colaborativo, aplicando conceitos de programação orientada a objetos, banco de dados e interfaces gráficas. O sistema é voltado para a gestão de campeonatos de eSports, como FIFA, CS:GO, LoL e Valorant, e permite:
+O  **eGameLeague**  foi desenvolvido para proporcionar uma experiência prática em desenvolvimento colaborativo, aplicando conceitos de programação orientada a objetos, banco de dados e interfaces gráficas. O sistema é voltado para a gestão de campeonatos de eSports, como FIFA, CS:GO, LoL e Valorant, e permite:
 
 -   Cadastro de times e jogadores.
     
@@ -166,4 +166,4 @@ Este projeto foi desenvolvido pelos alunos do curso de  **Análise e Desenvolvim
     
 ----------
 
-**GameLeague**  é mais que um projeto acadêmico; é uma oportunidade de aprender, colaborar e criar algo incrível! 🚀
+**eGameLeague**  é mais que um projeto acadêmico; é uma oportunidade de aprender, colaborar e criar algo incrível! 🚀
