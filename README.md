@@ -165,9 +165,9 @@ Este projeto foi desenvolvido pelos alunos do curso de  **Análise e Desenvolvim
 
 ## 💡 Por que os alunos vão gostar?
 
--   **Tema empolgante:**  eSports é um assunto relevante e familiar para muitos.
+-   **Tema empolgante:**  eSports é um assunto relevante e familiar para muitos;
     
--   **JavaFX em ação:**  Dashboards dinâmicos, tabelas interativas e telas visuais.
+-   **JavaFX em ação:**  Dashboards dinâmicos, tabelas interativas e telas visuais;
     
 -   **Aplicação realista:**  O sistema pode ser usado para organizar torneios internos na faculdade.
     
