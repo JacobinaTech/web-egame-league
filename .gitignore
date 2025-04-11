@@ -113,11 +113,11 @@ package-lock.json
 # -----------------------
 # Arquivos de release
 # -----------------------
-CHANGELOG.md
-*.release*
+# CHANGELOG.md
+# *.release*
 
 # -----------------------
 # Husky
 # -----------------------
-.husky/_/
-.husky/*.lock
+# .husky/_/
+# .husky/*.lock
