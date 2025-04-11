@@ -1,55 +1,49 @@
-name: Aprovar e gerar versão
+name: Criar PR Develop → Release
 
 on:
-  pull_request_review:
-    types: [submitted]
+  workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
-  statuses: write
 
 jobs:
-  liberar-status:
-    if: github.event.review.state == 'approved' && github.event.review.user.login == 'wellmsan'
+  create-pr:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Marcar como aprovado
+      - name: Criar PR manual
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            await github.rest.repos.createCommitStatus({
+            const { data: pulls } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: context.payload.pull_request.head.sha,
-              state: 'success',
-              context: 'Aguardando aprovação de wellmsan',
-              description: 'Aprovado por wellmsan',
-              target_url: context.payload.review.html_url
+              state: 'open',
+              head: `${context.repo.owner}:develop`,
+              base: 'release'
             });
 
-  gerar-release:
-    if: github.event.review.state == 'approved' && github.event.review.user.login == 'wellmsan'
-    needs: liberar-status
-    runs-on: ubuntu-latest
+            if (pulls.length > 0) {
+              console.log('Já existe PR aberto de develop para release.');
+              return;
+            }
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+            const { data: pr } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Release: develop → release`,
+              head: 'develop',
+              base: 'release',
+              body: 'PR manual para release com aprovação obrigatória de wellmsan',
+              draft: false
+            });
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              reviewers: ['wellmsan'],
+            });
 
-      - name: Instalar semantic-release
-        run: npm install -g semantic-release @semantic-release/git @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
-
-      - name: Executar semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release --branches release
+            console.log(`PR criado: ${pr.html_url}`);
