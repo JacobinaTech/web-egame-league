@@ -37,14 +37,25 @@ jobs:
               return;
             }
 
-            // Criar novo PR
+            // Obter últimos commits da branch
+            const commits = await github.rest.repos.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: branch,
+              per_page: 10
+            });
+
+            const changelog = commits.data.map(commit => `- ${commit.commit.message} (${commit.sha.substring(0, 7)})`).join('\n');
+
+            // Criar novo PR como draft
             const pr = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Feature: ${branch}`,
               head: branch,
               base: 'develop',
-              body: 'PR automático para branch develop',
+              body: `### PR automático para branch \`develop\`\n\n**Commits recentes:**\n${changelog}`,
+              draft: false
             });
 
             // Adicionar label
@@ -55,10 +66,10 @@ jobs:
               labels: ['auto-pr'],
             });
 
-            // Adicionar reviewers (opcional — personalize os nomes)
+            // Adicionar reviewers
             await github.rest.pulls.requestReviewers({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr.data.number,
-              reviewers: ['wellmsan'], // Substitua por usuários reais
+              reviewers: ['seu-usuario-github'], // <- Altere isso
             });
