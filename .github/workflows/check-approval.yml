@@ -1,0 +1,32 @@
+name: Bloquear merge até aprovação de wellmsan
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - release
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+  pending-approval:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Definir status pendente
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request.head.sha,
+              state: 'pending',
+              context: 'Aguardando aprovação de wellmsan',
+              description: 'Este PR só pode ser mergeado após aprovação.',
+              target_url: context.payload.pull_request.html_url
+            });
