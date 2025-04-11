@@ -1,50 +1,38 @@
-name: Release - Approve & Versionar
+name: Aprovar e gerar versão
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - release
+  pull_request_review:
+    types: [submitted]
 
 permissions:
   contents: write
-  pull-requests: read
+  pull-requests: write
+  statuses: write
 
 jobs:
-  verificar-aprovador:
-    if: github.event.pull_request.merged == true
+  liberar-status:
+    if: github.event.review.state == 'approved' && github.event.review.user.login == 'wellmsan'
     runs-on: ubuntu-latest
-    outputs:
-      aprovado: ${{ steps.checar-aprovador.outputs.aprovado }}
+
     steps:
-      - name: Checar aprovação do PR por 'wellmsan'
-        id: checar-aprovador
+      - name: Marcar como aprovado
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const prNumber = context.payload.pull_request.number;
-
-            const reviews = await github.rest.pulls.listReviews({
+            await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: prNumber,
+              sha: context.payload.pull_request.head.sha,
+              state: 'success',
+              context: 'Aguardando aprovação de wellmsan',
+              description: 'Aprovado por wellmsan',
+              target_url: context.payload.review.html_url
             });
 
-            const aprovadoPorWell = reviews.data.some(
-              review => review.user.login === 'wellmsan' && review.state === 'APPROVED'
-            );
-
-            if (!aprovadoPorWell) {
-              core.setFailed("❌ O PR não foi aprovado por 'wellmsan'.");
-            } else {
-              core.setOutput("aprovado", "true");
-              console.log("✅ Aprovado por 'wellmsan'.");
-            }
-
   gerar-release:
-    needs: verificar-aprovador
-    if: needs.verificar-aprovador.outputs.aprovado == 'true'
+    if: github.event.review.state == 'approved' && github.event.review.user.login == 'wellmsan'
+    needs: liberar-status
     runs-on: ubuntu-latest
 
     steps:
@@ -58,11 +46,10 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Instalar semantic-release e plugins
+      - name: Instalar semantic-release
         run: npm install -g semantic-release @semantic-release/git @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
 
       - name: Executar semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          semantic-release --branches release
+        run: semantic-release --branches release
