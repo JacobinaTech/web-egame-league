@@ -13,20 +13,52 @@ jobs:
   create-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract branch name
+      - name: Extrair nome da branch
         id: extract_branch
         run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
-      - name: Create pull request
+      - name: Criar ou ignorar PR se já existir
         uses: actions/github-script@v6
         with:
           script: |
             const branch = process.env.BRANCH_NAME;
-            await github.rest.pulls.create({
+
+            // Verificar se já existe PR aberto da mesma branch
+            const existing = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              head: `${context.repo.owner}:${branch}`,
+              base: 'develop',
+            });
+
+            if (existing.data.length > 0) {
+              console.log("PR já existe para essa branch. Ignorando criação.");
+              return;
+            }
+
+            // Criar novo PR
+            const pr = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Feature: ${branch}`,
               head: branch,
               base: 'develop',
               body: 'PR automático para branch develop',
+            });
+
+            // Adicionar label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.data.number,
+              labels: ['auto-pr'],
+            });
+
+            // Adicionar reviewers (opcional — personalize os nomes)
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.data.number,
+              reviewers: ['seu-usuario-github'], // Substitua por usuários reais
             });
