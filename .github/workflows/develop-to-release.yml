@@ -1,33 +1,68 @@
-name: PR Develop → Release
+name: Release - Approve & Versionar
 
 on:
   pull_request:
     types: [closed]
     branches:
-      - develop
+      - release
 
 permissions:
-  pull-requests: write
-  contents: read
+  contents: write
+  pull-requests: read
 
 jobs:
-  create-pr:
+  verificar-aprovador:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    outputs:
+      aprovado: ${{ steps.checar-aprovador.outputs.aprovado }}
     steps:
-      - name: Extrair nome da branch
-        id: extract_branch
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-
-      - uses: actions/github-script@v6
+      - name: Checar aprovação do PR por 'wellmsan'
+        id: checar-aprovador
+        uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const branch = process.env.BRANCH_NAME;
-            await github.rest.pulls.create({
+            const prNumber = context.payload.pull_request.number;
+
+            const reviews = await github.rest.pulls.listReviews({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `Develop → Release (${new Date().toISOString().split('T')[0]})`,
-              head: branch,
-              base: 'release',
-              body: 'PR automático para iniciar ciclo de release.',
+              pull_number: prNumber,
             });
+
+            const aprovadoPorWell = reviews.data.some(
+              review => review.user.login === 'wellmsan' && review.state === 'APPROVED'
+            );
+
+            if (!aprovadoPorWell) {
+              core.setFailed("❌ O PR não foi aprovado por 'wellmsan'.");
+            } else {
+              core.setOutput("aprovado", "true");
+              console.log("✅ Aprovado por 'wellmsan'.");
+            }
+
+  gerar-release:
+    needs: verificar-aprovador
+    if: needs.verificar-aprovador.outputs.aprovado == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Instalar semantic-release e plugins
+        run: npm install -g semantic-release @semantic-release/git @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+
+      - name: Executar semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          semantic-release --branches release
