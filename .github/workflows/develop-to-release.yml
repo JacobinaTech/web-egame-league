@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Aguardar aprovação de `wellmsan` antes de prosseguir
-        uses: peter-evans/manual-approve-action@v2
+        uses: peter-evans/manual-approve-action@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           approvers: wellmsan
