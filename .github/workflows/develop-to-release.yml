@@ -1,14 +1,37 @@
-name: PR Develop → Release + semantic-release
+name: Release Pipeline
 
 on:
   pull_request:
     types: [closed]
     branches:
       - develop
+      - release
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  release:
-    if: github.event.pull_request.merged == true
+  develop-to-release:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Criar PR da develop para release
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Develop → Release (${new Date().toISOString().split('T')[0]})`,
+              head: 'develop',
+              base: 'release',
+              body: 'PR automático para promover código da develop para release.',
+            });
+
+  release-to-main:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'release'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,12 +44,27 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install semantic-release
-        run: npm install -g semantic-release @semantic-release/git
+      - name: Instalar dependências do semantic-release
+        run: npm install -g semantic-release @semantic-release/git @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
 
-      - name: Run semantic-release
+      - name: Executar semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEBUG: semantic-release:*
         run: |
-          semantic-release --branches release --dry-run
-          # Remove --dry-run após testes
+          semantic-release --branches release
+          # Adicione --dry-run se quiser simular primeiro
+
+      - name: Criar PR da release para main
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Release → Main (${new Date().toISOString().split('T')[0]})`,
+              head: 'release',
+              base: 'main',
+              body: 'PR automático para produção após versionamento.',
+            });
