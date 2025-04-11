@@ -7,20 +7,26 @@ on:
 
 permissions:
   pull-requests: write
+  contents: read
 
 jobs:
   create-pr:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
+      - name: Create pull request
+        uses: actions/github-script@v6
         with:
           script: |
-            const branchName = context.ref.replace('refs/heads/', '');
+            const branch = process.env.BRANCH_NAME;
             await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `Feature: ${branchName}`,
-              head: branchName,
+              title: `Feature: ${branch}`,
+              head: branch,
               base: 'develop',
               body: 'PR automático para branch develop',
             });
