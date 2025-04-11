@@ -14,6 +14,10 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
+      - name: Extrair nome da branch
+        id: extract_branch
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
       - uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -22,7 +26,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Develop → Release (${new Date().toISOString().split('T')[0]})`,
-              head: 'develop',
+              head: branch,
               base: 'release',
               body: 'PR automático para iniciar ciclo de release.',
             });
