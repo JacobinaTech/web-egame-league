@@ -5,6 +5,9 @@ on:
     branches:
       - "hotfix/**"
 
+permissions:
+  pull-requests: write
+
 jobs:
   create-prs:
     runs-on: ubuntu-latest

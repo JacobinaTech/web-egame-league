@@ -1,0 +1,17 @@
+name: Block Direct Pushes
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release/**
+
+jobs:
+  block:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancelar push direto
+        run: |
+          echo "❌ Pushes diretos não são permitidos nesta branch. Use PRs!"
+          exit 1

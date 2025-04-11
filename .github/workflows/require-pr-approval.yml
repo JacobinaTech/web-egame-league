@@ -1,0 +1,31 @@
+name: Require PR Approval
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - release/**
+
+permissions:
+  pull-requests: write
+
+jobs:
+  check-approvals:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar Approvals
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+            });
+
+            const hasApproval = reviews.some(review => review.state === 'APPROVED');
+
+            if (!hasApproval) {
+              core.setFailed("❌ Merge bloqueado: PR precisa de pelo menos 1 approval.");
+            }
