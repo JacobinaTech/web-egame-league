@@ -1,4 +1,4 @@
-name: Criar PR manual: develop → release
+name: Criar PR manual de develop → release
 
 on:
   workflow_dispatch: {}
