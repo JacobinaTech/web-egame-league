@@ -1,7 +1,7 @@
-name: Criar PR Develop → Release
+name: Criar PR manual de develop → release
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -10,40 +10,56 @@ permissions:
 jobs:
   create-pr:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Criar PR manual
+      - name: Criar PR com reviewer
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: pulls } = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+            const { owner, repo } = context.repo;
+
+            const branchExists = async (branchName) => {
+              try {
+                await github.rest.repos.getBranch({ owner, repo, branch: branchName });
+                return true;
+              } catch {
+                return false;
+              }
+            };
+
+            if (!(await branchExists('develop')) || !(await branchExists('release'))) {
+              throw new Error('As branches develop e release devem existir.');
+            }
+
+            const existingPRs = await github.rest.pulls.list({
+              owner,
+              repo,
               state: 'open',
-              head: `${context.repo.owner}:develop`,
+              head: `${owner}:develop`,
               base: 'release'
             });
 
-            if (pulls.length > 0) {
-              console.log('Já existe PR aberto de develop para release.');
+            if (existingPRs.data.length > 0) {
+              console.log('PR já existe.');
               return;
             }
 
             const { data: pr } = await github.rest.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `Release: develop → release`,
+              owner,
+              repo,
+              title: 'Release: develop → release',
               head: 'develop',
               base: 'release',
-              body: 'PR manual para release com aprovação obrigatória de wellmsan',
+              body: 'PR criado automaticamente para promover develop para release.',
               draft: false
             });
 
             await github.rest.pulls.requestReviewers({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              owner,
+              repo,
               pull_number: pr.number,
-              reviewers: ['wellmsan'],
+              reviewers: ['wellmsan']
             });
 
-            console.log(`PR criado: ${pr.html_url}`);
+            console.log(`PR criado com sucesso: ${pr.html_url}`);
