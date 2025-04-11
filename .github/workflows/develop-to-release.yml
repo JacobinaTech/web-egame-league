@@ -1,31 +1,54 @@
-name: Release a partir da Develop
+name: Release - Approve & Versionar
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [closed]
     branches:
       - release
 
 permissions:
   contents: write
-  pull-requests: write
+  pull-requests: read
 
 jobs:
-  wait-for-approval:
+  verificar-aprovador:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    outputs:
+      aprovado: ${{ steps.checar-aprovador.outputs.aprovado }}
     steps:
-      - name: Aguardar aprovação de `wellmsan` antes de prosseguir
-        uses: peter-evans/manual-approve-action@v7
+      - name: Checar aprovação do PR por 'wellmsan'
+        id: checar-aprovador
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          approvers: wellmsan
+          script: |
+            const prNumber = context.payload.pull_request.number;
 
-  release:
-    needs: wait-for-approval
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'release'
+            const reviews = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            const aprovadoPorWell = reviews.data.some(
+              review => review.user.login === 'wellmsan' && review.state === 'APPROVED'
+            );
+
+            if (!aprovadoPorWell) {
+              core.setFailed("❌ O PR não foi aprovado por 'wellmsan'.");
+            } else {
+              core.setOutput("aprovado", "true");
+              console.log("✅ Aprovado por 'wellmsan'.");
+            }
+
+  gerar-release:
+    needs: verificar-aprovador
+    if: needs.verificar-aprovador.outputs.aprovado == 'true'
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout código
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -36,10 +59,9 @@ jobs:
           node-version: "18"
 
       - name: Instalar semantic-release e plugins
-        run: |
-          npm install -g semantic-release @semantic-release/git @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+        run: npm install -g semantic-release @semantic-release/git @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
 
-      - name: Rodar semantic-release
+      - name: Executar semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
