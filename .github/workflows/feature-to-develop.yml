@@ -71,5 +71,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr.data.number,
-              reviewers: ['seu-usuario-github'], // <- Altere isso
+              reviewers: ['wellmsan'],
             });
