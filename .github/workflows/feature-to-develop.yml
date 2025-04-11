@@ -15,11 +15,12 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
+            const branchName = context.ref.replace('refs/heads/', '');
             await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `Feature: ${context.ref.split('/').pop()}`,
-              head: context.ref,
+              title: `Feature: ${branchName}`,
+              head: branchName,
               base: 'develop',
               body: 'PR automático para branch develop',
             });
