@@ -1,0 +1,22 @@
+name: PR Feature → Develop
+
+on:
+  push:
+    branches:
+      - "feature/**"
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Feature: ${context.ref.split('/').pop()}`,
+              head: context.ref,
+              base: 'develop',
+              body: 'PR automático para branch develop',
+            });

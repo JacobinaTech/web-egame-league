@@ -1,0 +1,36 @@
+name: PR Hotfix → Release + Develop
+
+on:
+  push:
+    branches:
+      - "hotfix/**"
+
+jobs:
+  create-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR para Release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Hotfix: ${context.ref.split('/').pop()} → Release`,
+              head: context.ref,
+              base: 'release',
+              body: 'PR automático para validação rápida',
+            });
+
+      - name: PR para Develop
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Hotfix: ${context.ref.split('/').pop()} → Develop`,
+              head: context.ref,
+              base: 'develop',
+              body: 'PR automático para sincronizar correções',
+            });

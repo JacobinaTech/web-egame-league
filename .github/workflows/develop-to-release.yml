@@ -1,0 +1,32 @@
+name: PR Develop → Release + semantic-release
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - develop
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install semantic-release
+        run: npm install -g semantic-release @semantic-release/git
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          semantic-release --branches release --dry-run
+          # Remove --dry-run após testes
