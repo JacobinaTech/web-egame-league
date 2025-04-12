@@ -48,6 +48,14 @@ jobs:
             const branch = process.env.BRANCH_NAME;
             const base = 'main';
 
+            // Obter últimos commits da branch
+            const commits = await github.rest.repos.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: branch,
+              per_page: 10
+            });
+
             const changelog = commits.data.map(commit => `- ${commit.commit.message} (${commit.sha.substring(0, 7)})`).join('\n');
 
             const pr = await github.rest.pulls.create({
