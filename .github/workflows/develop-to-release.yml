@@ -45,7 +45,7 @@ jobs:
             });
 
   aguardar-aprovacao:
-    name: Aguardar aprovação do PR
+    name: Aguardar aprovação manual
     runs-on: ubuntu-latest
     needs: create-release-pr
 
@@ -54,9 +54,10 @@ jobs:
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: wellmsan
-          pull_request_number: ${{ needs.create-release-pr.outputs.pr_number }}
-          instructions: "Aguardando aprovação do PR para merge."
+          approvers: wellmsan
+          issue-title: "Aprovação necessária para merge do PR de release"
+          issue-body: "Por favor, revise e aprove o PR de develop para release."
+          minimum-approvals: 1
 
   tag-e-release:
     name: Criar tag e release
