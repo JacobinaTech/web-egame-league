@@ -1,0 +1,66 @@
+name: Criar Tag e Release Version
+
+on:
+  push:
+    branches:
+      - "release"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  tag-e-release:
+    name: Criar tag e release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar semantic-release
+        run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/github
+
+      - name: Rodar semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: semantic-release
+
+      - name: Criar PR Release -> Main
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const branch = 'release';
+            const base = 'main';
+
+            const pr = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Main: Merge release into main',
+              head: branch,
+              base: base,
+              body: '🔁 PR de integração da release na main',
+              draft: false
+            });
+
+            // Adicionar label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.data.number,
+              labels: ['auto-pr'],
+            });
+
+            console.log("PR criado:", pr.data.html_url);
+            core.setOutput('pr_number', pr.data.number);
+
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.data.number,
+            });

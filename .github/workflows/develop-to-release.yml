@@ -1,33 +1,53 @@
-name: PR Develop → Release
+name: Criar PR Develop → Release (Manual)
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - develop
+  workflow_dispatch: # Será disparado manualmente
 
 permissions:
+  contents: write
   pull-requests: write
-  contents: read
 
 jobs:
-  create-pr:
-    if: github.event.pull_request.merged == true
+  create-release-pr:
+    name: Criar PR de develop para release
     runs-on: ubuntu-latest
-    steps:
-      - name: Extrair nome da branch
-        id: extract_branch
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
-      - uses: actions/github-script@v6
+    steps:
+      - name: Checar branch atual
+        run: echo "Rodando no contexto manual"
+
+      - name: Criar PR manual
+        id: criar_pr
+        uses: actions/github-script@v6
         with:
           script: |
-            const branch = process.env.BRANCH_NAME;
-            await github.rest.pulls.create({
+            const branch = 'develop';
+            const base = 'release';
+
+            const pr = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `Develop → Release (${new Date().toISOString().split('T')[0]})`,
+              title: 'Release: Merge develop into release',
               head: branch,
-              base: 'release',
-              body: 'PR automático para iniciar ciclo de release.',
+              base: base,
+              body: '🔁 PR de integração da develop na release',
+              draft: false
+            });
+
+            // Adicionar label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.data.number,
+              labels: ['auto-pr'],
+            });
+
+            console.log("PR criado:", pr.data.html_url);
+            core.setOutput('pr_number', pr.data.number);
+
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.data.number,
+              reviewers: ['wellmsan']
             });

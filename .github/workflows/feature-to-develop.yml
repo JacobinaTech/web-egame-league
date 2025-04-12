@@ -65,11 +65,3 @@ jobs:
               issue_number: pr.data.number,
               labels: ['auto-pr'],
             });
-
-            // Adicionar reviewers
-            await github.rest.pulls.requestReviewers({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.data.number,
-              reviewers: ['wellmsan'],
-            });
