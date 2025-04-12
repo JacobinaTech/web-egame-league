@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/eGameLeague/egame-league/compare/v1.1.0...v1.1.1) (2025-04-12)
+
+
+### Bug Fixes
+
+* add permissao no bloqueio de pr ([b2fe98e](https://github.com/eGameLeague/egame-league/commit/b2fe98edbd337759572b6df0eb7c9c14770949a0))
+
 # [1.1.0](https://github.com/eGameLeague/egame-league/compare/v1.0.5...v1.1.0) (2025-04-12)
 
 
