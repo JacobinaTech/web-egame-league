@@ -32,7 +32,7 @@ jobs:
         run: semantic-release
 
   crier-pr-main:
-    name: Criar tag e release
+    name: Criar PR Release -> Main
     runs-on: ubuntu-latest
     needs: tag-e-release
 
@@ -45,7 +45,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            onst branch = process.env.BRANCH_NAME;
+            const branch = process.env.BRANCH_NAME;
             const base = 'main';
 
             const changelog = commits.data.map(commit => `- ${commit.commit.message} (${commit.sha.substring(0, 7)})`).join('\n');
