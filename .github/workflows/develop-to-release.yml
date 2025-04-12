@@ -34,6 +34,14 @@ jobs:
               draft: false
             });
 
+            // Adicionar label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.data.number,
+              labels: ['auto-pr'],
+            });
+
             console.log("PR criado:", pr.data.html_url);
             core.setOutput('pr_number', pr.data.number);
 
@@ -78,5 +86,5 @@ jobs:
 
       - name: Rodar semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: semantic-release
