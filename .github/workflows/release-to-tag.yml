@@ -3,7 +3,7 @@ name: Criar Tag e Release Version
 on:
   push:
     branches:
-      - "release/**"
+      - "release"
 
 permissions:
   contents: write
