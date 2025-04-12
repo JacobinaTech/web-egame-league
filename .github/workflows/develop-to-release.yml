@@ -1,65 +1,58 @@
-name: Criar PR manual de develop → release
+name: Criar PR Develop → Release (Manual)
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch: # Só roda manualmente, evita disparo automático
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  create-pr:
+  create-release-pr:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Criar PR com reviewer
+      - name: Verificar branches existentes
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { owner, repo } = context.repo;
+            const base = 'release';
+            const head = 'develop';
 
-            const branchExists = async (branchName) => {
-              try {
-                await github.rest.repos.getBranch({ owner, repo, branch: branchName });
-                return true;
-              } catch {
-                return false;
-              }
-            };
-
-            if (!(await branchExists('develop')) || !(await branchExists('release'))) {
-              throw new Error('As branches develop e release devem existir.');
-            }
-
-            const existingPRs = await github.rest.pulls.list({
-              owner,
-              repo,
+            const { data: existing } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               state: 'open',
-              head: `${owner}:develop`,
-              base: 'release'
+              head: `${context.repo.owner}:${head}`,
+              base: base
             });
 
-            if (existingPRs.data.length > 0) {
-              console.log('PR já existe.');
+            if (existing.length > 0) {
+              console.log("PR da develop para release já existe.");
               return;
             }
 
-            const { data: pr } = await github.rest.pulls.create({
-              owner,
-              repo,
-              title: 'Release: develop → release',
-              head: 'develop',
-              base: 'release',
-              body: 'PR criado automaticamente para promover develop para release.',
+            const pr = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Merge Develop → Release`,
+              head: head,
+              base: base,
+              body: `## PR de preparação de release\n\nEsse PR une o que foi desenvolvido na \`develop\` para a \`release\`, e precisa ser aprovado por @wellmsan antes do merge.`,
               draft: false
             });
 
             await github.rest.pulls.requestReviewers({
-              owner,
-              repo,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               pull_number: pr.number,
               reviewers: ['wellmsan']
             });
 
-            console.log(`PR criado com sucesso: ${pr.html_url}`);
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              labels: ['review-release']
+            });
