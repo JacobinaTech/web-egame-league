@@ -1,7 +1,7 @@
 name: Criar PR Develop → Release (Manual)
 
 on:
-  workflow_dispatch: # Será disparado manualmente
+  workflow_dispatch: # Será disparado manualmente no fluxo
 
 permissions:
   contents: write
