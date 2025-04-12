@@ -1,82 +1,56 @@
-name: Criar PR Develop → Release (Manual)
-
 on:
-  workflow_dispatch: # Será disparado manualmente no fluxo
-
-permissions:
-  contents: write
-  pull-requests: write
+  workflow_dispatch:
 
 jobs:
-  create-release-pr:
-    name: Criar PR de develop para release
+  criar-pr:
     runs-on: ubuntu-latest
-
+    outputs:
+      pr-number: ${{ steps.create-pr.outputs.pull-request-number }}
     steps:
-      - name: Checar branch atual
-        run: echo "Rodando no contexto manual"
-
-      - name: Criar PR manual
-        id: criar_pr
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const branch = 'develop';
-            const base = 'release';
-
-            const pr = await github.rest.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'Release: Merge develop into release',
-              head: branch,
-              base: base,
-              body: '🔁 PR de integração da develop na release',
-              draft: false
-            });
-
-            console.log("PR criado:", pr.data.html_url);
-            core.setOutput('pr_number', pr.data.number);
-
-            await github.rest.pulls.requestReviewers({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.data.number,
-              reviewers: ['wellmsan']
-            });
-
-  aguardar-aprovacao:
-    name: Aguardar aprovação manual
-    runs-on: ubuntu-latest
-    needs: create-release-pr
-
-    steps:
-      - name: Pausa para revisão manual
-        uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          approvers: wellmsan
-          issue-title: "Aprovação necessária para merge do PR de release"
-          issue-body: "Por favor, revise e aprove o PR de develop para release."
-          minimum-approvals: 1
-
-  tag-e-release:
-    name: Criar tag e release
-    runs-on: ubuntu-latest
-    needs: aguardar-aprovacao
-
-    steps:
-      - name: Checkout do repositório
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Instalar Node.js
-        uses: actions/setup-node@v4
+      - name: Criar PR develop → release
+        id: create-pr
+        uses: peter-evans/create-pull-request@v5
         with:
-          node-version: "20"
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          base: release
+          branch: develop
+          title: "Merge develop into release"
+          body: "Este PR precisa ser aprovado por wellmsan antes do merge."
+          draft: false
 
-      - name: Instalar semantic-release
-        run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/github
+  aguardar-aprovacao:
+    needs: criar-pr
+    runs-on: ubuntu-latest
+    steps:
+      - name: Aguardar aprovação manual
+        uses: trstringer/manual-approval@v1
+        with:
+          approvers: wellmsan
+          issue-title: "Aprovação necessária para merge do PR #${{ needs.criar-pr.outputs.pr-number }}"
+          issue-body: |
+            Por favor, revise e aprove o PR de `develop` para `release`.
 
-      - name: Rodar semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release
+            Link do PR: https://github.com/${{ github.repository }}/pull/${{ needs.criar-pr.outputs.pr-number }}
+
+          secret: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          timeout-minutes: 120
+
+  mergear-release:
+    needs: aguardar-aprovacao
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mergear PR após aprovação
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const prNumber = ${{ needs.criar-pr.outputs.pr-number }};
+            await github.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              merge_method: "squash"
+            });
