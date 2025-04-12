@@ -1,7 +1,7 @@
 name: Criar PR Develop → Release (Manual)
 
 on:
-  workflow_dispatch: # Será disparado manualmente
+  workflow_dispatch: # Será disparado manualmente no fluxo
 
 permissions:
   contents: write
@@ -32,6 +32,14 @@ jobs:
               base: base,
               body: '🔁 PR de integração da develop na release',
               draft: false
+            });
+
+            // Adicionar label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.data.number,
+              labels: ['auto-pr'],
             });
 
             console.log("PR criado:", pr.data.html_url);
@@ -78,5 +86,5 @@ jobs:
 
       - name: Rodar semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: semantic-release
