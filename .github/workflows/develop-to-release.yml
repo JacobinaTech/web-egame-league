@@ -53,7 +53,7 @@ jobs:
       - name: Pausa para revisão manual
         uses: trstringer/manual-approval@v1
         with:
-          secret: ${{ secrets.GITHUB_TOKEN }}
+          secret: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           approvers: wellmsan
           issue-title: "Aprovação necessária para merge do PR de release"
           issue-body: "Por favor, revise e aprove o PR de develop para release."
