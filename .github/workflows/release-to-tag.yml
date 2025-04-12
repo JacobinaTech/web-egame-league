@@ -30,3 +30,37 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: semantic-release
+
+      - name: Criar PR Release -> Main
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const branch = 'release';
+            const base = 'main';
+
+            const pr = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Main: Merge release into main',
+              head: branch,
+              base: base,
+              body: '🔁 PR de integração da release na main',
+              draft: false
+            });
+
+            // Adicionar label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.data.number,
+              labels: ['auto-pr'],
+            });
+
+            console.log("PR criado:", pr.data.html_url);
+            core.setOutput('pr_number', pr.data.number);
+
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.data.number,
+            });
