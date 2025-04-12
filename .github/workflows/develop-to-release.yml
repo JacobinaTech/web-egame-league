@@ -1,65 +1,82 @@
-name: Criar PR manual de develop → release
+name: Criar PR Develop → Release (Manual)
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch: # Será disparado manualmente
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  create-pr:
+  create-release-pr:
+    name: Criar PR de develop para release
     runs-on: ubuntu-latest
 
     steps:
-      - name: Criar PR com reviewer
+      - name: Checar branch atual
+        run: echo "Rodando no contexto manual"
+
+      - name: Criar PR manual
+        id: criar_pr
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { owner, repo } = context.repo;
+            const branch = 'develop';
+            const base = 'release';
 
-            const branchExists = async (branchName) => {
-              try {
-                await github.rest.repos.getBranch({ owner, repo, branch: branchName });
-                return true;
-              } catch {
-                return false;
-              }
-            };
-
-            if (!(await branchExists('develop')) || !(await branchExists('release'))) {
-              throw new Error('As branches develop e release devem existir.');
-            }
-
-            const existingPRs = await github.rest.pulls.list({
-              owner,
-              repo,
-              state: 'open',
-              head: `${owner}:develop`,
-              base: 'release'
-            });
-
-            if (existingPRs.data.length > 0) {
-              console.log('PR já existe.');
-              return;
-            }
-
-            const { data: pr } = await github.rest.pulls.create({
-              owner,
-              repo,
-              title: 'Release: develop → release',
-              head: 'develop',
-              base: 'release',
-              body: 'PR criado automaticamente para promover develop para release.',
+            const pr = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Release: Merge develop into release',
+              head: branch,
+              base: base,
+              body: '🔁 PR de integração da develop na release',
               draft: false
             });
 
+            console.log("PR criado:", pr.data.html_url);
+            core.setOutput('pr_number', pr.data.number);
+
             await github.rest.pulls.requestReviewers({
-              owner,
-              repo,
-              pull_number: pr.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.data.number,
               reviewers: ['wellmsan']
             });
 
-            console.log(`PR criado com sucesso: ${pr.html_url}`);
+  aguardar-aprovacao:
+    name: Aguardar aprovação manual
+    runs-on: ubuntu-latest
+    needs: create-release-pr
+
+    steps:
+      - name: Pausa para revisão manual
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          approvers: wellmsan
+          issue-title: "Aprovação necessária para merge do PR de release"
+          issue-body: "Por favor, revise e aprove o PR de develop para release."
+          minimum-approvals: 1
+
+  tag-e-release:
+    name: Criar tag e release
+    runs-on: ubuntu-latest
+    needs: aguardar-aprovacao
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar semantic-release
+        run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/github
+
+      - name: Rodar semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: semantic-release
