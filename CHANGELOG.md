@@ -1,3 +1,24 @@
+## [1.0.5](https://github.com/eGameLeague/egame-league/compare/v1.0.4...v1.0.5) (2025-04-12)
+
+
+### Bug Fixes
+
+* ajustes ([f2e6114](https://github.com/eGameLeague/egame-league/commit/f2e6114930c194b1a45b59c916d579733d80727c))
+
+## [1.0.4](https://github.com/eGameLeague/egame-league/compare/v1.0.3...v1.0.4) (2025-04-12)
+
+
+### Bug Fixes
+
+* ajuste ([31ae8f2](https://github.com/eGameLeague/egame-league/commit/31ae8f271cefee61b0759a5137c743bcae1390e3))
+
+## [1.0.3](https://github.com/eGameLeague/egame-league/compare/v1.0.2...v1.0.3) (2025-04-12)
+
+
+### Bug Fixes
+
+* ajuste workflow main ([baa613d](https://github.com/eGameLeague/egame-league/commit/baa613d6eacf9cc189d020a8d009a8412a0868ca))
+
 ## [1.0.2](https://github.com/eGameLeague/egame-league/compare/v1.0.1...v1.0.2) (2025-04-12)
 
 
