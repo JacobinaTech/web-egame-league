@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/eGameLeague/egame-league/compare/v1.0.0...v1.0.1) (2025-04-12)
+
+
+### Bug Fixes
+
+* ajuste ([fdf3ad4](https://github.com/eGameLeague/egame-league/commit/fdf3ad43e086d9756f0541bdf6a2d4b181c7e7d9))
+
 # 1.0.0 (2025-04-12)
 
 
