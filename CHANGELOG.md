@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/eGameLeague/egame-league/compare/v1.0.2...v1.0.3) (2025-04-12)
+
+
+### Bug Fixes
+
+* ajuste workflow main ([baa613d](https://github.com/eGameLeague/egame-league/commit/baa613d6eacf9cc189d020a8d009a8412a0868ca))
+
 ## [1.0.2](https://github.com/eGameLeague/egame-league/compare/v1.0.1...v1.0.2) (2025-04-12)
 
 
