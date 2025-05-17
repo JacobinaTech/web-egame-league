@@ -1,4 +1,4 @@
-package tech.w3ll.egameleague.app;
+package tech.w3ll.egameleague;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
