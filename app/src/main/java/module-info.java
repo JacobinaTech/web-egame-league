@@ -5,6 +5,6 @@ module tech.w3ll.egameleague.app {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
 
-    opens tech.w3ll.egameleague.app to javafx.fxml;
-    exports tech.w3ll.egameleague.app;
+    exports tech.w3ll.egameleague;
+    opens tech.w3ll.egameleague to javafx.fxml;
 }
