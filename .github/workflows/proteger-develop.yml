@@ -9,12 +9,16 @@ jobs:
   check-direct-push:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/github-script@v6
+        with:
+          fetch-depth: 0
+
       - name: Check if push is from pull request
-        id: check-pr
         run: |
           # Verificar se o commit atual é resultado de um merge de PR
-          git_commit_msg=$(git log -1 --pretty=%B)
-          if [[ $git_commit_msg == *"Merge pull request"* ]]; then
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          if [[ "$COMMIT_MSG" == *"Merge pull request"* ]]; then
             echo "O commit é de um PR mesclado, permitindo..."
             exit 0
           else
@@ -24,16 +28,3 @@ jobs:
             git push origin develop
             exit 1
           fi
-
-      - name: Notify team about rejected push
-        if: failure()
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'Commit direto na develop rejeitado',
-              body: `Um commit direto na branch develop foi detectado e rejeitado.\nAutor: ${context.actor}\nCommit: ${context.sha}\n\nPor favor, crie uma branch feature/sua-funcionalidade. Ao finalizar, o PR será criado automaticamente.`
-            })
