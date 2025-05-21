@@ -111,6 +111,12 @@ O projeto foi dividido em módulos, cada um desenvolvido por um squad específic
 
 ---
 
+## 🔖 Documentação
+
+A documentação do projeto está disponível no diretório doc
+
+---
+
 ## 📝 Licença
 
 Este projeto é um trabalho acadêmico desenvolvido exclusivamente para fins educacionais. O código-fonte e suas funcionalidades não podem ser comercializados ou distribuídos sem autorização expressa dos responsáveis.
