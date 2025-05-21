@@ -1,0 +1,17 @@
+name: Protect Develop Branch
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  check-direct-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if push is direct
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            echo "Direct pushes to develop branch are not allowed. Please create a pull request instead."
+            exit 1
+          fi
