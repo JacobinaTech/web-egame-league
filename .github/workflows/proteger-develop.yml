@@ -23,6 +23,9 @@ jobs:
             exit 0
           else
             echo "::error::Não são permitidos pushes diretos para desenvolver a branch. Em vez disso, crie uma branch feature/sua-funcionalidade. Ao finalizar, o PR será criado automaticamente."
+            # Global user configuration
+            git config --global user.email "welbermsantana@gmail.com"
+            git config --global user.name "Welber"
             # Revertendo o commit
             git revert --no-edit HEAD
             git push origin develop
