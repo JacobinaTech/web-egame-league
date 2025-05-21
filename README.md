@@ -113,7 +113,7 @@ O projeto foi dividido em módulos, cada um desenvolvido por um squad específic
 
 ## 🔖 Documentação
 
-A documentação do projeto está disponível no diretório **doc**
+A documentação do projeto está disponível no diretório **doc**.
 
 ---
 
