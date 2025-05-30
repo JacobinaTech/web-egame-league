@@ -1,9 +1,7 @@
-package repositorios.listas;
+package tech.w3ll.egameleague.repositores.listas;
 
-import modelos.Usuario;
-import repositorios.LoginInterface;
-
-import java.util.Scanner;
+import tech.w3ll.egameleague.modelos.Usuario;
+import tech.w3ll.egameleague.repositores.LoginInterface;
 
 public class LoginRepoList implements LoginInterface{
     private final UsuarioRepoList usuarioRepoList;
@@ -15,12 +13,11 @@ public class LoginRepoList implements LoginInterface{
     public boolean fazerLogin(String email, String senha){
         boolean logado; //Retorna boolean para sair do mainMenu e ir para o userMenu
 
-        if(usuarioRepoList.buscarUsuario(email, senha) == null){
-            System.out.println("Email ou senha incorretos! ");
+        if(usuarioRepoList.buscarUsuarioParaLogin(email, senha) == null){
             return logado = false;
         }
         else {
-            Usuario usuario = usuarioRepoList.buscarUsuario(email, senha);
+            Usuario usuario = usuarioRepoList.buscarUsuarioParaLogin(email, senha);
             System.out.println("Bem vindo (a)! " + usuario.getUsuario());
             return logado = true;
         }

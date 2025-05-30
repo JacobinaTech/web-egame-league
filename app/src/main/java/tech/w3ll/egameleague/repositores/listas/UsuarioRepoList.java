@@ -1,7 +1,7 @@
-package repositorios.listas;
+package tech.w3ll.egameleague.repositores.listas;
 
-import modelos.Usuario;
-import repositorios.UsuarioInterface;
+import tech.w3ll.egameleague.modelos.Usuario;
+import tech.w3ll.egameleague.repositores.UsuarioInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,22 @@ public class UsuarioRepoList implements UsuarioInterface {
         return listaUsuarios;
     }
 
-    public Usuario fazerCadastro(String usuario, String email, String senha, String telefone){
-        return new Usuario(usuario, email, senha, telefone);
+    public enum resultadoCadastro{
+        SUCESSO,
+        USUARIO_JA_CADASTRADO,
+        EMAIL_JA_CADASTRADO
     }
 
-    public void addUsuarios(Usuario usuario){
-        listaUsuarios.add(usuario);
+    public resultadoCadastro fazerCadastro(String usuario, String email, String senha, String telefone){
+        if(buscarUsuarioPorUsuario(usuario) != null){
+            return resultadoCadastro.USUARIO_JA_CADASTRADO;
+        }
+        if(buscarUsuarioPorEmail(email) != null){
+            return resultadoCadastro.EMAIL_JA_CADASTRADO;
+        }
+        Usuario usuarioCadastrado = new Usuario(usuario, email, senha, telefone);
+        listaUsuarios.add(usuarioCadastrado);
+        return resultadoCadastro.SUCESSO;
     }
 
     public boolean removerUsuario(Usuario usuarioRemover){
@@ -31,7 +41,7 @@ public class UsuarioRepoList implements UsuarioInterface {
         }
     }
 
-    public Usuario buscarUsuario(String usuario){
+    public Usuario buscarUsuarioPorUsuario(String usuario){
         for(Usuario usuarioBuscar : listaUsuarios){
             if(usuarioBuscar.getUsuario().equals(usuario)){
                 return usuarioBuscar;
@@ -40,7 +50,16 @@ public class UsuarioRepoList implements UsuarioInterface {
         return null;
     }
 
-    public Usuario buscarUsuario(String email, String senha){
+    public Usuario buscarUsuarioPorEmail(String email){
+        for(Usuario usuarioBuscar : listaUsuarios){
+            if(usuarioBuscar.getEmail().equals(email)){
+                return usuarioBuscar;
+            }
+        }
+        return null;
+    }
+
+    public Usuario buscarUsuarioParaLogin(String email, String senha){
         for(Usuario usuarioBuscar : listaUsuarios){
             if(usuarioBuscar.getEmail().equals(email) && usuarioBuscar.getSenha().equals(senha)){
                 return usuarioBuscar;

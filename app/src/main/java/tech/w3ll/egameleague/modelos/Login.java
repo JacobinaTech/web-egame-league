@@ -1,4 +1,4 @@
-package modelos;
+package tech.w3ll.egameleague.modelos;
 
 public class Login{
     private String email;

@@ -1,4 +1,4 @@
-package repositorios;
+package tech.w3ll.egameleague.repositores;
 
 public interface MenuInterface {
     public void mostrarMainMenu();

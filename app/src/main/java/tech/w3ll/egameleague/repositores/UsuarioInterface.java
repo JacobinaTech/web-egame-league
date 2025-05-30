@@ -1,10 +1,10 @@
-package repositorios;
+package tech.w3ll.egameleague.repositores;
 
-import modelos.Usuario;
+import tech.w3ll.egameleague.modelos.Usuario;
+import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
 public interface UsuarioInterface {
-    public Usuario fazerCadastro(String usuario, String email, String senha, String telefone);
-    public void addUsuarios(Usuario usuario);
-    public boolean removerUsuario(Usuario usuarioRemover);
-    public Usuario buscarUsuario(String email, String senha);
+    UsuarioRepoList.resultadoCadastro fazerCadastro(String usuario, String email, String senha, String telefone);
+    boolean removerUsuario(Usuario usuarioRemover);
+    Usuario buscarUsuarioParaLogin(String email, String senha);
 }
