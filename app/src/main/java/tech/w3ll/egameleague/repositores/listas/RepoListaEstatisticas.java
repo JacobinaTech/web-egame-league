@@ -1,4 +1,4 @@
-package Repositorios.Listas;
+package egameteam.egame.egameleague.repositores.listas;
 
 import Modelos.Estatisticas;
 import Repositorios.InterfaceRepoListasEstatiscas;
