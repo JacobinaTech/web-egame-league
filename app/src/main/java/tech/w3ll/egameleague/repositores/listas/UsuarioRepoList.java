@@ -13,22 +13,22 @@ public class UsuarioRepoList implements UsuarioInterface {
         return listaUsuarios;
     }
 
-    public enum resultadoCadastro{
+    public enum ResultadoCadastro {
         SUCESSO,
         USUARIO_JA_CADASTRADO,
         EMAIL_JA_CADASTRADO
     }
 
-    public resultadoCadastro fazerCadastro(String usuario, String email, String senha, String telefone){
+    public ResultadoCadastro fazerCadastro(String usuario, String email, String senha, String telefone){
         if(buscarUsuarioPorUsuario(usuario) != null){
-            return resultadoCadastro.USUARIO_JA_CADASTRADO;
+            return ResultadoCadastro.USUARIO_JA_CADASTRADO;
         }
         if(buscarUsuarioPorEmail(email) != null){
-            return resultadoCadastro.EMAIL_JA_CADASTRADO;
+            return ResultadoCadastro.EMAIL_JA_CADASTRADO;
         }
         Usuario usuarioCadastrado = new Usuario(usuario, email, senha, telefone);
         listaUsuarios.add(usuarioCadastrado);
-        return resultadoCadastro.SUCESSO;
+        return ResultadoCadastro.SUCESSO;
     }
 
     public boolean removerUsuario(Usuario usuarioRemover){

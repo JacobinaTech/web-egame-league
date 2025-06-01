@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
@@ -24,13 +25,13 @@ public class HelloController {
     @FXML
     private TextField usuarioTextField;
     @FXML
-    private TextField senhaTextField;
+    private PasswordField senhaTextField;
     @FXML
     private TextField telefoneTextField;
     @FXML
     private TextField emailLoginTextField;
     @FXML
-    private TextField senhaLoginTextField;
+    private PasswordField senhaLoginTextField;
     @FXML
     private Button botaoCadastrar;
     @FXML
@@ -62,40 +63,53 @@ public class HelloController {
 
     public void fazerCadastro() {
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
-        switch (usuarioRepoList.fazerCadastro(getUsuarioTextField(), getEmailTextField(), getSenhaTextField(), getTelefoneTextField())){
+        switch (usuarioRepoList.fazerCadastro(getUsuarioTextField(), getEmailTextField(), getSenhaTextField(), getTelefoneTextField())) {
             case SUCESSO:
                 botaoCadastrar.setText("Usuário cadastrado com sucesso!");
                 System.out.println(usuarioRepoList.getListaUsuarios());
-                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
-                pauseTransition.play();
                 break;
 
             case EMAIL_JA_CADASTRADO:
                 botaoCadastrar.setText("Email já cadastrado!");
-                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
-                pauseTransition.play();
                 break;
 
             case USUARIO_JA_CADASTRADO:
                 botaoCadastrar.setText("Usuário já cadastrado!");
-                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
-                pauseTransition.play();
                 break;
         }
+        pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+        pauseTransition.play();
     }
 
     public boolean fazerLogin() {
         boolean logado = false;
+        String email = getEmailLoginTextField().getText();
+        String senha = getSenhaLoginTextField().getText();
 
-        if(!loginRepoList.fazerLogin(getEmailLoginTextField().getText(), getSenhaLoginTextField().getText())){
-            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
-            botaoFazerLogin.setText("Email ou senha inválidos!");
-            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-            pauseTransition.play();
+        LoginRepoList.ResultadoLogin resultado = loginRepoList.fazerLogin(email, senha);
+
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
+
+        // Verificação mais clara de erro
+        switch (resultado) {
+            case SUCESSO:
+                botaoFazerLogin.setText("Login efetuado com sucesso!");
+                pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
+                pauseTransition.play();
+                return logado = true;
+
+            case EMAIL_NAO_ENCONTRADO:
+                botaoFazerLogin.setText("Email não encontrado!");
+                break;
+
+            case SENHA_INCORRETA:
+                botaoFazerLogin.setText("Senha incorreta!");
+                break;
         }
-        else{
-            return logado = true;
-        }
+
+        pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
+        pauseTransition.play();
+
         return logado;
     }
 

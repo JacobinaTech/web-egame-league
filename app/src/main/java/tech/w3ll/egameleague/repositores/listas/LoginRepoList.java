@@ -10,16 +10,20 @@ public class LoginRepoList implements LoginInterface{
         this.usuarioRepoList = usuarioRepoList;
     }
 
-    public boolean fazerLogin(String email, String senha){
-        boolean logado; //Retorna boolean para sair do mainMenu e ir para o userMenu
+    public enum ResultadoLogin {
+        SUCESSO,
+        EMAIL_NAO_ENCONTRADO,
+        SENHA_INCORRETA
+    }
 
-        if(usuarioRepoList.buscarUsuarioParaLogin(email, senha) == null){
-            return logado = false;
+    public ResultadoLogin fazerLogin(String email, String senha){
+        Usuario usuario = usuarioRepoList.buscarUsuarioPorEmail(email);
+        if(usuario == null){
+            return ResultadoLogin.EMAIL_NAO_ENCONTRADO;
         }
-        else {
-            Usuario usuario = usuarioRepoList.buscarUsuarioParaLogin(email, senha);
-            System.out.println("Bem vindo (a)! " + usuario.getUsuario());
-            return logado = true;
+        if(!usuario.getSenha().equals(senha)){
+            return ResultadoLogin.SENHA_INCORRETA;
         }
+        return ResultadoLogin.SUCESSO;
     }
 }
