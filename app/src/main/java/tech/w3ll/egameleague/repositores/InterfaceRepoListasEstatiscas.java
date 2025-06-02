@@ -1,6 +1,6 @@
-package Repositorios;
+package tech.w3ll.egameleague.repositores;
 
-import Modelos.Estatisticas;
+import tech.w3ll.egameleague.modelos.Estatisticas;
 import java.util.List;
 import java.util.Optional;
 

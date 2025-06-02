@@ -1,6 +1,6 @@
 package tech.w3ll.egameleague;
 
-import Modelos.Estatisticas;
+import tech.w3ll.egameleague.modelos.Estatisticas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

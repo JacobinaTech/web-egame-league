@@ -1,7 +1,7 @@
-package egameteam.egame.egameleague.repositores.listas;
+package tech.w3ll.egameleague.repositores.listas;
 
-import Modelos.Estatisticas;
-import Repositorios.InterfaceRepoListasEstatiscas;
+import tech.w3ll.egameleague.modelos.Estatisticas;
+import tech.w3ll.egameleague.repositores.InterfaceRepoListasEstatiscas;
 
 import java.util.ArrayList;
 import java.util.List;
