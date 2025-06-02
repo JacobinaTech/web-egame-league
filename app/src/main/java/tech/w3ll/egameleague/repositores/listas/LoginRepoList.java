@@ -10,20 +10,14 @@ public class LoginRepoList implements LoginInterface{
         this.usuarioRepoList = usuarioRepoList;
     }
 
-    public enum ResultadoLogin {
-        SUCESSO,
-        EMAIL_NAO_ENCONTRADO,
-        SENHA_INCORRETA
-    }
-
-    public ResultadoLogin fazerLogin(String email, String senha){
+    public Usuario fazerLogin(String email, String senha){
         Usuario usuario = usuarioRepoList.buscarUsuarioPorEmail(email);
         if(usuario == null){
-            return ResultadoLogin.EMAIL_NAO_ENCONTRADO;
+            return null;
         }
         if(!usuario.getSenha().equals(senha)){
-            return ResultadoLogin.SENHA_INCORRETA;
+            return null;
         }
-        return ResultadoLogin.SUCESSO;
+        return usuario;
     }
 }

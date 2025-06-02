@@ -1,7 +1,7 @@
 package tech.w3ll.egameleague.repositores;
 
-import tech.w3ll.egameleague.repositores.listas.LoginRepoList;
+import tech.w3ll.egameleague.modelos.Usuario;
 
 public interface LoginInterface {
-    public LoginRepoList.ResultadoLogin fazerLogin(String email, String senha);
+    public Usuario fazerLogin(String email, String senha);
 }

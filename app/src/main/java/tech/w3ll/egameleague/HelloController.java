@@ -81,36 +81,25 @@ public class HelloController {
         pauseTransition.play();
     }
 
-    public boolean fazerLogin() {
-        boolean logado = false;
+    public void fazerLogin() {
         String email = getEmailLoginTextField().getText();
         String senha = getSenhaLoginTextField().getText();
 
-        LoginRepoList.ResultadoLogin resultado = loginRepoList.fazerLogin(email, senha);
-
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
 
-        // Verificação mais clara de erro
-        switch (resultado) {
-            case SUCESSO:
-                botaoFazerLogin.setText("Login efetuado com sucesso!");
-                pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-                pauseTransition.play();
-                return logado = true;
+        if(loginRepoList.fazerLogin(email, senha) == null){
+            botaoFazerLogin.setText("E-mail ou senha incorretos!");
+            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
+            pauseTransition.play();
+        } else {
 
-            case EMAIL_NAO_ENCONTRADO:
-                botaoFazerLogin.setText("Email não encontrado!");
-                break;
+            botaoFazerLogin.setText("Login efetuado com sucesso!");
+            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
+            pauseTransition.play();
 
-            case SENHA_INCORRETA:
-                botaoFazerLogin.setText("Senha incorreta!");
-                break;
+            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
+            pauseTransition.play();
         }
-
-        pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-        pauseTransition.play();
-
-        return logado;
     }
 
     @FXML
