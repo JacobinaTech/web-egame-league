@@ -38,8 +38,14 @@ public class HelloController {
         controlador.registrarDerrota("Time Alpha", "Torneio 1");
         controlador.registrarVitoria("Time Beta", "Torneio 1");
         controlador.registrarDerrota("Time Beta", "Torneio 1");
+        controlador.registrarVitoria("Time Gama", "Torneio 1");
+        controlador.registrarVitoria("Time Gama", "Torneio 1");
+        controlador.registrarDerrota("Time Gama", "Torneio 1");
         controlador.registrarVitoria("Jogador X", "Torneio 2");
         controlador.registrarDerrota("Jogador X", "Torneio 2");
+        controlador.registrarVitoria("Jogador Y", "Torneio 2");
+        controlador.registrarVitoria("Jogador Y", "Torneio 2");
+        controlador.registrarVitoria("Jogador Y", "Torneio 2");
 
         controlador.atualizarRanking();
 
