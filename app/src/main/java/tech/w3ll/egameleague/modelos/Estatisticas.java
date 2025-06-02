@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
  * Classe que representa as estatísticas de um jogador ou equipe em um torneio.
  * Armazena dados como vitórias, derrotas, pontos e ranking.
  */
-public class StatisticasModel {
+public class Estatisticas {
     private String nomeJogadorOuEquipe;
     private String nomeTorneio;
     private int pontos;
