@@ -1,13 +1,10 @@
 package tech.w3ll.egameleague;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
 import tech.w3ll.egameleague.repositores.listas.LoginRepoList;
@@ -36,30 +33,36 @@ public class HelloController {
     private Button botaoCadastrar;
     @FXML
     private Button botaoFazerLogin;
-
-    public String getEmailTextField() {
+    @FXML
+    private String getEmailTextField() {
         return emailTextField.getText();
     }
-
-    public String getUsuarioTextField() {
+    @FXML
+    private String getUsuarioTextField() {
         return usuarioTextField.getText();
     }
-
-    public String getSenhaTextField() {
+    @FXML
+    private String getSenhaTextField() {
         return senhaTextField.getText();
     }
-
-    public String getTelefoneTextField() {
+    @FXML
+    private String getTelefoneTextField() {
         return telefoneTextField.getText();
     }
-
-    public TextField getSenhaLoginTextField() {
+    @FXML
+    private TextField getSenhaLoginTextField() {
         return senhaLoginTextField;
     }
-
-    public TextField getEmailLoginTextField() {
+    @FXML
+    private TextField getEmailLoginTextField() {
         return emailLoginTextField;
     }
+    @FXML
+    private TableColumn tableColumnCampeonato;
+    @FXML
+    private TableColumn tableColumnRanking;
+    @FXML
+    private TableColumn tableColumnData;
 
     public void fazerCadastro() {
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
