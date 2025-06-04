@@ -1,10 +1,9 @@
-package tech.w3ll.egameleague;
+package tech.w3ll.egameleague.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import javafx.animation.PauseTransition;
-import javafx.fxml.FXML;
 import javafx.util.Duration;
 
 import tech.w3ll.egameleague.repositores.listas.LoginRepoList;

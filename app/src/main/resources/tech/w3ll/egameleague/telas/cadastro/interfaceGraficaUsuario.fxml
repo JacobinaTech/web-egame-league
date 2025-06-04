@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
-<VBox alignment="TOP_CENTER" prefHeight="561.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.HelloController">
+<VBox alignment="TOP_CENTER" prefHeight="561.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.HelloController">
    <children>
       <VBox alignment="CENTER" prefHeight="521.0" prefWidth="738.0">
          <children>
