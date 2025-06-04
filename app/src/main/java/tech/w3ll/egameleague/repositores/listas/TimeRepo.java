@@ -1,7 +1,7 @@
-package repository;
+package app.src.main.java.tech.w3ll.egameleague.repositores.listas;
 
-import model.Time;
-import repository.interfaces.ITimeRepo;
+import app.src.main.java.tech.w3ll.egameleague.modelos.Time;
+import app.src.main.java.tech.w3ll.egameleague.repositores.ITimeRepo;
 
 import java.util.ArrayList;
 import java.util.List;

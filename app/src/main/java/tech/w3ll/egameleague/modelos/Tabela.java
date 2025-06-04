@@ -1,4 +1,4 @@
-package model;
+package app.src.main.java.tech.w3ll.egameleague.modelos;
 
 import java.util.ArrayList;
 import java.util.Scanner;

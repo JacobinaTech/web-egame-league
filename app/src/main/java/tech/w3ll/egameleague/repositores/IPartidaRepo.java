@@ -1,6 +1,6 @@
-package repository.interfaces;
+package app.src.main.java.tech.w3ll.egameleague.repositores;
 
-import model.Partida;
+import app.src.main.java.tech.w3ll.egameleague.modelos.Partida;
 
 import java.util.List;
 

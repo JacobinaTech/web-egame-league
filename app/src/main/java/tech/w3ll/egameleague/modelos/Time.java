@@ -1,4 +1,4 @@
-package model;
+package app.src.main.java.tech.w3ll.egameleague.modelos;
 
 public class Time {
     private String nome;

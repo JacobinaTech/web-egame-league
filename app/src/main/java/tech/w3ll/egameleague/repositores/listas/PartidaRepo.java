@@ -1,7 +1,7 @@
-package repository;
+package app.src.main.java.tech.w3ll.egameleague.repositores.listas;
 
-import model.Partida;
-import repository.interfaces.IPartidaRepo;
+import app.src.main.java.tech.w3ll.egameleague.modelos.Partida;
+import app.src.main.java.tech.w3ll.egameleague.repositores.IPartidaRepo;
 
 import java.util.ArrayList;
 import java.util.List;
