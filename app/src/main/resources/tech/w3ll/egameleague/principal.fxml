@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.HelloController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.HelloController">
    <children>
       <Pane prefHeight="75.0" prefWidth="600.0" style="-fx-background-color: #845cd3;">
          <children>
@@ -20,7 +20,7 @@
                </font></Label>
             <ImageView fitHeight="31.0" fitWidth="25.0" layoutX="561.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/usuario_2.png" />
+                  <Image url="@./images/usuario_2.png" />
                </image>
             </ImageView>
          </children>
