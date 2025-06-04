@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+
+<VBox alignment="TOP_CENTER" prefHeight="561.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.CadastroController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="521.0" prefWidth="738.0">
+         <children>
+            <Circle fill="#1f93ff00" radius="59.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label text="Usuario" />
+            <VBox prefHeight="333.0" prefWidth="738.0">
+               <children>
+                  <HBox>
+                     <children>
+                        <TableView focusTraversable="false" prefHeight="304.0" prefWidth="312.0">
+                          <columns>
+                            <TableColumn editable="false" prefWidth="106.0" sortable="false" text="Campeonato" />
+                            <TableColumn editable="false" prefWidth="98.0" sortable="false" text="Ranking" />
+                              <TableColumn editable="false" prefWidth="106.0" resizable="false" sortable="false" text="Data" />
+                          </columns>
+                        </TableView>
+                        <VBox alignment="TOP_CENTER" prefHeight="321.0" prefWidth="439.0">
+                           <children>
+                              <Label text="Informações do usuário">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                 <children>
+                                    <Label text="Nome de usuário:" />
+                                    <Label fx:id="username" text="usuario" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                 <children>
+                                    <Label text="E-mail:" />
+                                    <Label fx:id="userEmail" text="email" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                 <children>
+                                    <Label text="Telefone:" />
+                                    <Label fx:id="userTelefone" text="telefone" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>
