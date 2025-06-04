@@ -9,7 +9,7 @@ import javafx.util.Duration;
 import tech.w3ll.egameleague.repositores.listas.LoginRepoList;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
-public class HelloController {
+public class CadastroController {
     private final UsuarioRepoList usuarioRepoList = new UsuarioRepoList();
     private final LoginRepoList loginRepoList = new LoginRepoList(usuarioRepoList);
 
