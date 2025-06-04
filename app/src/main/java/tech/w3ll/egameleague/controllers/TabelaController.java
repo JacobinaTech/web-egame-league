@@ -1,9 +1,9 @@
-package tech.w3ll.egameleague;
+package tech.w3ll.egameleague.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class TabelaController {
     @FXML
     private Label welcomeText;
 
