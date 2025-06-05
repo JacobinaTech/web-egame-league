@@ -9,19 +9,13 @@ import javafx.stage.Stage;
 public class HelloApplication extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
-        try {
-
-            Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
-
-            Scene scene = new Scene(root);
-            primaryStage.setTitle("Estatísticas do Campeonato");
-            primaryStage.setScene(scene);
-            primaryStage.setMaximized(true);
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("telas/principal.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setMaximized(true);
+        stage.setTitle("eGameLeague - Gerenciador de Competições de e-sports");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {
