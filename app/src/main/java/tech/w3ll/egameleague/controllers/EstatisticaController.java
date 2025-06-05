@@ -1,4 +1,4 @@
-package tech.w3ll.egameleague;
+package tech.w3ll.egameleague.controllers;
 
 import tech.w3ll.egameleague.modelos.Estatisticas;
 import javafx.collections.FXCollections;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Controlador da interface gráfica JavaFX responsável por exibir e filtrar estatísticas de torneios.
  */
-public class HelloController {
+public class EstatisticaController {
 
     @FXML private ComboBox<String> cbTorneio;
     @FXML private Button btnAplicar;
