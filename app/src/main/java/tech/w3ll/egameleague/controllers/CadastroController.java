@@ -2,18 +2,23 @@ package tech.w3ll.egameleague.controllers;
 
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import tech.w3ll.egameleague.repositores.listas.LoginRepoList;
+import tech.w3ll.egameleague.HelloApplication;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
+import java.io.IOException;
+
 public class CadastroController {
+    Stage login = new Stage();
 
     private final UsuarioRepoList usuarioRepoList = new UsuarioRepoList();
-    private final LoginRepoList loginRepoList = new LoginRepoList(usuarioRepoList);
 
     @FXML
     private TextField emailTextField;
@@ -31,20 +36,11 @@ public class CadastroController {
     private TextField telefoneTextField;
 
     @FXML
-    private TextField emailLoginTextField;
-    @FXML
-    private PasswordField senhaLoginTextField;
-    @FXML
-    private TextField senhaLoginVisivelTextField;
-    @FXML
-    private Button botaoOlhoFechadoLogin;
-    @FXML
-    private Button botaoOlhoAbertoLogin;
-
-    @FXML
     private Button botaoCadastrar;
-    @FXML
-    private Button botaoFazerLogin;
+
+    public UsuarioRepoList getUsuarioRepoList(){
+        return usuarioRepoList;
+    }
 
     public String getEmailTextField() {
         return emailTextField.getText();
@@ -62,12 +58,17 @@ public class CadastroController {
         return telefoneTextField.getText();
     }
 
-    public TextField getSenhaLoginTextField() {
-        return senhaLoginTextField.isVisible() ? senhaLoginTextField : senhaLoginVisivelTextField;
-    }
+    private void loadScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/cadastro/interfaceGraficaLogin.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
+            stage.show();
 
-    public TextField getEmailLoginTextField() {
-        return emailLoginTextField;
+        } catch (IOException e) {
+            botaoCadastrar.setText("Erro inesperado!");
+        }
     }
 
     public void fazerCadastro() {
@@ -78,6 +79,7 @@ public class CadastroController {
                 System.out.println(usuarioRepoList.getListaUsuarios());
                 pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
                 pauseTransition.play();
+                loadScreen();
                 break;
 
             case EMAIL_JA_CADASTRADO:
@@ -91,27 +93,6 @@ public class CadastroController {
                 pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
                 pauseTransition.play();
                 break;
-        }
-    }
-
-    public void fazerLogin() {
-        String email = getEmailLoginTextField().getText();
-        String senha = getSenhaLoginTextField().getText();
-
-        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
-
-        if(loginRepoList.fazerLogin(email, senha) == null){
-            botaoFazerLogin.setText("E-mail ou senha incorretos!");
-            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-            pauseTransition.play();
-        } else {
-
-            botaoFazerLogin.setText("Login efetuado com sucesso!");
-            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-            pauseTransition.play();
-
-            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-            pauseTransition.play();
         }
     }
 
@@ -139,31 +120,5 @@ public class CadastroController {
         botaoOlhoAberto.setManaged(false);
         botaoOlhoFechado.setVisible(true);
         botaoOlhoFechado.setManaged(true);
-    }
-
-    @FXML
-    private void mostrarSenhaLogin() {
-        senhaLoginVisivelTextField.setText(senhaLoginTextField.getText());
-        senhaLoginTextField.setVisible(false);
-        senhaLoginTextField.setManaged(false);
-        senhaLoginVisivelTextField.setVisible(true);
-        senhaLoginVisivelTextField.setManaged(true);
-        botaoOlhoFechadoLogin.setVisible(false);
-        botaoOlhoFechadoLogin.setManaged(false);
-        botaoOlhoAbertoLogin.setVisible(true);
-        botaoOlhoAbertoLogin.setManaged(true);
-    }
-
-    @FXML
-    private void esconderSenhaLogin() {
-        senhaLoginTextField.setText(senhaLoginVisivelTextField.getText());
-        senhaLoginVisivelTextField.setVisible(false);
-        senhaLoginVisivelTextField.setManaged(false);
-        senhaLoginTextField.setVisible(true);
-        senhaLoginTextField.setManaged(true);
-        botaoOlhoAbertoLogin.setVisible(false);
-        botaoOlhoAbertoLogin.setManaged(false);
-        botaoOlhoFechadoLogin.setVisible(true);
-        botaoOlhoFechadoLogin.setManaged(true);
     }
 }
