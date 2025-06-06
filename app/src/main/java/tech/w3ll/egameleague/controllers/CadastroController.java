@@ -14,10 +14,9 @@ import tech.w3ll.egameleague.HelloApplication;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CadastroController {
-    Stage login = new Stage();
-
     private final UsuarioRepoList usuarioRepoList = new UsuarioRepoList();
 
     @FXML
@@ -37,10 +36,6 @@ public class CadastroController {
 
     @FXML
     private Button botaoCadastrar;
-
-    public UsuarioRepoList getUsuarioRepoList(){
-        return usuarioRepoList;
-    }
 
     public String getEmailTextField() {
         return emailTextField.getText();
@@ -63,12 +58,18 @@ public class CadastroController {
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/cadastro/interfaceGraficaLogin.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
+            stage.setHeight(200);
+            stage.setWidth(200);
             stage.setScene(scene);
             stage.show();
 
         } catch (IOException e) {
-            botaoCadastrar.setText("Erro inesperado!");
+            e.printStackTrace();
         }
+    }
+
+    public List getListaUsuarios(){
+        return usuarioRepoList.getListaUsuarios();
     }
 
     public void fazerCadastro() {

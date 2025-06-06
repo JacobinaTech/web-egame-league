@@ -12,7 +12,7 @@ import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
 public class LoginController {
     private CadastroController cadastroController;
-    private final UsuarioRepoList usuarioRepoList = cadastroController.getUsuarioRepoList();
+    private final UsuarioRepoList usuarioRepoList = new UsuarioRepoList();
     private final LoginRepoList loginRepoList = new LoginRepoList(usuarioRepoList);
 
     @FXML
