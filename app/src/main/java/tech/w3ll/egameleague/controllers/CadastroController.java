@@ -29,9 +29,9 @@ public class CadastroController {
     @FXML
     private TextField senhaVisivelTextField;
     @FXML
-    private Button botaoOlhoFechado;
-    @FXML
     private Button botaoOlhoAberto;
+    @FXML
+    private Button botaoOlhoFechado;
     @FXML
     private TextField telefoneTextField;
 
@@ -126,10 +126,10 @@ public class CadastroController {
         senhaTextField.setManaged(false);
         senhaVisivelTextField.setVisible(true);
         senhaVisivelTextField.setManaged(true);
-        botaoOlhoFechado.setVisible(false);
-        botaoOlhoFechado.setManaged(false);
-        botaoOlhoAberto.setVisible(true);
-        botaoOlhoAberto.setManaged(true);
+        botaoOlhoAberto.setVisible(false);
+        botaoOlhoAberto.setManaged(false);
+        botaoOlhoFechado.setVisible(true);
+        botaoOlhoFechado.setManaged(true);
     }
 
     @FXML
@@ -139,9 +139,9 @@ public class CadastroController {
         senhaVisivelTextField.setManaged(false);
         senhaTextField.setVisible(true);
         senhaTextField.setManaged(true);
-        botaoOlhoAberto.setVisible(false);
-        botaoOlhoAberto.setManaged(false);
-        botaoOlhoFechado.setVisible(true);
-        botaoOlhoFechado.setManaged(true);
+        botaoOlhoFechado.setVisible(false);
+        botaoOlhoFechado.setManaged(false);
+        botaoOlhoAberto.setVisible(true);
+        botaoOlhoAberto.setManaged(true);
     }
 }
