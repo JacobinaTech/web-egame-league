@@ -7,7 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioRepoList implements UsuarioInterface {
-    List<Usuario> listaUsuarios = new ArrayList<>();
+    public static UsuarioRepoList usuarioRepoList;
+     List<Usuario> listaUsuarios = new ArrayList<>();
+
+    public static UsuarioRepoList getInstace(){
+        if(usuarioRepoList == null){
+            usuarioRepoList = new UsuarioRepoList();
+        }
+        return usuarioRepoList;
+    }
 
     public List<Usuario> getListaUsuarios(){
         return listaUsuarios;

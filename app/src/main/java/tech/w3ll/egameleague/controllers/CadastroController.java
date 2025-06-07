@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -14,10 +15,10 @@ import tech.w3ll.egameleague.HelloApplication;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
 import java.io.IOException;
-import java.util.List;
+
 
 public class CadastroController {
-    private final UsuarioRepoList usuarioRepoList = new UsuarioRepoList();
+    private UsuarioRepoList usuarioRepoList;
 
     @FXML
     private TextField emailTextField;
@@ -58,8 +59,8 @@ public class CadastroController {
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/cadastro/interfaceGraficaLogin.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
-            stage.setHeight(200);
-            stage.setWidth(200);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
 
@@ -68,16 +69,13 @@ public class CadastroController {
         }
     }
 
-    public List getListaUsuarios(){
-        return usuarioRepoList.getListaUsuarios();
-    }
-
     public void fazerCadastro() {
+        usuarioRepoList = UsuarioRepoList.getInstace();
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         switch (usuarioRepoList.fazerCadastro(getUsuarioTextField(), getEmailTextField(), getSenhaTextField(), getTelefoneTextField())) {
             case SUCESSO:
                 botaoCadastrar.setText("Usuário cadastrado com sucesso!");
-                System.out.println(usuarioRepoList.getListaUsuarios());
+                System.out.println();
                 pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
                 pauseTransition.play();
                 loadScreen();

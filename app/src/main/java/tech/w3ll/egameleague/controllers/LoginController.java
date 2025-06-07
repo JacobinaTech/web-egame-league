@@ -11,9 +11,7 @@ import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
 
 public class LoginController {
-    private CadastroController cadastroController;
-    private final UsuarioRepoList usuarioRepoList = new UsuarioRepoList();
-    private final LoginRepoList loginRepoList = new LoginRepoList(usuarioRepoList);
+    private LoginRepoList loginRepoList = new LoginRepoList(UsuarioRepoList.getInstace());
 
     @FXML
     private TextField emailLoginTextField;
@@ -52,8 +50,6 @@ public class LoginController {
             pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
             pauseTransition.play();
 
-            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-            pauseTransition.play();
         }
     }
 
