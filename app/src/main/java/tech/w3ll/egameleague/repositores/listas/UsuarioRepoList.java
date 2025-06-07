@@ -24,7 +24,11 @@ public class UsuarioRepoList implements UsuarioInterface {
     public enum ResultadoCadastro {
         SUCESSO,
         USUARIO_JA_CADASTRADO,
-        EMAIL_JA_CADASTRADO
+        EMAIL_JA_CADASTRADO,
+        EMAIL_INVALIDO,
+        USUARIO_INVALIDO,
+        SENHA_INVALIDA,
+        TELEFONE_INVALIDO
     }
 
     public ResultadoCadastro fazerCadastro(String usuario, String email, String senha, String telefone){
@@ -33,6 +37,18 @@ public class UsuarioRepoList implements UsuarioInterface {
         }
         if(buscarUsuarioPorEmail(email) != null){
             return ResultadoCadastro.EMAIL_JA_CADASTRADO;
+        }
+        if(email.isBlank()){
+            return ResultadoCadastro.EMAIL_INVALIDO;
+        }
+        if(usuario.isBlank()){
+            return ResultadoCadastro.USUARIO_INVALIDO;
+        }
+        if(senha.isBlank()){
+            return ResultadoCadastro.SENHA_INVALIDA;
+        }
+        if(telefone.isEmpty()){
+            return ResultadoCadastro.TELEFONE_INVALIDO;
         }
         Usuario usuarioCadastrado = new Usuario(usuario, email, senha, telefone);
         listaUsuarios.add(usuarioCadastrado);

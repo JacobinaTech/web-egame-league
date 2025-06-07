@@ -92,6 +92,30 @@ public class CadastroController {
                 pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
                 pauseTransition.play();
                 break;
+
+            case EMAIL_INVALIDO:
+                botaoCadastrar.setText("Email inválido!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
+                break;
+
+            case USUARIO_INVALIDO:
+                botaoCadastrar.setText("Usuário inválido!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
+                break;
+
+            case SENHA_INVALIDA:
+                botaoCadastrar.setText("Senha inválida!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
+                break;
+
+            case TELEFONE_INVALIDO:
+                botaoCadastrar.setText("Número de telefone inválido!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
+                break;
         }
     }
 
