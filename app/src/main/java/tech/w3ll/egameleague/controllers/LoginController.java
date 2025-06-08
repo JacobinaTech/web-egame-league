@@ -20,9 +20,9 @@ public class LoginController {
     @FXML
     private TextField senhaLoginVisivelTextField;
     @FXML
-    private Button botaoOlhoFechadoLogin;
-    @FXML
     private Button botaoOlhoAbertoLogin;
+    @FXML
+    private Button botaoOlhoFechadoLogin;
     @FXML
     private Button botaoFazerLogin;
 
@@ -60,10 +60,10 @@ public class LoginController {
         senhaLoginTextField.setManaged(false);
         senhaLoginVisivelTextField.setVisible(true);
         senhaLoginVisivelTextField.setManaged(true);
-        botaoOlhoFechadoLogin.setVisible(false);
-        botaoOlhoFechadoLogin.setManaged(false);
-        botaoOlhoAbertoLogin.setVisible(true);
-        botaoOlhoAbertoLogin.setManaged(true);
+        botaoOlhoAbertoLogin.setVisible(false);
+        botaoOlhoAbertoLogin.setManaged(false);
+        botaoOlhoFechadoLogin.setVisible(true);
+        botaoOlhoFechadoLogin.setManaged(true);
     }
 
     @FXML
@@ -73,9 +73,9 @@ public class LoginController {
         senhaLoginVisivelTextField.setManaged(false);
         senhaLoginTextField.setVisible(true);
         senhaLoginTextField.setManaged(true);
-        botaoOlhoAbertoLogin.setVisible(false);
-        botaoOlhoAbertoLogin.setManaged(false);
-        botaoOlhoFechadoLogin.setVisible(true);
-        botaoOlhoFechadoLogin.setManaged(true);
+        botaoOlhoFechadoLogin.setVisible(false);
+        botaoOlhoFechadoLogin.setManaged(false);
+        botaoOlhoAbertoLogin.setVisible(true);
+        botaoOlhoAbertoLogin.setManaged(true);
     }
 }
