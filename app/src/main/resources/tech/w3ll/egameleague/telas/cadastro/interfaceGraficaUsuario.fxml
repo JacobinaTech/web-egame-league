@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="561.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.CadastroController">
+<VBox alignment="TOP_CENTER" prefHeight="561.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.UsuarioController">
    <children>
       <VBox alignment="CENTER" prefHeight="521.0" prefWidth="738.0">
          <children>
             <Circle fill="#1f93ff00" radius="59.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label text="Usuario" />
+            <Label fx:id="username" text="Usuario" />
             <VBox prefHeight="333.0" prefWidth="738.0">
                <children>
-                  <HBox>
+                  <HBox VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView focusTraversable="false" prefHeight="304.0" prefWidth="312.0">
+                        <TableView fx:id="tabelaHistorico" focusTraversable="false" prefHeight="304.0" prefWidth="312.0">
                           <columns>
                             <TableColumn editable="false" prefWidth="106.0" sortable="false" text="Campeonato" />
                             <TableColumn editable="false" prefWidth="98.0" sortable="false" text="Ranking" />

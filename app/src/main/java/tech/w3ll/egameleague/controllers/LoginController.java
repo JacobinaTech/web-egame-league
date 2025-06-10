@@ -6,12 +6,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
+import tech.w3ll.egameleague.modelos.Usuario;
 import tech.w3ll.egameleague.repositores.listas.LoginRepoList;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
 
 public class LoginController {
     private LoginRepoList loginRepoList = new LoginRepoList(UsuarioRepoList.getInstace());
+    private CadastroController cadastroController = new CadastroController();
 
     @FXML
     private TextField emailLoginTextField;
@@ -34,22 +36,24 @@ public class LoginController {
         return emailLoginTextField;
     }
 
-    public void fazerLogin() {
+    public Usuario fazerLogin() {
         String email = getEmailLoginTextField().getText();
         String senha = getSenhaLoginTextField().getText();
+        Usuario usuario = loginRepoList.fazerLogin(email, senha);
 
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
 
-        if(loginRepoList.fazerLogin(email, senha) == null){
+        if(usuario == null){
             botaoFazerLogin.setText("E-mail ou senha incorretos!");
             pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
             pauseTransition.play();
-        } else {
-
+            return null;
+        } else{
             botaoFazerLogin.setText("Login efetuado com sucesso!");
             pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
             pauseTransition.play();
-
+            cadastroController.loadScreen("telas/cadastro/interfaceGraficaUsuario.fxml");
+            return usuario;
         }
     }
 
