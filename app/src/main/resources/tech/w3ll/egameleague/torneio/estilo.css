@@ -1,0 +1,190 @@
+.main-title {
+    -fx-font-family: "Segoe UI Black", sans-serif;
+    -fx-font-size: 28px;
+    -fx-text-fill: #333333;
+}
+
+.rodada-container {
+    -fx-alignment: CENTER;
+}
+
+.rodada-title {
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+    -fx-font-size: 20px;
+    -fx-text-fill: #555555;
+    -fx-padding: 0 0 10px 15px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.match-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8px;
+    -fx-min-width: 380px;
+    -fx-max-width: 380px;
+    -fx-pref-width: 380px;
+    -fx-alignment: CENTER;
+}
+
+.team-name {
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+    -fx-font-size: 20px;
+    -fx-text-fill: #6272a4;
+    -fx-max-width: 180px;
+    -fx-text-overrun: ellipsis;
+    -fx-alignment: CENTER;
+}
+
+.score-separator {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #777777;
+    -fx-alignment: CENTER;
+    -fx-padding: 0 10px;
+    -fx-font-weight: bold;
+}
+
+.status-label {
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+    -fx-text-fill: #999;
+}
+
+.status-live {
+    -fx-text-fill: #0078D7;
+}
+
+.status-finished {
+    -fx-text-fill: green;
+}
+
+.team-name.winner {
+    -fx-text-fill: #28a745;
+}
+
+.team-name.loser {
+    -fx-text-fill: #dc3545;
+    -fx-strikethrough: true;
+}
+
+.match-card.loser {
+    -fx-opacity: 0.6;
+}
+
+.results-table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E0E0E0;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-selection-bar: #EAF6FF;
+    -fx-selection-bar-text: #333333;
+}
+
+.results-table-view .column-header-background {
+    -fx-background-color: #FAFAFA;
+    -fx-border-color: transparent transparent #E0E0E0 transparent;
+    -fx-border-width: 1px;
+}
+
+.results-table-view .column-header {
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+}
+
+.results-table-view .column-header .label {
+    -fx-text-fill: #555555;
+}
+
+.results-table-view .table-cell {
+    -fx-font-size: 14px;
+    -fx-padding: 8px 12px;
+    -fx-alignment: CENTER;
+    -fx-border-color: transparent;
+}
+
+.results-table-view .winner-cell {
+    -fx-text-fill: #28a745;
+    -fx-font-weight: bold;
+}
+
+.results-table-view .loser-cell {
+    -fx-text-fill: #dc3545;
+    -fx-strikethrough: false;
+}
+
+.results-table-view .table-row-cell:selected {
+    -fx-background-color: #EAF6FF;
+    -fx-text-fill: #333333;
+}
+
+.results-table-view .scroll-bar:vertical,
+.results-table-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+    -fx-max-width: 0;
+    -fx-max-height: 0;
+    -fx-background-color: transparent;
+}
+
+.results-table-view .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.results-table-view .scroll-pane {
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+}
+
+.team-name.selected-team {
+    -fx-text-fill: #28a745;
+    -fx-font-weight: bold;
+}
+
+.label-hover {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 40px;
+    -fx-padding: 8 12;
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0), 16, 0.2, 0, 6);
+    -fx-border-color: transparent;
+}
+
+.label-hover:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 16, 0.2, 0, 6);
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #0078D7;
+}
+
+.botao-acao {
+    -fx-background-color: #282a36;
+    -fx-text-fill: #6272a4;
+    -fx-border-color: #6272a4;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-padding: 6 12;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0.2, 0, 2);
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.botao-acao:hover {
+    -fx-background-color: #44475a;
+    -fx-text-fill: #f8f8f2;
+    -fx-border-color: #f8f8f2;
+}
+
+.botao-acao:pressed {
+    -fx-background-color: #6272a4;
+    -fx-text-fill: #282a36;
+}
