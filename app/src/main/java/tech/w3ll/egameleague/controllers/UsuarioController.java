@@ -10,6 +10,8 @@ public class UsuarioController {
     @FXML
     private Label username;
     @FXML
+    private Label usernamePerfil;
+    @FXML
     private Label userEmail;
     @FXML
     private Label userTelefone;
@@ -28,20 +30,28 @@ public class UsuarioController {
         this.username = username;
     }
 
+    public Label getUsernamePerfil(){
+        return usernamePerfil;
+    }
+
+    public void setUsernamePerfil(String usernamePerfil){
+        this.usernamePerfil.setText(usernamePerfil);
+    }
+
     public Label getUserEmail() {
         return userEmail;
     }
 
-    public void setUserEmail(Label userEmail) {
-        this.userEmail = userEmail;
+    public void setUserEmail(String userEmail) {
+        this.userEmail.setText(userEmail);
     }
 
     public Label getUserTelefone() {
         return userTelefone;
     }
 
-    public void setUserTelefone(Label userTelefone) {
-        this.userTelefone = userTelefone;
+    public void setUserTelefone(String userTelefone) {
+        this.userTelefone.setText(userTelefone);
     }
 
     public TableView getTabelaHistorico() {

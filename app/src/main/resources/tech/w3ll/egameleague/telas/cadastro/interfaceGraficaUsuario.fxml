@@ -16,7 +16,7 @@
       <Label fx:id="usernamePerfil" text="Usuario" textFill="WHITE" />
       <HBox alignment="CENTER" fillHeight="false" prefHeight="0.0" prefWidth="738.0" spacing="500.0" VBox.vgrow="ALWAYS">
          <children>
-            <TableView fx:id="tabelaHistorico" focusTraversable="false" prefHeight="520.0" prefWidth="300.0" HBox.hgrow="NEVER">
+            <TableView fx:id="tabelaHistorico" focusTraversable="false" maxWidth="337.0" prefHeight="520.0" prefWidth="337.0" HBox.hgrow="ALWAYS">
               <columns>
                 <TableColumn editable="false" prefWidth="106.0" sortable="false" text="Campeonato" />
                 <TableColumn editable="false" prefWidth="98.0" sortable="false" text="Ranking" />
