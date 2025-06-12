@@ -54,13 +54,13 @@ public class CadastroController {
         return telefoneTextField.getText();
     }
 
-    public void loadScreen(String fxmlPath) {
+    public void loadScreen(String fxmlPath, boolean resizable) {
         try {
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource(fxmlPath));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
+            stage.setResizable(resizable);
             stage.setScene(scene);
             stage.show();
 
@@ -78,7 +78,7 @@ public class CadastroController {
                 System.out.println();
                 pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
                 pauseTransition.play();
-                loadScreen("telas/cadastro/interfaceGraficaLogin.fxml");
+                loadScreen("telas/cadastro/interfaceGraficaLogin.fxml", false);
                 break;
 
             case EMAIL_JA_CADASTRADO:
