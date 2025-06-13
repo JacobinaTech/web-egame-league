@@ -3,9 +3,15 @@ package tech.w3ll.egameleague.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import tech.w3ll.egameleague.repositores.listas.Sessao;
+import javafx.fxml.Initializable;
 
-public class UsuarioController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class UsuarioController implements Initializable {
     private LoginController loginController;
+    private Sessao sessao = new Sessao();
 
     @FXML
     private Label username;
@@ -18,6 +24,14 @@ public class UsuarioController {
     @FXML
     private TableView tabelaHistorico;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        username.setText(sessao.getUsuarioLogado().getUsuario());
+        usernamePerfil.setText(sessao.getUsuarioLogado().getUsuario());
+        userEmail.setText(sessao.getUsuarioLogado().getEmail());
+        userTelefone.setText(sessao.getUsuarioLogado().getTelefone());
+    }
+
     public LoginController getLoginController() {
         return loginController;
     }
@@ -26,8 +40,8 @@ public class UsuarioController {
         return username;
     }
 
-    public void setUsername(Label username) {
-        this.username = username;
+    public void setUsername(String username) {
+        this.username.setText(username);
     }
 
     public Label getUsernamePerfil(){
@@ -61,4 +75,6 @@ public class UsuarioController {
     public void setTabelaHistorico(TableView tabelaHistorico) {
         this.tabelaHistorico = tabelaHistorico;
     }
+
+
 }

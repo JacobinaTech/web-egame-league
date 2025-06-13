@@ -5,6 +5,7 @@ import tech.w3ll.egameleague.repositores.LoginInterface;
 
 public class LoginRepoList implements LoginInterface{
     private UsuarioRepoList usuarioRepoList;
+    private Sessao sessao = new Sessao();
 
     public LoginRepoList(UsuarioRepoList usuarioRepoList){
         this.usuarioRepoList = usuarioRepoList;
@@ -18,6 +19,7 @@ public class LoginRepoList implements LoginInterface{
         if (!usuario.getSenha().equals(senha)) {
             return null;
         }
+        sessao.setUsuarioLogado(email, senha);
         return usuario;
     }
 }
