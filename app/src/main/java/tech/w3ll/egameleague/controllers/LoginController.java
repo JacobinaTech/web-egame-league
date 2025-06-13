@@ -52,7 +52,7 @@ public class LoginController {
             botaoFazerLogin.setText("Login efetuado com sucesso!");
             pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
             pauseTransition.play();
-            cadastroController.loadScreen("telas/cadastro/interfaceGraficaUsuario.fxml", true);
+            cadastroController.loadScreen("telas/cadastro/interfaceGraficaUsuario.fxml", false);
             return usuario;
         }
     }
