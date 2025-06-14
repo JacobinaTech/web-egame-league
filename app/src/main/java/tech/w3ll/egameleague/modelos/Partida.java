@@ -10,12 +10,29 @@ public class Partida {
         this.time2 = time2;
     }
 
-    public void definirVencedor(Time vencedor) {
-        this.vencedor = vencedor;
-        if(vencedor.equals(time1)) {
-            time2.eliminar();
+    public void resetar() {
+        if (this.vencedor != null) {
+            if (this.vencedor.equals(this.time1)) {
+                if (time2 != null) time2.anularEliminacao();
+            } else {
+                if (time1 != null) time1.anularEliminacao();
+            }
+        }
+        this.vencedor = null;
+    }
+
+    public void definirVencedor(Time novoVencedor) {
+        this.resetar();
+
+        this.vencedor = novoVencedor;
+        if (vencedor.equals(time1)) {
+            if (time2 != null) {
+                time2.eliminar();
+            }
         } else {
-            time1.eliminar();
+            if (time1 != null) {
+                time1.eliminar();
+            }
         }
     }
 

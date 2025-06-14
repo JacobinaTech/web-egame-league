@@ -5,83 +5,96 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import tech.w3ll.egameleague.modelos.Partida;
+import tech.w3ll.egameleague.modelos.Time;
 
 public class PartidaCardController {
 
     @FXML
-    private VBox cardContainer;
+    private VBox containerCard;
     @FXML
-    private Label labelTime1;
+    private Label rotuloTime1;
     @FXML
-    private Label labelTime2;
+    private Label rotuloTime2;
     @FXML
-    private Label statusLabel;
+    private Label rotuloStatus;
 
     private Partida partida;
     private SelecionarVencedoresController parentController;
+    private boolean isEditingMode = false;
 
     public Partida getPartida() {
-        return partida;
+        return this.partida;
     }
 
-    public void initData(Partida partida, SelecionarVencedoresController parentController) {
+    public void initData(Partida partida, SelecionarVencedoresController controller, boolean isEditing) {
         this.partida = partida;
-        this.parentController = parentController;
-        updateUI();
+        this.parentController = controller;
+        this.isEditingMode = isEditing;
+        this.atualizarVisual();
     }
 
-    public void updateUI() {
-        labelTime1.getStyleClass().removeAll("winner", "loser");
-        labelTime2.getStyleClass().removeAll("winner", "loser");
-        cardContainer.getStyleClass().removeAll("loser");
+    public void atualizarVisual() {
+        this.rotuloTime1.getStyleClass().removeAll("winner", "loser", "selected-team");
+        this.rotuloTime2.getStyleClass().removeAll("winner", "loser", "selected-team");
 
-        labelTime1.setText(partida.getTime1().getNome());
-        if (partida.getTime2() != null) {
-            labelTime2.setText(partida.getTime2().getNome());
-            labelTime2.setVisible(true);
+        this.rotuloTime1.setText(this.partida.getTime1().getNome());
+        if (this.partida.getTime2() != null) {
+            this.rotuloTime2.setText(this.partida.getTime2().getNome());
+            this.rotuloTime2.setVisible(true);
         } else {
-            labelTime2.setText("");
-            labelTime2.setVisible(false);
+            this.rotuloTime2.setText("");
+            this.rotuloTime2.setVisible(false);
         }
 
-        statusLabel.getStyleClass().removeAll("status-live", "status-finished");
+        this.rotuloStatus.getStyleClass().removeAll("status-live", "status-finished");
 
-        if (partida.getVencedor() != null) {
-            statusLabel.setText("Encerrada");
-            statusLabel.getStyleClass().add("status-finished");
+        if (this.partida.getVencedor() != null) {
+            this.rotuloStatus.setText("Encerrada");
+            this.rotuloStatus.getStyleClass().add("status-finished");
 
-            if (partida.getVencedor().equals(partida.getTime1())) {
-                labelTime1.getStyleClass().add("winner");
-                labelTime2.getStyleClass().add("loser");
+            if (this.partida.getVencedor().equals(this.partida.getTime1())) {
+                this.rotuloTime1.getStyleClass().add("winner");
+                this.rotuloTime2.getStyleClass().add("loser");
             } else {
-                labelTime2.getStyleClass().add("winner");
-                labelTime1.getStyleClass().add("loser");
+                this.rotuloTime2.getStyleClass().add("winner");
+                this.rotuloTime1.getStyleClass().add("loser");
             }
-            cardContainer.getStyleClass().add("loser");
 
-        } else if (partida.getTime2() == null) {
-            statusLabel.setText("AVANÇOU");
-            statusLabel.getStyleClass().add("status-live");
+        } else if (this.partida.getTime2() == null) {
+            this.rotuloStatus.setText("AVANÇOU");
+            this.rotuloStatus.getStyleClass().add("status-live");
         } else {
-            statusLabel.setText("Aguardando");
+            this.rotuloStatus.setText("Aguardando");
+        }
+    }
+
+    private void tentarSelecionarVencedor(Time time) {
+        boolean podeSelecionar = false;
+
+        if (isEditingMode) {
+            if (partida.getVencedor() != null) {
+                podeSelecionar = true;
+            }
+        } else {
+            if (partida.getVencedor() == null) {
+                podeSelecionar = true;
+            }
+        }
+
+        if (podeSelecionar) {
+            this.parentController.onVencedorSelecionado(this.partida, time);
         }
     }
 
     @FXML
-    void handleTime1Click(MouseEvent event) {
-        if (partida.getVencedor() == null) {
-            parentController.onVencedorSelecionado(partida, partida.getTime1());
-        }
-        labelTime1.getStyleClass().add("selected-team");
-        labelTime2.getStyleClass().remove("selected-team");
+    void aoClicarTime1(MouseEvent event) {
+        tentarSelecionarVencedor(this.partida.getTime1());
     }
 
     @FXML
-    void handleTime2Click(MouseEvent event) {
-        if (partida.getTime2() != null && partida.getVencedor() == null) {
-            parentController.onVencedorSelecionado(partida, partida.getTime2());
+    void aoClicarTime2(MouseEvent event) {
+        if (this.partida.getTime2() != null) {
+            tentarSelecionarVencedor(this.partida.getTime2());
         }
-        labelTime2.getStyleClass().add("selected-team");
-        labelTime1.getStyleClass().remove("selected-team");
     }
 }

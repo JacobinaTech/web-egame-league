@@ -11,6 +11,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -27,175 +29,273 @@ import java.util.List;
 
 public class TabelaController {
 
-    @FXML private TableView<Partida> tabelaRodadasIniciais;
-    @FXML private TableColumn<Partida, Time> colTimeAInicial;
-    @FXML private TableColumn<Partida, Void> colVsInicial;
-    @FXML private TableColumn<Partida, Time> colTimeBInicial;
+    private enum Fase {
+        INICIAL, SEMIFINAL, FINAL, CONCLUIDO
+    }
 
-    @FXML private TableView<Partida> tabelaSemifinal;
-    @FXML private TableColumn<Partida, Time> colTimeASemifinal;
-    @FXML private TableColumn<Partida, Void> colVsSemifinal;
-    @FXML private TableColumn<Partida, Time> colTimeBSemifinal;
+    @FXML private TableView<Partida> tabelaDaRodadaInicial;
+    @FXML private TableColumn<Partida, Time> colunaTimeA_Inicial;
+    @FXML private TableColumn<Partida, Void> colunaVs_Inicial;
+    @FXML private TableColumn<Partida, Time> colunaTimeB_Inicial;
+    @FXML private HBox tituloPartidasIniciais;
 
-    @FXML private TableView<Partida> tabelaFinal;
-    @FXML private TableColumn<Partida, Time> colTimeAFinal;
-    @FXML private TableColumn<Partida, Void> colVsFinal;
-    @FXML private TableColumn<Partida, Time> colTimeBFinal;
+    @FXML private TableView<Partida> tabelaDaSemifinal;
+    @FXML private TableColumn<Partida, Time> colunaTimeA_Semifinal;
+    @FXML private TableColumn<Partida, Void> colunaVs_Semifinal;
+    @FXML private TableColumn<Partida, Time> colunaTimeB_Semifinal;
+    @FXML private HBox tituloSemifinal;
 
-    @FXML private Button btnJogarRodada;
+    @FXML private TableView<Partida> tabelaDaFinal;
+    @FXML private TableColumn<Partida, Time> colunaTimeA_Final;
+    @FXML private TableColumn<Partida, Void> colunaVs_Final;
+    @FXML private TableColumn<Partida, Time> colunaTimeB_Final;
+    @FXML private HBox tituloFinal;
+
+    @FXML private Button botaoJogarRodada;
+    @FXML private Button botaoEditarRodada;
 
     private Tabela tabela;
+    private Fase faseAtual;
+    private static final double ALTURA_DA_LINHA = 48.0;
+    private boolean isEditing = false;
+    private ObservableList<Partida> partidasDaRodadaAnterior;
 
     @FXML
     public void initialize() {
-        tabelaRodadasIniciais.getStyleClass().add("results-table-view");
-        tabelaSemifinal.getStyleClass().add("results-table-view");
-        tabelaFinal.getStyleClass().add("results-table-view");
+        this.configurarTabelas();
+        this.carregarDadosIniciais();
+    }
 
-        colTimeAInicial.setCellValueFactory(new PropertyValueFactory<>("time1"));
-        colTimeBInicial.setCellValueFactory(new PropertyValueFactory<>("time2"));
-        colTimeASemifinal.setCellValueFactory(new PropertyValueFactory<>("time1"));
-        colTimeBSemifinal.setCellValueFactory(new PropertyValueFactory<>("time2"));
-        colTimeAFinal.setCellValueFactory(new PropertyValueFactory<>("time1"));
-        colTimeBFinal.setCellValueFactory(new PropertyValueFactory<>("time2"));
+    private void configurarTabelas() {
+        this.tabelaDaRodadaInicial.getStyleClass().add("results-table-view");
+        this.tabelaDaSemifinal.getStyleClass().add("results-table-view");
+        this.tabelaDaFinal.getStyleClass().add("results-table-view");
 
-        Callback<TableColumn<Partida, Time>, TableCell<Partida, Time>> teamCellFactory = new Callback<>() {
+        this.colunaTimeA_Inicial.setCellValueFactory(new PropertyValueFactory<>("time1"));
+        this.colunaTimeB_Inicial.setCellValueFactory(new PropertyValueFactory<>("time2"));
+        this.colunaTimeA_Semifinal.setCellValueFactory(new PropertyValueFactory<>("time1"));
+        this.colunaTimeB_Semifinal.setCellValueFactory(new PropertyValueFactory<>("time2"));
+        this.colunaTimeA_Final.setCellValueFactory(new PropertyValueFactory<>("time1"));
+        this.colunaTimeB_Final.setCellValueFactory(new PropertyValueFactory<>("time2"));
+
+        Callback<TableColumn<Partida, Time>, TableCell<Partida, Time>> fabricaDeCelulas = coluna -> new TableCell<>() {
             @Override
-            public TableCell<Partida, Time> call(TableColumn<Partida, Time> col) {
-                return new TableCell<>() {
-                    @Override
-                    protected void updateItem(Time item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setText(null);
-                            setStyle(null);
-                            getStyleClass().removeAll("winner-cell", "loser-cell");
+            protected void updateItem(Time item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                    getStyleClass().removeAll("winner-cell", "loser-cell");
+                } else {
+                    setText(item.getNome());
+                    Partida partida = getTableRow().getItem();
+                    getStyleClass().removeAll("winner-cell", "loser-cell");
+                    if (partida != null && partida.getVencedor() != null) {
+                        if (partida.getVencedor().equals(item)) {
+                            getStyleClass().add("winner-cell");
                         } else {
-                            setText(item.getNome());
-                            Partida partida = getTableRow().getItem();
-                            if (partida != null && partida.getVencedor() != null) {
-                                getStyleClass().removeAll("winner-cell", "loser-cell");
-                                if (partida.getVencedor().equals(item)) {
-                                    getStyleClass().add("winner-cell");
-                                } else {
-                                    getStyleClass().add("loser-cell");
-                                }
-                            } else {
-                                getStyleClass().removeAll("winner-cell", "loser-cell");
-                            }
+                            getStyleClass().add("loser-cell");
                         }
                     }
-                };
+                }
             }
         };
 
-        colTimeAInicial.setCellFactory(teamCellFactory);
-        colTimeBInicial.setCellFactory(teamCellFactory);
-        colTimeASemifinal.setCellFactory(teamCellFactory);
-        colTimeBSemifinal.setCellFactory(teamCellFactory);
-        colTimeAFinal.setCellFactory(teamCellFactory);
-        colTimeBFinal.setCellFactory(teamCellFactory);
+        this.colunaTimeA_Inicial.setCellFactory(fabricaDeCelulas);
+        this.colunaTimeB_Inicial.setCellFactory(fabricaDeCelulas);
+        this.colunaTimeA_Semifinal.setCellFactory(fabricaDeCelulas);
+        this.colunaTimeB_Semifinal.setCellFactory(fabricaDeCelulas);
+        this.colunaTimeA_Final.setCellFactory(fabricaDeCelulas);
+        this.colunaTimeB_Final.setCellFactory(fabricaDeCelulas);
 
-        Callback<TableColumn<Partida, Void>, TableCell<Partida, Void>> vsCellFactory = new Callback<>() {
+        Callback<TableColumn<Partida, Void>, TableCell<Partida, Void>> fabricaDeCelulasVs = coluna -> new TableCell<>() {
             @Override
-            public TableCell<Partida, Void> call(TableColumn<Partida, Void> col) {
-                return new TableCell<>() {
-                    @Override
-                    protected void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                            setText(null);
-                        } else {
-                            setText("x");
-                            setStyle("-fx-font-size: 14px; -fx-text-fill: #777777;");
-                        }
-                    }
-                };
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText("x");
+                    setStyle("-fx-text-fill: #b0b3c2;");
+                }
             }
         };
 
-        colVsInicial.setCellFactory(vsCellFactory);
-        colVsSemifinal.setCellFactory(vsCellFactory);
-        colVsFinal.setCellFactory(vsCellFactory);
+        this.colunaVs_Inicial.setCellFactory(fabricaDeCelulasVs);
+        this.colunaVs_Semifinal.setCellFactory(fabricaDeCelulasVs);
+        this.colunaVs_Final.setCellFactory(fabricaDeCelulasVs);
+    }
 
-        carregarDadosIniciais();
+    private void ajustarVisibilidadeEAltura(TableView<Partida> tabela, HBox titulo) {
+        boolean estaVazia = tabela.getItems() == null || tabela.getItems().isEmpty();
+        tabela.setVisible(!estaVazia);
+        tabela.setManaged(!estaVazia);
+        titulo.setVisible(!estaVazia);
+        titulo.setManaged(!estaVazia);
+
+        tabela.prefHeightProperty().unbind();
+
+        if (!estaVazia) {
+            tabela.setFixedCellSize(ALTURA_DA_LINHA);
+            Region cabecalho = (Region) tabela.lookup(".column-header-background");
+            double alturaCabecalho = 45.0;
+            if (cabecalho != null && cabecalho.isVisible()) {
+                alturaCabecalho = cabecalho.getHeight();
+            }
+
+            int numeroDeLinhas = tabela.getItems().size();
+            double alturaTotal = alturaCabecalho + (numeroDeLinhas * ALTURA_DA_LINHA) + 2;
+
+            tabela.setPrefHeight(alturaTotal);
+        }
     }
 
     private void carregarDadosIniciais() {
-        TimeRepo timeRepo = new TimeRepo();
-        timeRepo.adicionar(new Time("Flamengo"));
-        timeRepo.adicionar(new Time("Palmeiras"));
-        timeRepo.adicionar(new Time("Corinthians"));
-        timeRepo.adicionar(new Time("São Paulo"));
-        timeRepo.adicionar(new Time("Grêmio"));
-        timeRepo.adicionar(new Time("Internacional"));
-        timeRepo.adicionar(new Time("Bahia"));
-        timeRepo.adicionar(new Time("Fluminense"));
+        TimeRepo repositorioDeTimes = new TimeRepo();
+        repositorioDeTimes.adicionar(new Time("Flamengo"));
+        repositorioDeTimes.adicionar(new Time("Palmeiras"));
+        repositorioDeTimes.adicionar(new Time("Corinthians"));
+        repositorioDeTimes.adicionar(new Time("São Paulo"));
+        repositorioDeTimes.adicionar(new Time("Grêmio"));
+        repositorioDeTimes.adicionar(new Time("Internacional"));
+        repositorioDeTimes.adicionar(new Time("Bahia"));
+        repositorioDeTimes.adicionar(new Time("Fluminense"));
 
-        tabela = new Tabela(new ArrayList<>(timeRepo.listarTodos()));
+        this.tabela = new Tabela(new ArrayList<>(repositorioDeTimes.listarTodos()));
+        this.tabela.gerarConfrontos();
+        this.tabelaDaRodadaInicial.setItems(FXCollections.observableArrayList(this.tabela.getPartidasAtuais()));
+        this.faseAtual = Fase.INICIAL;
+        this.botaoJogarRodada.setText("Definir Vencedor");
 
-        tabela.gerarConfrontos();
-        ObservableList<Partida> partidasIniciais = FXCollections.observableArrayList(tabela.getPartidasAtuais());
-        tabelaRodadasIniciais.setItems(partidasIniciais);
+        atualizarTodasAsTabelas();
     }
 
-    @FXML
-    void handleJogarRodada() {
-        List<Partida> partidasDaRodada = tabela.getPartidasAtuais();
-        if (partidasDaRodada == null) {
-            System.out.println("Nenhuma partida para jogar.");
+    private void abrirJanelaVencedores(ObservableList<Partida> partidas) {
+        if (partidas == null || partidas.isEmpty()) {
             return;
         }
-
         try {
-            URL fxmlLocation = HelloApplication.class.getResource("/tech/w3ll/egameleague/torneio/selecionar-vencedores-view.fxml");
-            if (fxmlLocation == null) {
-                System.out.println("Nao achei o fxml de selecionar vencedores.");
-                return;
-            }
+            URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/torneio/selecionar-vencedores-view.fxml");
+            FXMLLoader carregador = new FXMLLoader(fxmlLocal);
+            Parent raiz = carregador.load();
 
-            FXMLLoader loader = new FXMLLoader(fxmlLocation);
-            Parent root = loader.load();
+            SelecionarVencedoresController controlador = carregador.getController();
+            controlador.carregarPartidas(partidas, this, this.isEditing);
 
-            SelecionarVencedoresController controller = loader.getController();
-            controller.carregarPartidas(partidasDaRodada, this);
-
-            Stage stage = new Stage();
-            stage.setTitle("Definir Vencedores da Rodada");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-
-            tabelaRodadasIniciais.refresh();
-            tabelaSemifinal.refresh();
-            tabelaFinal.refresh();
+            Stage janela = new Stage();
+            janela.setTitle("Definir Vencedores da Rodada");
+            janela.initModality(Modality.APPLICATION_MODAL);
+            janela.setScene(new Scene(raiz));
+            janela.show();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void avancarRodada() {
-        tabelaRodadasIniciais.refresh();
-        tabelaSemifinal.refresh();
-        tabelaFinal.refresh();
+    private void atualizarTodasAsTabelas() {
+        tabelaDaRodadaInicial.refresh();
+        tabelaDaSemifinal.refresh();
+        tabelaDaFinal.refresh();
 
-        tabela.avancarParaProximaFase();
+        ajustarVisibilidadeEAltura(tabelaDaRodadaInicial, tituloPartidasIniciais);
+        ajustarVisibilidadeEAltura(tabelaDaSemifinal, tituloSemifinal);
+        ajustarVisibilidadeEAltura(tabelaDaFinal, tituloFinal);
+    }
 
-        if (tabela.temCampeao()) {
-            btnJogarRodada.setDisable(true);
-            tabelaFinal.refresh();
-            System.out.println("Campeão: " + tabela.getCampeao().getNome());
-            return;
+    private TableView<Partida> getTabelaAtiva() {
+        switch (this.faseAtual) {
+            case SEMIFINAL:
+                return this.tabelaDaSemifinal;
+            case FINAL:
+            case CONCLUIDO:
+                return this.tabelaDaFinal;
+            case INICIAL:
+            default:
+                return this.tabelaDaRodadaInicial;
+        }
+    }
+
+    public void atualizarVisualDaTabelaAtiva() {
+        TableView<Partida> tabelaAtiva = getTabelaAtiva();
+        if (tabelaAtiva != null) {
+            tabelaAtiva.refresh();
+        }
+    }
+
+    private TableView<Partida> getTabelaParaFase(Fase fase) {
+        switch (fase) {
+            case SEMIFINAL:
+                return this.tabelaDaSemifinal;
+            case FINAL:
+                return this.tabelaDaFinal;
+            default:
+                return null;
+        }
+    }
+
+    @FXML
+    void aoClicarJogarRodada() {
+        String textoDoBotao = this.botaoJogarRodada.getText();
+
+        if (textoDoBotao.equals("Próximo")) {
+            gerarProximaRodada();
+        } else {
+            this.isEditing = false;
+            abrirJanelaVencedores(getTabelaAtiva().getItems());
+        }
+    }
+
+    @FXML
+    void aoClicarEditarRodada() {
+        this.isEditing = true;
+        abrirJanelaVencedores(getTabelaAtiva().getItems());
+    }
+
+    public void habilitarBotaoDeEdicao() {
+        this.botaoEditarRodada.setVisible(true);
+    }
+
+    public void rodadaConcluida() {
+        this.isEditing = false;
+        atualizarTodasAsTabelas();
+        this.botaoEditarRodada.setVisible(true);
+        this.partidasDaRodadaAnterior = FXCollections.observableArrayList(getTabelaAtiva().getItems());
+
+        if (this.faseAtual == Fase.FINAL) {
+            this.botaoJogarRodada.setText("Fim de Jogo");
+            this.botaoJogarRodada.setDisable(true);
+            this.faseAtual = Fase.CONCLUIDO;
+        } else {
+            this.botaoJogarRodada.setText("Próximo");
+        }
+    }
+
+    public void gerarProximaRodada() {
+        if (this.faseAtual == Fase.INICIAL) {
+            this.faseAtual = Fase.SEMIFINAL;
+        } else if (this.faseAtual == Fase.SEMIFINAL) {
+            this.faseAtual = Fase.FINAL;
         }
 
-        tabela.gerarConfrontos();
-        List<Partida> novasPartidas = tabela.getPartidasAtuais();
+        this.tabela.avancarParaProximaFase(this.partidasDaRodadaAnterior);
+        this.botaoEditarRodada.setVisible(false);
+        this.tabela.gerarConfrontos();
 
-        if (tabelaSemifinal.getItems() == null || tabelaSemifinal.getItems().isEmpty()) {
-            tabelaSemifinal.setItems(FXCollections.observableArrayList(novasPartidas));
-        } else if (tabelaFinal.getItems() == null || tabelaFinal.getItems().isEmpty()) {
-            tabelaFinal.setItems(FXCollections.observableArrayList(novasPartidas));
+        List<Partida> novasPartidas = this.tabela.getPartidasAtuais();
+        ObservableList<Partida> proximasPartidas = FXCollections.observableArrayList(novasPartidas);
+
+        TableView<Partida> proximaTabela = getTabelaParaFase(this.faseAtual);
+        if (proximaTabela != null) {
+            proximaTabela.setItems(proximasPartidas);
         }
+
+        if (this.faseAtual == Fase.SEMIFINAL) {
+            this.botaoJogarRodada.setText("Jogar Semifinal");
+        } else if (this.faseAtual == Fase.FINAL) {
+            this.botaoJogarRodada.setText("Jogar a Final");
+        }
+
+        atualizarTodasAsTabelas();
     }
 }

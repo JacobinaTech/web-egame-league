@@ -1,11 +1,8 @@
 package tech.w3ll.egameleague.controllers;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tech.w3ll.egameleague.HelloApplication;
@@ -14,38 +11,49 @@ import tech.w3ll.egameleague.modelos.Time;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
 
 public class SelecionarVencedoresController {
 
     @FXML
     private VBox containerDePartidas;
+    @FXML
+    private Button botaoEmbaralhar;
 
-    private ObservableList<Partida> partidasDaRodada;
+    private List<Partida> partidasDaRodada;
     private TabelaController tabelaController;
+    private boolean isEditingMode = false;
 
-    public void carregarPartidas(List<Partida> partidas, TabelaController controller) {
-        this.partidasDaRodada = FXCollections.observableArrayList(partidas);
+    public void carregarPartidas(List<Partida> partidas, TabelaController controller, boolean isEditing) {
+        this.partidasDaRodada = partidas;
         this.tabelaController = controller;
+        this.isEditingMode = isEditing;
+        this.atualizarCards();
+        this.verificarEstadoDoEmbaralhamento();
+    }
 
-        containerDePartidas.getChildren().clear();
-
-        for (Partida partida : partidasDaRodada) {
+    private void atualizarCards() {
+        this.containerDePartidas.getChildren().clear();
+        for (Partida partidaAtual : this.partidasDaRodada) {
             try {
-                URL fxmlLocation = HelloApplication.class.getResource("/tech/w3ll/egameleague/torneio/partida-card.fxml");
-                if (fxmlLocation == null) {
-                    System.out.println("Nao achei o fxml do card de partida.");
+                URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/torneio/partida-card.fxml");
+                if (fxmlLocal == null) {
                     continue;
                 }
 
-                FXMLLoader loader = new FXMLLoader(fxmlLocation);
-                Parent cardNode = loader.load();
-                PartidaCardController cardController = loader.getController();
-                cardController.initData(partida, this);
+                FXMLLoader carregador = new FXMLLoader(fxmlLocal);
+                Parent noDoCard = carregador.load();
 
-                cardNode.setUserData(cardController);
+                PartidaCardController controladorDoCard = carregador.getController();
+                controladorDoCard.initData(partidaAtual, this, this.isEditingMode);
 
-                containerDePartidas.getChildren().add(cardNode);
+                noDoCard.setUserData(controladorDoCard);
+                this.containerDePartidas.getChildren().add(noDoCard);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -53,33 +61,68 @@ public class SelecionarVencedoresController {
         }
     }
 
+    private void verificarEstadoDoEmbaralhamento() {
+        boolean algumVencedorDefinido = this.partidasDaRodada.stream()
+                .anyMatch(p -> p.getVencedor() != null);
+        this.botaoEmbaralhar.setDisable(algumVencedorDefinido);
+    }
+
     public void onVencedorSelecionado(Partida partida, Time vencedor) {
         partida.definirVencedor(vencedor);
+        this.verificarEstadoDoEmbaralhamento();
 
-        for (javafx.scene.Node node : containerDePartidas.getChildren()) {
-            if (node.getUserData() instanceof PartidaCardController) {
-                PartidaCardController cardController = (PartidaCardController) node.getUserData();
-                if (cardController.getPartida().equals(partida)) {
-                    Platform.runLater(cardController::updateUI);
+        if (this.tabelaController != null) {
+            this.tabelaController.habilitarBotaoDeEdicao();
+            this.tabelaController.atualizarVisualDaTabelaAtiva();
+        }
+
+        for (javafx.scene.Node no : this.containerDePartidas.getChildren()) {
+            if (no.getUserData() instanceof PartidaCardController) {
+                final PartidaCardController controladorDoCard = (PartidaCardController) no.getUserData();
+                if (controladorDoCard.getPartida().equals(partida)) {
+                    Platform.runLater(controladorDoCard::atualizarVisual);
                     break;
                 }
             }
         }
 
-        boolean todasDefinidas = true;
-        for (Partida p : partidasDaRodada) {
-            if (p.getVencedor() == null && p.getTime2() != null) {
-                todasDefinidas = false;
-                break;
+        if (!this.isEditingMode) {
+            boolean todasAsPartidasDefinidas = this.partidasDaRodada.stream()
+                    .allMatch(p -> p.getVencedor() != null || p.getTime2() == null);
+
+            if (todasAsPartidasDefinidas) {
+                if (this.tabelaController != null) {
+                    this.tabelaController.rodadaConcluida();
+                }
+                Stage janela = (Stage) this.containerDePartidas.getScene().getWindow();
+                janela.close();
             }
         }
+    }
 
-        if (todasDefinidas) {
-            if (tabelaController != null) {
-                tabelaController.avancarRodada();
-            }
-            Stage stage = (Stage) containerDePartidas.getScene().getWindow();
-            stage.close();
+    @FXML
+    void aoClicarEmbaralhar() {
+        List<Time> timesNaRodada = new ArrayList<>();
+        for (Partida p : this.partidasDaRodada) {
+            if (p.getTime1() != null) timesNaRodada.add(p.getTime1());
+            if (p.getTime2() != null) timesNaRodada.add(p.getTime2());
+        }
+
+        Collections.shuffle(timesNaRodada);
+
+        List<Partida> novasPartidas = new ArrayList<>();
+        for (int i = 0; i < timesNaRodada.size(); i += 2) {
+            Time time1 = timesNaRodada.get(i);
+            Time time2 = (i + 1 < timesNaRodada.size()) ? timesNaRodada.get(i + 1) : null;
+            novasPartidas.add(new Partida(time1, time2));
+        }
+
+        this.partidasDaRodada.clear();
+        this.partidasDaRodada.addAll(novasPartidas);
+
+        this.atualizarCards();
+        if (this.tabelaController != null) {
+            this.tabelaController.atualizarVisualDaTabelaAtiva();
         }
     }
 }

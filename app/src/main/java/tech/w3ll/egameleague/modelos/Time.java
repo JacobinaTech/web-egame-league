@@ -21,6 +21,10 @@ public class Time {
         this.eliminado = true;
     }
 
+    public void anularEliminacao() {
+        this.eliminado = false;
+    }
+
     @Override
     public String toString() {
         return nome;

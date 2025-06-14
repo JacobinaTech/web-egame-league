@@ -32,52 +32,42 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import java.lang.String?>
+
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="cardContainer" alignment="CENTER" spacing="0.0" style="-fx-background-color: #282a36;" styleClass="match-card" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.PartidaCardController">
+<VBox fx:id="containerCard" alignment="CENTER" spacing="10.0" styleClass="match-card" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.PartidaCardController">
     <stylesheets>
         <URL value="@estilo.css" />
     </stylesheets>
     <padding>
-        <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+        <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
     </padding>
     <children>
-        <HBox alignment="CENTER" spacing="10.0">
+        <GridPane alignment="CENTER" hgap="10.0" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="80.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
             <children>
-                <HBox alignment="CENTER_RIGHT" maxWidth="150.0" prefWidth="150.0" HBox.hgrow="NEVER">
+                <Label fx:id="rotuloTime1" onMouseClicked="#aoClicarTime1" styleClass="team-label" text="Time A" GridPane.columnIndex="0" />
+                <VBox alignment="CENTER" spacing="2.0" GridPane.columnIndex="1">
                     <children>
-                        <Label fx:id="labelTime1" onMouseClicked="#handleTime1Click"
-                               style="-fx-background-color: transparent; -fx-padding: 8 12; -fx-border-radius: 8; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0), 0, 0, 0, 0);"
-                               text="Time A">
-                     <styleClass>
-                        <String fx:value="team-name" />
-                        <String fx:value="label-hover" />
-                     </styleClass></Label>
-                    </children>
-                </HBox>
-                <VBox alignment="CENTER" minWidth="80.0" spacing="2.0">
-                    <children>
-                        <Label style="-fx-text-fill: #6272a4;" styleClass="score-separator" text="X" />
-                        <Label fx:id="statusLabel" style="-fx-text-fill: #6272a4;" styleClass="status-label" text="Aguardando" />
+                        <Label styleClass="score-separator" text="VS" />
+                        <Label fx:id="rotuloStatus" styleClass="status-label" text="Aguardando" />
                     </children>
                 </VBox>
-                <HBox alignment="CENTER_LEFT" maxWidth="150.0" prefWidth="150.0" HBox.hgrow="NEVER">
-                    <children>
-                        <Label fx:id="labelTime2" onMouseClicked="#handleTime2Click"
-                               style="-fx-background-color: transparent; -fx-padding: 8 12; -fx-border-radius: 8; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0), 0, 0, 0, 0);"
-                               text="Time B">
-                     <styleClass>
-                        <String fx:value="team-name" />
-                        <String fx:value="label-hover" />
-                     </styleClass></Label>
-                    </children>
-                </HBox>
+                <Label fx:id="rotuloTime2" onMouseClicked="#aoClicarTime2" styleClass="team-label" text="Time B" GridPane.columnIndex="2" />
             </children>
-        </HBox>
+        </GridPane>
     </children>
 </VBox>

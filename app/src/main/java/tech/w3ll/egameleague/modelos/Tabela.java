@@ -1,6 +1,8 @@
 package tech.w3ll.egameleague.modelos;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Tabela {
     private ArrayList<Time> times;
@@ -8,6 +10,10 @@ public class Tabela {
 
     public Tabela(ArrayList<Time> times) {
         this.times = new ArrayList<>(times);
+    }
+
+    public void embaralharTimes() {
+        Collections.shuffle(this.times);
     }
 
     public boolean temCampeao() {
@@ -65,10 +71,10 @@ public class Tabela {
         return this.partidasAtuais;
     }
 
-    public void avancarParaProximaFase() {
+    public void avancarParaProximaFase(List<Partida> partidasConcluidas) {
         ArrayList<Time> vencedores = new ArrayList<>();
-        if (this.partidasAtuais != null) {
-            for (Partida p : this.partidasAtuais) {
+        if (partidasConcluidas != null) {
+            for (Partida p : partidasConcluidas) {
                 if (p.getVencedor() != null) {
                     vencedores.add(p.getVencedor());
                 } else if (p.getTime2() == null) {

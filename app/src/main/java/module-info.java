@@ -7,6 +7,10 @@ module tech.w3ll.egameleague.app {
 
     exports tech.w3ll.egameleague;
     opens tech.w3ll.egameleague to javafx.fxml;
+
     exports tech.w3ll.egameleague.controllers;
     opens tech.w3ll.egameleague.controllers to javafx.fxml;
+
+    exports tech.w3ll.egameleague.modelos;
+    opens tech.w3ll.egameleague.modelos to javafx.base, javafx.fxml;
 }
