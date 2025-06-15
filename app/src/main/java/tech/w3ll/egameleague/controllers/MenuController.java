@@ -9,6 +9,11 @@ import javafx.stage.Stage;
 
 public class MenuController {
 
+    @FXML
+    private void onLoginClicked(ActionEvent event) {
+        openWindow("telas/Login.fxml", "Login");
+    }
+
     // Chamado ao clicar em “Usuários”
     @FXML
     private void onUsuariosClicked(ActionEvent e) {
