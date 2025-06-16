@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="anchorPopupEquipes" fx:id="anchorPopupEquipes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #44475a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.ControllerPopupEquipes">
+   <children>
+      <TextField id="txtCabecalho" fx:id="txtCabecalho" alignment="CENTER" editable="false" layoutY="2.0" prefHeight="25.0" prefWidth="600.0" text="Gerenciamento de Equipes" />
+      <VBox id="vboxPopupEquipes" fx:id="vboxPopupEquipes" layoutY="29.0" prefHeight="372.0" prefWidth="600.0">
+         <children>
+            <Pane id="paneFundoPopupEquipes" fx:id="paneFundoPopupEquipes" prefHeight="23.0" prefWidth="592.0" style="-fx-background-color: #6272a4;">
+               <children>
+                  <Label id="lblNomeEquipe" fx:id="lblNomeEquipe" alignment="CENTER" contentDisplay="CENTER" layoutY="3.0" prefHeight="17.0" prefWidth="600.0" text="'Nome da Equipe'" textFill="WHITE" />
+               </children>
+            </Pane>
+            <TableView id="tblEquipes" fx:id="tblEquipes" prefHeight="351.0" prefWidth="600.0" style="-fx-background-color: #44475a;">
+              <columns>
+                <TableColumn id="clnNomeEquipes" fx:id="clnNomeEquipes" editable="false" prefWidth="110.0" text="Equipes" />
+                <TableColumn id="clnJogadores" fx:id="clnJogadores" editable="false" prefWidth="489.0" text="Jogadores" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

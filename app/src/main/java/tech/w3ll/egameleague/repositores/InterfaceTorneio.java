@@ -1,6 +1,6 @@
-package interfaces;
+package tech.w3ll.egameleague.repositores;
 
-import modelos.Torneio;
+import tech.w3ll.egameleague.modelos.Torneio;
 
 public interface InterfaceTorneio {
     boolean cadastrarTorneio(Torneio torneio);

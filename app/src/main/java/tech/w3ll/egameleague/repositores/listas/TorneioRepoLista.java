@@ -1,7 +1,7 @@
-package repositorios;
+package tech.w3ll.egameleague.repositores.listas;
 
-import interfaces.InterfaceTorneio;
-import modelos.Torneio;
+import tech.w3ll.egameleague.repositores.InterfaceTorneio;
+import tech.w3ll.egameleague.modelos.Torneio;
 
 import java.util.ArrayList;
 import java.util.List;
