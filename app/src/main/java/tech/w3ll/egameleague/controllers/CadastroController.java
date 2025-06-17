@@ -1,20 +1,25 @@
 package tech.w3ll.egameleague.controllers;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
 import javafx.animation.PauseTransition;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import tech.w3ll.egameleague.repositores.listas.LoginRepoList;
+import tech.w3ll.egameleague.HelloApplication;
+import tech.w3ll.egameleague.repositores.listas.Sessao;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
-public class CadastroController {
-    private final UsuarioRepoList usuarioRepoList = new UsuarioRepoList();
-    private final LoginRepoList loginRepoList = new LoginRepoList(usuarioRepoList);
+import java.io.IOException;
 
-    @FXML
-    private Label welcomeText;
+
+public class CadastroController {
+    private UsuarioRepoList usuarioRepoList;
 
     @FXML
     private TextField emailTextField;
@@ -23,89 +28,105 @@ public class CadastroController {
     @FXML
     private PasswordField senhaTextField;
     @FXML
+    private TextField senhaVisivelTextField;
+    @FXML
+    private Button botaoOlhoAberto;
+    @FXML
+    private Button botaoOlhoFechado;
+    @FXML
     private TextField telefoneTextField;
-    @FXML
-    private TextField emailLoginTextField;
-    @FXML
-    private PasswordField senhaLoginTextField;
+
     @FXML
     private Button botaoCadastrar;
-    @FXML
-    private Button botaoFazerLogin;
-    @FXML
-    private String getEmailTextField() {
+
+    public String getEmailTextField() {
         return emailTextField.getText();
     }
-    @FXML
-    private String getUsuarioTextField() {
+
+    public String getUsuarioTextField() {
         return usuarioTextField.getText();
     }
-    @FXML
-    private String getSenhaTextField() {
-        return senhaTextField.getText();
+
+    public String getSenhaTextField() {
+        return senhaTextField.isVisible() ? senhaTextField.getText() : senhaVisivelTextField.getText();
     }
-    @FXML
-    private String getTelefoneTextField() {
+
+    public String getTelefoneTextField() {
         return telefoneTextField.getText();
     }
-    @FXML
-    private TextField getSenhaLoginTextField() {
-        return senhaLoginTextField;
-    }
-    @FXML
-    private TextField getEmailLoginTextField() {
-        return emailLoginTextField;
-    }
-    @FXML
-    private TableColumn tableColumnCampeonato;
-    @FXML
-    private TableColumn tableColumnRanking;
-    @FXML
-    private TableColumn tableColumnData;
 
     public void fazerCadastro() {
+        usuarioRepoList = UsuarioRepoList.getInstace();
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         switch (usuarioRepoList.fazerCadastro(getUsuarioTextField(), getEmailTextField(), getSenhaTextField(), getTelefoneTextField())) {
             case SUCESSO:
                 botaoCadastrar.setText("Usuário cadastrado com sucesso!");
-                System.out.println(usuarioRepoList.getListaUsuarios());
+                System.out.println();
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
                 break;
 
             case EMAIL_JA_CADASTRADO:
                 botaoCadastrar.setText("Email já cadastrado!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
                 break;
 
             case USUARIO_JA_CADASTRADO:
                 botaoCadastrar.setText("Usuário já cadastrado!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
                 break;
-        }
-        pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
-        pauseTransition.play();
-    }
 
-    public void fazerLogin() {
-        String email = getEmailLoginTextField().getText();
-        String senha = getSenhaLoginTextField().getText();
+            case EMAIL_INVALIDO:
+                botaoCadastrar.setText("Email inválido!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
+                break;
 
-        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
+            case USUARIO_INVALIDO:
+                botaoCadastrar.setText("Usuário inválido!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
+                break;
 
-        if(loginRepoList.fazerLogin(email, senha) == null){
-            botaoFazerLogin.setText("E-mail ou senha incorretos!");
-            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-            pauseTransition.play();
-        } else {
+            case SENHA_INVALIDA:
+                botaoCadastrar.setText("Senha inválida!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
+                break;
 
-            botaoFazerLogin.setText("Login efetuado com sucesso!");
-            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-            pauseTransition.play();
-
-            pauseTransition.setOnFinished(event -> botaoFazerLogin.setText("Fazer login"));
-            pauseTransition.play();
+            case TELEFONE_INVALIDO:
+                botaoCadastrar.setText("Número de telefone inválido!");
+                pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
+                pauseTransition.play();
+                break;
         }
     }
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to eGameLeague!");
+    private void mostrarSenhaCadastro() {
+        senhaVisivelTextField.setText(senhaTextField.getText());
+        senhaTextField.setVisible(false);
+        senhaTextField.setManaged(false);
+        senhaVisivelTextField.setVisible(true);
+        senhaVisivelTextField.setManaged(true);
+        botaoOlhoAberto.setVisible(false);
+        botaoOlhoAberto.setManaged(false);
+        botaoOlhoFechado.setVisible(true);
+        botaoOlhoFechado.setManaged(true);
+    }
+
+    @FXML
+    private void esconderSenhaCadastro() {
+        senhaTextField.setText(senhaVisivelTextField.getText());
+        senhaVisivelTextField.setVisible(false);
+        senhaVisivelTextField.setManaged(false);
+        senhaTextField.setVisible(true);
+        senhaTextField.setManaged(true);
+        botaoOlhoFechado.setVisible(false);
+        botaoOlhoFechado.setManaged(false);
+        botaoOlhoAberto.setVisible(true);
+        botaoOlhoAberto.setManaged(true);
     }
 }

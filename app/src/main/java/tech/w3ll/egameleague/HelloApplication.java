@@ -14,6 +14,7 @@ public class HelloApplication extends JProApplication {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("telas/TelaMenu.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setMaximized(true);
+        stage.setResizable(true);
         stage.setTitle("eGameLeague - Gerenciador de Competições de e-sports");
         stage.setScene(scene);
         stage.show();
