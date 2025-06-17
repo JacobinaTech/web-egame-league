@@ -242,7 +242,7 @@ public class TabelaController {
     private void abrirJanelaVencedores(ObservableList<Partida> partidas) {
         if (partidas == null || partidas.isEmpty()) return;
         try {
-            URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/torneio/selecionar-vencedores-view.fxml");
+            URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/torneio/selecionar-vencedores-view.fxml");
             FXMLLoader carregador = new FXMLLoader(fxmlLocal);
             Parent raiz = carregador.load();
 
