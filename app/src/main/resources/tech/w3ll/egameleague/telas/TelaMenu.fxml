@@ -9,12 +9,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Button?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.MenuController">
    <children>
       <HBox alignment="CENTER" prefHeight="230.0" prefWidth="1920.0" style="-fx-background-color: #282a36;">
          <children>
-            <Label alignment="TOP_CENTER" style="-fx-text-fill: #6272a4;" text="eGame League" textFill="WHITE">
+            <Label alignment="TOP_CENTER" style="-fx-text-fill: #6272a4;"
+                   text="eGame League" textFill="WHITE">
                <font>
                   <Font size="36.0" />
                </font>
@@ -25,11 +29,64 @@
          <children>
             <SplitPane dividerPositions="0.11418143899895725" prefHeight="970.0" prefWidth="1920.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+
+                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
                         <VBox alignment="TOP_CENTER" prefHeight="964.0" prefWidth="216.0" style="-fx-background-color: #44475a;">
                            <children>
-                              <Label prefHeight="31.0" prefWidth="175.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #6272a4; -fx-border-color: #6272a4; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;" text="   Resultados" textAlignment="CENTER" textFill="WHITE">
+                              <!-- Botão Cadastro -->
+                              <Button prefHeight="31.0" prefWidth="175.0"
+                                      text="Cadastro"
+                                      onAction="#onCadastroClicked"
+                                      style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%,#282a36,#44475a);
+                                       -fx-text-fill:#6272a4;
+                                       -fx-border-color:#6272a4;
+                                       -fx-background-radius:16;
+                                       -fx-padding:5;
+                                       -fx-border-width:3;
+                                       -fx-border-radius:16;">
+                                 <font><Font size="18"/></font>
+                                 <VBox.margin><Insets top="30"/></VBox.margin>
+                              </Button>
+
+                              <!-- Botão Login -->
+                              <Button prefHeight="31.0" prefWidth="175.0"
+                                      text="Login"
+                                      onAction="#onLoginClicked"
+                                      style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%,#282a36,#44475a);
+                                       -fx-text-fill:#6272a4;
+                                       -fx-border-color:#6272a4;
+                                       -fx-background-radius:16;
+                                       -fx-padding:5;
+                                       -fx-border-width:3;
+                                       -fx-border-radius:16;">
+                                 <font><Font size="18"/></font>
+                                 <VBox.margin><Insets top="30"/></VBox.margin>
+                              </Button>
+
+                              <!-- Botão Usuários -->
+                              <Button prefHeight="31.0" prefWidth="175.0"
+                                      text="Perfil"
+                                      onAction="#onUsuariosClicked"
+                                      style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%,#282a36,#44475a);
+                                       -fx-text-fill:#6272a4;
+                                       -fx-border-color:#6272a4;
+                                       -fx-background-radius:16;
+                                       -fx-padding:5;
+                                       -fx-border-width:3;
+                                       -fx-border-radius:16;">
+                                 <font><Font size="18"/></font>
+                                 <VBox.margin><Insets top="30"/></VBox.margin>
+                              </Button>
+
+                              <!-- Botão Torneios -->
+                              <Button prefHeight="31.0"
+                                     prefWidth="175.0"
+                                     style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #6272a4; -fx-border-color: #6272a4; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;"
+                                     text="   Torneios"
+                                     textAlignment="CENTER"
+                                      onAction="#onTorneiosClicked"
+                                     textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -39,19 +96,52 @@
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
-                              </Label>
-                              <Label prefHeight="31.0" prefWidth="175.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #6272a4; -fx-border-color: #6272a4; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;" text="   Torneios" textAlignment="CENTER" textFill="WHITE">
+                              </Button>
+
+                              <!-- Botão Resultados -->
+                              <Button prefHeight="31.0"
+                                      prefWidth="175.0"
+                                      style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a);
+                                         -fx-text-fill: #6272a4;
+                                         -fx-border-color: #6272a4;
+                                         -fx-background-radius: 16px;
+                                         -fx-padding: 5px;
+                                         -fx-border-width: 3px;
+                                         -fx-border-radius: 16px;"
+                                      text="Resultados"
+                                      textAlignment="CENTER"
+                                      onAction="#onStatsClicked">
                                  <font>
-                                    <Font size="18.0" />
+                                    <Font size="18.0"/>
                                  </font>
                                  <VBox.margin>
-                                    <Insets top="30.0" />
+                                    <Insets top="30.0"/>
                                  </VBox.margin>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                              </Label>
-                              <Label prefHeight="43.0" prefWidth="78.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #ff7470; -fx-border-color: #ff7470; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;" text="   Sair" textAlignment="CENTER" textFill="WHITE">
+                              </Button>
+
+                              <!-- Botão Gerenciamento -->
+                              <Button prefHeight="31.0" prefWidth="175.0"
+                                      text="Gerenciamento"
+                                      onAction="#onGerenciamentoClicked"
+                                      style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%,#282a36,#44475a);
+                                       -fx-text-fill:#6272a4;
+                                       -fx-border-color:#6272a4;
+                                       -fx-background-radius:16;
+                                       -fx-padding:5;
+                                       -fx-border-width:3;
+                                       -fx-border-radius:16;">
+                                 <font><Font size="18"/></font>
+                                 <VBox.margin><Insets top="30"/></VBox.margin>
+                              </Button>
+
+                              <!-- Botão Sair -->
+                              <Button prefHeight="43.0"
+                                     prefWidth="78.0"
+                                     style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #ff7470; -fx-border-color: #ff7470; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;"
+                                     text="   Sair"
+                                     textAlignment="CENTER"
+                                      onAction="#onSairClicked"
+                                     textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -61,7 +151,8 @@
                                  <VBox.margin>
                                     <Insets top="750.0" />
                                  </VBox.margin>
-                              </Label>
+                              </Button>
+
                            </children>
                         </VBox>
                      </children>
@@ -100,30 +191,57 @@
                            </children></HBox>
                         <HBox alignment="CENTER" layoutX="1.0" layoutY="724.0" prefHeight="100.0" prefWidth="1696.0" spacing="195.0">
                            <children>
-                              <Label alignment="CENTER" prefHeight="31.0" prefWidth="175.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #f8f8f2; -fx-border-color: #f8f8f2; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;" text="CS2" textAlignment="CENTER" textFill="WHITE">
+                              <!-- Botão CS2 -->
+                              <Button alignment="CENTER"
+                                     prefHeight="31.0"
+                                     prefWidth="175.0"
+                                     style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #f8f8f2; -fx-border-color: #f8f8f2; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;"
+                                     text="CS2"
+                                     textAlignment="CENTER"
+                                     onAction="#onStatsCS2"
+                                     textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
-                              </Label>
-                              <Label alignment="CENTER" prefHeight="31.0" prefWidth="175.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #f8f8f2; -fx-border-color: #f8f8f2; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;" text="FIFA" textAlignment="CENTER" textFill="WHITE">
+                              </Button>
+
+                              <!-- Botão Fifa -->
+                              <Button alignment="CENTER"
+                                     prefHeight="31.0"
+                                     prefWidth="175.0"
+                                     style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #f8f8f2; -fx-border-color: #f8f8f2; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;"
+                                     text="FIFA"
+                                     textAlignment="CENTER"
+                                     onAction="#onStatsFIFA"
+                                     textFill="WHITE">
+
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
-                              </Label>
-                              <Label alignment="CENTER" prefHeight="31.0" prefWidth="175.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #f8f8f2; -fx-border-color: #f8f8f2; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;" text="VALORANT" textAlignment="CENTER" textFill="WHITE">
+                              </Button>
+
+                              <!-- Botão VALORANT  -->
+                              <Button alignment="CENTER"
+                                     prefHeight="31.0"
+                                     prefWidth="175.0"
+                                     style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #f8f8f2; -fx-border-color: #f8f8f2; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;"
+                                     text="VALORANT"
+                                     textAlignment="CENTER"
+                                     onAction="#onStatsVALORANT"
+                                     textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
-                              </Label>
+                              </Button>
                            </children>
                         </HBox>
                      </children>
