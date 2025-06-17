@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="anchorPopupEquipes" fx:id="anchorPopupEquipes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #44475a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.ControllerPopupEquipes">
+<AnchorPane id="anchorPopupEquipes" fx:id="anchorPopupEquipes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #44475a;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.ControllerPopupEquipes">
    <children>
-      <TextField id="txtCabecalho" fx:id="txtCabecalho" alignment="CENTER" editable="false" layoutY="2.0" prefHeight="25.0" prefWidth="600.0" text="Gerenciamento de Equipes" />
+      <TextField id="txtCabecalho" fx:id="txtCabecalho" alignment="CENTER" disable="true" editable="false" layoutY="2.0" prefHeight="25.0" prefWidth="600.0" text="Gerenciamento de Equipes" />
       <VBox id="vboxPopupEquipes" fx:id="vboxPopupEquipes" layoutY="29.0" prefHeight="372.0" prefWidth="600.0">
          <children>
             <Pane id="paneFundoPopupEquipes" fx:id="paneFundoPopupEquipes" prefHeight="23.0" prefWidth="592.0" style="-fx-background-color: #6272a4;">

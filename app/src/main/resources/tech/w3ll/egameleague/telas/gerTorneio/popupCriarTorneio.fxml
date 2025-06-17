@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="anchorPopupCriarTorneio" fx:id="anchorPopupCriarTorneio" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.ControllerPopupCriarTorneio">
+   <children>
+      <VBox id="vboxPopupCriarTorneio" fx:id="vboxPopupCriarTorneio" prefHeight="27.0" prefWidth="450.0" style="-fx-background-color: #282a36;">
+         <children>
+            <TextField id="txtCabecalho" fx:id="txtCabecalho" alignment="CENTER" disable="true" editable="false" style="-fx-background-color: 6272a4;" text="Criação De Torneio" />
+         </children>
+      </VBox>
+      <VBox id="vboxCriarEquipes" fx:id="vboxCriarEquipes" layoutY="27.0" prefHeight="60.0" prefWidth="450.0" style="-fx-background-color: #44475a;">
+         <children>
+            <HBox id="hboxCriarNomeTorneio" fx:id="hboxCriarNomeTorneio" prefHeight="39.0" prefWidth="450.0">
+               <children>
+                  <Label id="lblSolicitaNome" fx:id="lblSolicitaNome" alignment="CENTER" prefHeight="18.0" prefWidth="218.0" text="Nome do Torneio:" textFill="#f8f8f8" />
+                  <TextField id="txtNomeTorneio" fx:id="txtNomeTorneio" onAction="#nomearTorneio" prefHeight="25.0" prefWidth="221.0" promptText="Ex: ''Torneio''" />
+               </children>
+            </HBox>
+            <HBox id="hboxNomeJogo" fx:id="hboxNomeJogo" prefHeight="39.0" prefWidth="450.0">
+               <children>
+                  <Label id="lblSolicitaJogo" fx:id="lblSolicitaJogo" alignment="CENTER" prefHeight="18.0" prefWidth="218.0" text="Jogo:" textFill="#f8f8f8" />
+                  <TextField id="txtNomeJogo" fx:id="txtNomeJogo" onAction="#definirJogo" prefHeight="25.0" prefWidth="221.0" promptText="Ex: ''Jogo''" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Pane id="paneFundoPopupEquipes" fx:id="paneFundoPopupEquipes" layoutY="114.0" prefHeight="185.0" prefWidth="450.0" style="-fx-background-color: #44475a;">
+         <children>
+            <TableView id="tblEquipes" fx:id="tblEquipes" layoutY="-27.0" prefHeight="212.0" prefWidth="450.0" style="-fx-background-color: #44475a;">
+              <columns>
+                <TableColumn id="clnNomesUsuarios" fx:id="clnNomesUsuarios" editable="false" prefWidth="449.0" text="Equipes" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Button fx:id="btnAvancar" layoutX="386.0" layoutY="299.0" mnemonicParsing="false" onAction="#abrirPopupEquipes" prefHeight="25.0" prefWidth="64.0" text="Avançar" />
+      <Button fx:id="btnAddLinha" layoutX="2.0" layoutY="299.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="+">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="28.0" layoutY="299.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-" />
+   </children>
+</AnchorPane>
