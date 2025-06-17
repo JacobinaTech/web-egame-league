@@ -52,6 +52,7 @@ public class UsuarioRepoList implements UsuarioInterface {
         }
         Usuario usuarioCadastrado = new Usuario(usuario, email, senha, telefone);
         listaUsuarios.add(usuarioCadastrado);
+        Sessao.setUsuarioLogado(usuarioCadastrado);
         return ResultadoCadastro.SUCESSO;
     }
 

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import tech.w3ll.egameleague.HelloApplication;
+import tech.w3ll.egameleague.repositores.listas.Sessao;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
 import java.io.IOException;
@@ -54,21 +55,6 @@ public class CadastroController {
         return telefoneTextField.getText();
     }
 
-    public void loadScreen(String fxmlPath, boolean resizable) {
-        try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource(fxmlPath));
-            Stage stage = new Stage();
-            Scene scene = new Scene(loader.load());
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(resizable);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void fazerCadastro() {
         usuarioRepoList = UsuarioRepoList.getInstace();
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
@@ -78,7 +64,6 @@ public class CadastroController {
                 System.out.println();
                 pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
                 pauseTransition.play();
-                loadScreen("telas/cadastro/interfaceGraficaLogin.fxml", false);
                 break;
 
             case EMAIL_JA_CADASTRADO:
