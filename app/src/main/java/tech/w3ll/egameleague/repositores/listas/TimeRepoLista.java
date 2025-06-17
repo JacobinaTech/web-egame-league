@@ -6,7 +6,7 @@ import tech.w3ll.egameleague.repositores.ITimeRepo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimeRepo implements ITimeRepo {
+public class TimeRepoLista implements ITimeRepo {
     private List<Time> times = new ArrayList<>();
 
     public void adicionar(Time time) {
@@ -14,7 +14,7 @@ public class TimeRepo implements ITimeRepo {
             times.add(time);
         }
         else {
-            System.out.println(" Já existe um time com esse nome.");
+            System.out.println("Já existe um time com esse nome.");
         }
     }
 
@@ -35,15 +35,19 @@ public class TimeRepo implements ITimeRepo {
         return null;
     }
 
-    public Time buscarPorIndice(int index) {
+    public Time buscarPorId(int index) {
         if (index >= 0 && index < times.size()) {
             return times.get(index);
         }
-        System.out.println("Indice não encontrado:" + index);
+        System.out.println("Id não encontrado:" + index);
         return null;
     }
 
     public void limpar() {
         times.clear();
+    }
+
+    public void resetarTabela() {
+        System.out.println("Resetar tabela (No banco de dados vai fazer sentido)");
     }
 }

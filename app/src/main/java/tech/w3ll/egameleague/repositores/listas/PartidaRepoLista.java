@@ -6,7 +6,7 @@ import tech.w3ll.egameleague.repositores.IPartidaRepo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartidaRepo implements IPartidaRepo {
+public class PartidaRepoLista implements IPartidaRepo {
     private ArrayList<Partida> partidas = new ArrayList<>();
 
     public void adicionar(Partida partida) {
