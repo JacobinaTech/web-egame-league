@@ -12,42 +12,33 @@ public class Tabela {
         this.times = new ArrayList<>(times);
     }
 
+    public ArrayList<Time> getTimes() {
+        return this.times;
+    }
+
     public void embaralharTimes() {
         Collections.shuffle(this.times);
     }
 
     public boolean temCampeao() {
-        int naoEliminados = 0;
-        for (Time t : times) {
-            if (!t.isEliminado()) {
-                naoEliminados = naoEliminados + 1;
-            }
-        }
-        return naoEliminados == 1;
+        return this.times.size() <= 1;
     }
 
     public Time getCampeao() {
-        for (Time t : times) {
-            if (!t.isEliminado()) {
-                return t;
-            }
+        if (this.times.size() == 1) {
+            return this.times.get(0);
         }
         return null;
     }
 
     public void gerarConfrontos() {
-        ArrayList<Time> emJogo = new ArrayList<>();
-        for (Time t : times) {
-            if (!t.isEliminado()) {
-                emJogo.add(t);
-            }
-        }
+        ArrayList<Time> emJogo = new ArrayList<>(this.times);
+        Collections.shuffle(emJogo);
 
         partidasAtuais = new ArrayList<>();
 
         if (emJogo.size() % 2 != 0) {
             Time avanca = emJogo.remove(emJogo.size() - 1);
-            System.out.println(avanca.getNome() + " avança automaticamente!");
             partidasAtuais.add(new Partida(avanca, null));
         }
 

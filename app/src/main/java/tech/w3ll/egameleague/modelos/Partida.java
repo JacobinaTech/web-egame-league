@@ -1,6 +1,7 @@
 package tech.w3ll.egameleague.modelos;
 
 public class Partida {
+    private int id;
     private Time time1;
     private Time time2;
     private Time vencedor;
@@ -34,6 +35,14 @@ public class Partida {
                 time1.eliminar();
             }
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Time getTime1() {

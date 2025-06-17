@@ -10,7 +10,8 @@ public interface ITimeRepo {
     void remover(Time time);
     List<Time> listarTodos();
     Time buscarPorNome(String nome);
-    Time buscarPorIndice(int index);
+    Time buscarPorId(int id);
     void limpar();
+    void resetarTabela();
 
 }
