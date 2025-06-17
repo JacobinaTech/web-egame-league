@@ -33,7 +33,6 @@ import tech.w3ll.egameleague.repositores.listas.TimeRepoLista;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
