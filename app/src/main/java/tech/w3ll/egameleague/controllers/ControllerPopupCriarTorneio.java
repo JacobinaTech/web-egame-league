@@ -27,6 +27,12 @@ public class ControllerPopupCriarTorneio implements Initializable {
     @FXML
     private Button btnAvancar;
 
+    @FXML
+    private Button btnAddLinha;
+
+    @FXML
+    private Button btnRmvLinha;
+
     public void nomearTorneio(){
 
     }
@@ -42,7 +48,13 @@ public class ControllerPopupCriarTorneio implements Initializable {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
 
+    public void adicionarLinha(){
+
+    }
+
+    public void removerLinha(){
 
     }
 
