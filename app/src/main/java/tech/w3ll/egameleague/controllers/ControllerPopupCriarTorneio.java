@@ -34,7 +34,6 @@ public class ControllerPopupCriarTorneio implements Initializable {
     private Button btnRmvLinha;
 
     public void nomearTorneio(){
-
     }
 
     public void definirJogo(){
@@ -43,6 +42,10 @@ public class ControllerPopupCriarTorneio implements Initializable {
 
     public void abrirPopupEquipes() throws IOException {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/gerTorneio/popupEquipes.fxml"));
+
+        ControllerPopupEquipes controllerPopupEquipes = loader.getController();
+        controllerPopupEquipes.setNomeEquipe(txtNomeTorneio.getText());
+
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);

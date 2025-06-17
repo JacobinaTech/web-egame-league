@@ -3,21 +3,13 @@ package tech.w3ll.egameleague.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+
 import java.io.IOException;
-
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ControllerPopupEquipes  {
     @FXML
@@ -29,6 +21,25 @@ public class ControllerPopupEquipes  {
     @FXML
     private TextField txtCabecalho;
 
+    @FXML
+    private Label lblNomeEquipe;
+
+    @FXML
+    private Button btnAddLinha;
+
+    @FXML
+    private Button btnRmvLinha;
+
+    private String nomeEquipe;
+
+    public String getNomeEquipe() {
+        return nomeEquipe;
+    }
+
+    public void setNomeEquipe(String nomeEquipe) {
+        this.nomeEquipe = nomeEquipe;
+    }
+
     private void loadScreen(String fxmlPath) {
         try {
             // Carrega o FXML da tela filha
@@ -38,6 +49,7 @@ public class ControllerPopupEquipes  {
             // Limpa o contentPane e adiciona a nova tela
             anchorPopupEquipes.getChildren().clear();
             anchorPopupEquipes.getChildren().add(screen);
+            lblNomeEquipe.setText(nomeEquipe);
 
             // Ajusta o conteúdo para preencher o espaço disponível
             AnchorPane.setTopAnchor(screen, 0.0);
