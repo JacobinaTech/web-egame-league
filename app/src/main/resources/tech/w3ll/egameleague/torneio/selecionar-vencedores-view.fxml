@@ -39,7 +39,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" prefWidth="450.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.SelecionarVencedoresController">
+<VBox alignment="TOP_CENTER" prefWidth="450.0" spacing="20.0" styleClass="background-pane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.SelecionarVencedoresController">
    <stylesheets>
       <URL value="@estilo.css" />
    </stylesheets>
