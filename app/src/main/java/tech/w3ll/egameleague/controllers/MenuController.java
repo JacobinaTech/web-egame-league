@@ -11,7 +11,7 @@ public class MenuController {
 
     @FXML
     private void onLoginClicked(ActionEvent event) {
-        openWindow("telas/Login.fxml", "Login");
+        openWindow("telas/cadastro/InterfaceGraficaLogin.fxml", "Login");
     }
 
     // Chamado ao clicar em “Usuários”
