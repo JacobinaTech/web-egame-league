@@ -1,69 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
 <?import java.lang.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="561.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.CadastroController">
+<VBox alignment="TOP_CENTER" prefHeight="702.0" prefWidth="1132.0" style="-fx-background-color: #44475a; -fx-border-color: #6272a4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.UsuarioController">
    <children>
-      <VBox alignment="CENTER" prefHeight="521.0" prefWidth="738.0">
+      <Circle fill="#1f93ff00" radius="59.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" style="fx-border-color: #6272a4;">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Circle>
+      <Label fx:id="usernamePerfil" text="Usuario" textFill="WHITE" />
+      <HBox alignment="CENTER" fillHeight="false" prefHeight="0.0" prefWidth="738.0" spacing="500.0" VBox.vgrow="ALWAYS">
          <children>
-            <Circle fill="#1f93ff00" radius="59.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label text="Usuario" />
-            <VBox prefHeight="333.0" prefWidth="738.0">
+            <VBox alignment="CENTER_RIGHT" prefHeight="520.0" prefWidth="375.0" HBox.hgrow="NEVER">
                <children>
-                  <HBox>
+                  <Label text="Informações do usuário" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets right="80.0" top="20.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="384.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                          <children>
+                        <Label text="Nome de usuário:" textFill="WHITE" />
+                        <Label fx:id="username" text="usuario" textFill="WHITE" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView focusTraversable="false" prefHeight="304.0" prefWidth="312.0">
-                          <columns>
-                            <TableColumn editable="false" prefWidth="106.0" sortable="false" text="Campeonato" />
-                            <TableColumn editable="false" prefWidth="98.0" sortable="false" text="Ranking" />
-                              <TableColumn editable="false" prefWidth="106.0" resizable="false" sortable="false" text="Data" />
-                          </columns>
-                        </TableView>
-                        <VBox alignment="TOP_CENTER" prefHeight="321.0" prefWidth="439.0">
-                           <children>
-                              <Label text="Informações do usuário">
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-                                 <children>
-                                    <Label text="Nome de usuário:" />
-                                    <Label fx:id="username" text="usuario" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-                                 <children>
-                                    <Label text="E-mail:" />
-                                    <Label fx:id="userEmail" text="email" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-                                 <children>
-                                    <Label text="Telefone:" />
-                                    <Label fx:id="userTelefone" text="telefone" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
+                        <Label text="E-mail:" textFill="WHITE" />
+                        <Label fx:id="userEmail" prefHeight="17.0" prefWidth="32.0" text="email" textFill="WHITE" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="56.0" text="Telefone:" textFill="WHITE" />
+                        <Label fx:id="userTelefone" prefHeight="17.0" prefWidth="28.0" text="tel" textFill="WHITE" />
+                     </children>
+                     <padding>
+                        <Insets right="230.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" prefHeight="520.0" prefWidth="375.0">
+               <children>
+                  <Label text="Alterar informações" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets right="80.0" top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="105.0" prefWidth="315.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <TextField fx:id="alterarUsuario" prefHeight="25.0" prefWidth="165.0" promptText="Digite seu nome de usuário" />
+                        <Button fx:id="btnAlterarUsuario" mnemonicParsing="false" onAction="#alterarUsuario" prefHeight="25.0" prefWidth="113.0" text="Alterar" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="97.0" prefWidth="315.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <TextField fx:id="alterarTelefone" prefHeight="25.0" prefWidth="165.0" promptText="Digite seu telefone" />
+                        <Button fx:id="btnalterarTelefone" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Alterar" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                     <children>
+                        <PasswordField fx:id="senhaAtual" prefHeight="25.0" prefWidth="165.0" promptText="Digite sua senha atual" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                     <children>
+                        <PasswordField fx:id="alterarSenha" prefHeight="25.0" prefWidth="165.0" promptText="Digite sua nova senha" />
+                        <Button fx:id="btnAlterarSenha" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Alterar" />
                      </children>
                   </HBox>
                </children>
             </VBox>
          </children>
-      </VBox>
+      </HBox>
    </children>
 </VBox>
