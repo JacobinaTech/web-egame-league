@@ -6,7 +6,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import tech.w3ll.egameleague.modelos.Usuario;
 import tech.w3ll.egameleague.repositores.listas.Sessao;
 import javafx.fxml.Initializable;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
@@ -35,11 +38,15 @@ public class UsuarioController implements Initializable {
     @FXML
     private Button btnAlterarTelefone;
     @FXML
-    private PasswordField novaSenha;
+    private PasswordField senhaAtual;
     @FXML
     private PasswordField alterarSenha;
     @FXML
     private Button btnAlterarSenha;
+    @FXML
+    private ImageView fotoDePerfil;
+    @FXML
+    private Circle circulo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,11 +66,17 @@ public class UsuarioController implements Initializable {
     public void alterarUsuario(){
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         if(UsuarioRepoList.getInstace().buscarUsuarioPorUsuario(alterarUsuario.getText()) == null){
-            sessao.getUsuarioLogado().setUsuario(alterarUsuario.getText());
+
+           UsuarioRepoList.getInstace().getListaUsuarios().remove
+                   (UsuarioRepoList.getInstace().buscarUsuarioPorUsuario(sessao.getUsuarioLogado().getUsuario()));
+           sessao.getUsuarioLogado().setUsuario(alterarUsuario.getText());
+           UsuarioRepoList.getInstace().getListaUsuarios().add(sessao.getUsuarioLogado());
+            System.out.println("usuario adicionado: " + UsuarioRepoList.getInstace().getListaUsuarios().getLast());
+
+            username.setText(sessao.getUsuarioLogado().getUsuario());
             btnAlterarUsuario.setText("Alterado!");
             pauseTransition.setOnFinished(event -> btnAlterarUsuario.setText("Alterar"));
             pauseTransition.play();
-            username.setText(sessao.getUsuarioLogado().getUsuario());
         }
         else{
             btnAlterarUsuario.setText("Usuário já existe!");
@@ -74,15 +87,40 @@ public class UsuarioController implements Initializable {
 
     public void alterarTelefone(){
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
+
+        UsuarioRepoList.getInstace().getListaUsuarios().remove
+                (UsuarioRepoList.getInstace().buscarUsuarioPorUsuario(sessao.getUsuarioLogado().getUsuario()));
         sessao.getUsuarioLogado().setTelefone(alterarTelefone.getText());
+        UsuarioRepoList.getInstace().getListaUsuarios().add(sessao.getUsuarioLogado());
+        System.out.println("usuario adicionado: " + UsuarioRepoList.getInstace().getListaUsuarios().getLast());
+
+        userTelefone.setText(alterarTelefone.getText());
         btnAlterarTelefone.setText("Alterado!");
         pauseTransition.setOnFinished(event -> btnAlterarTelefone.setText("Alterar"));
         pauseTransition.play();
-        userTelefone.setText(alterarTelefone.getText());
+
     }
 
     public void alterarSenha(){
-        System.out.println("uwu");
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
+        if(alterarSenha.getText().equals(senhaAtual.getText())){
+
+            UsuarioRepoList.getInstace().getListaUsuarios().remove
+                    (UsuarioRepoList.getInstace().buscarUsuarioPorUsuario(sessao.getUsuarioLogado().getUsuario()));
+            sessao.getUsuarioLogado().setSenha(alterarTelefone.getText());
+            UsuarioRepoList.getInstace().getListaUsuarios().add(sessao.getUsuarioLogado());
+            System.out.println("usuario adicionado: " + UsuarioRepoList.getInstace().getListaUsuarios().getLast());
+
+            sessao.getUsuarioLogado().setSenha(alterarSenha.getText());
+            btnAlterarSenha.setText("Alterado!");
+            pauseTransition.setOnFinished(event -> btnAlterarSenha.setText("Alterar"));
+        }
+        else{
+            btnAlterarSenha.setText("Senhas diferem!");
+        }
+        pauseTransition.setOnFinished(event -> btnAlterarSenha.setText("Alterar"));
+        pauseTransition.play();
+
     }
 
     public Label getUsername() {
