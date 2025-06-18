@@ -72,8 +72,17 @@ public class UsuarioController implements Initializable {
         }
     }
 
-    public LoginController getLoginController() {
-        return loginController;
+    public void alterarTelefone(){
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
+        sessao.getUsuarioLogado().setTelefone(alterarTelefone.getText());
+        btnAlterarTelefone.setText("Alterado!");
+        pauseTransition.setOnFinished(event -> btnAlterarTelefone.setText("Alterar"));
+        pauseTransition.play();
+        userTelefone.setText(alterarTelefone.getText());
+    }
+
+    public void alterarSenha(){
+        System.out.println("uwu");
     }
 
     public Label getUsername() {
