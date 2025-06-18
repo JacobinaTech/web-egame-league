@@ -43,7 +43,7 @@
 
 <VBox fx:id="containerCard" alignment="CENTER" spacing="10.0" styleClass="match-card" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.PartidaCardController">
     <stylesheets>
-        <URL value="@/tech/w3ll/egameleague/css/estilo.css" />
+        <URL value="@../../css/estilo.css" />
     </stylesheets>
     <padding>
         <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />

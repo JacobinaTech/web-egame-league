@@ -23,6 +23,7 @@ public class HelloApplication extends JProApplication {
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlLocation);
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
+
         stage.setScene(scene);
         stage.setTitle("eGameLeague - Tabela do Torneio");
         stage.sizeToScene();
