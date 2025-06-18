@@ -3,12 +3,14 @@ package tech.w3ll.egameleague.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import tech.w3ll.egameleague.HelloApplication;
+import tech.w3ll.egameleague.repositores.listas.TorneioRepoLista;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,8 +45,7 @@ public class ControllerPopupCriarTorneio implements Initializable {
     public void abrirPopupEquipes() throws IOException {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/gerTorneio/popupEquipes.fxml"));
 
-        ControllerPopupEquipes controllerPopupEquipes = loader.getController();
-        controllerPopupEquipes.setNomeEquipe(txtNomeTorneio.getText());
+        TorneioRepoLista repoLista = TorneioRepoLista.getInstance();
 
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
