@@ -84,7 +84,8 @@ public class TabelaController {
             iniciarTorneio(new ArrayList<>(repositorioDeTimes.listarTodos()));
 
         } catch (Exception e) {
-            System.out.println("Erro ao carregar dados iniciais: " + e.getMessage());
+            System.out.println("Erro ao carregar dados iniciais: ");
+            e.printStackTrace();
         }
     }
 
