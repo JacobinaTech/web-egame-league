@@ -10,29 +10,12 @@ public class Time {
         this.eliminado = false;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public boolean isEliminado() {
-        return eliminado;
-    }
-
-    public void eliminar() {
-        this.eliminado = true;
-    }
-
-    public void anularEliminacao() {
-        this.eliminado = false;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    public String getNome() { return nome; }
+    public boolean isEliminado() { return eliminado; }
+    public void eliminar() { this.eliminado = true; }
+    public void anularEliminacao() { this.eliminado = false; }
 
     @Override
     public String toString() {
