@@ -1,15 +1,35 @@
 package tech.w3ll.egameleague.modelos;
 
+import tech.w3ll.egameleague.repositores.listas.TorneioRepoLista;
+
 import java.util.ArrayList;
 
 public class Torneio {
-    private ArrayList<Equipe> listaDeEquipes = new ArrayList<>();
+    private static Torneio torneio;
+    private ArrayList<Equipe> listaDeEquipes;
     private int numeroDeEquipes;
     private String nomeDoTorneio;
+    private String nomeJogo;
 
-    public Torneio(int numeroDeEquipes, String nomeDoTorneio) {
-        this.numeroDeEquipes = numeroDeEquipes;
+    public Torneio() {
+        listaDeEquipes = new ArrayList<>();
+    }
+
+    public Torneio(String nomeDoTorneio) {
         this.nomeDoTorneio = nomeDoTorneio;
+        listaDeEquipes = new ArrayList<>();
+    }
+
+    public Torneio(String nomeDoTorneio, String nomeJogo) {
+        this.nomeDoTorneio = nomeDoTorneio;
+        this.nomeJogo = nomeJogo;
+        listaDeEquipes = new ArrayList<>();
+    }
+
+    public static Torneio getInstance() {
+        if (torneio == null)
+            torneio = new Torneio();
+        return torneio;
     }
 
     public ArrayList<Equipe> getListaDeEquipes() {
@@ -34,6 +54,14 @@ public class Torneio {
 
     public void setNomeDoTorneio(String nomeDoTorneio) {
         this.nomeDoTorneio = nomeDoTorneio;
+    }
+
+    public String getNomeJogo() {
+        return nomeJogo;
+    }
+
+    public void setNomeJogo(String nomeJogo) {
+        this.nomeJogo = nomeJogo;
     }
 
     public void adicionarEquipe(Equipe equipe){

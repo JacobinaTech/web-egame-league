@@ -7,10 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TorneioRepoLista implements InterfaceTorneio {
+    private static TorneioRepoLista torneioRepoLista;
     List<Torneio> torneios;
 
     public TorneioRepoLista() {
         this.torneios = new ArrayList<>();
+    }
+
+    public static TorneioRepoLista getInstance() {
+        if (torneioRepoLista == null)
+            torneioRepoLista = new TorneioRepoLista();
+        return torneioRepoLista;
     }
 
     @Override
