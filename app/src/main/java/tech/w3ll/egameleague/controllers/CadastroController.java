@@ -61,7 +61,6 @@ public class CadastroController {
         switch (usuarioRepoList.fazerCadastro(getUsuarioTextField(), getEmailTextField(), getSenhaTextField(), getTelefoneTextField())) {
             case SUCESSO:
                 botaoCadastrar.setText("Usuário cadastrado com sucesso!");
-                System.out.println();
                 pauseTransition.setOnFinished(event -> botaoCadastrar.setText("Cadastrar"));
                 pauseTransition.play();
                 break;

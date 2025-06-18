@@ -13,7 +13,6 @@ import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
 public class LoginController {
     private LoginRepoList loginRepoList = new LoginRepoList(UsuarioRepoList.getInstace());
-    private CadastroController cadastroController = new CadastroController();
 
     @FXML
     private TextField emailLoginTextField;

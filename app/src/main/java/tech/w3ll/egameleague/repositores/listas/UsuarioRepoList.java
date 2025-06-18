@@ -67,7 +67,7 @@ public class UsuarioRepoList implements UsuarioInterface {
     }
 
     public Usuario buscarUsuarioPorUsuario(String usuario){
-        for(Usuario usuarioBuscar : listaUsuarios){
+        for(Usuario usuarioBuscar : getListaUsuarios()){
             if(usuarioBuscar.getUsuario().equals(usuario)){
                 return usuarioBuscar;
             }

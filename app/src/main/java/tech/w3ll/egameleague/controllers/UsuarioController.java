@@ -1,10 +1,15 @@
 package tech.w3ll.egameleague.controllers;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.util.Duration;
 import tech.w3ll.egameleague.repositores.listas.Sessao;
 import javafx.fxml.Initializable;
+import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,14 +27,49 @@ public class UsuarioController implements Initializable {
     @FXML
     private Label userTelefone;
     @FXML
-    private TableView tabelaHistorico;
+    private TextField alterarUsuario;
+    @FXML
+    private Button btnAlterarUsuario;
+    @FXML
+    private TextField alterarTelefone;
+    @FXML
+    private Button btnAlterarTelefone;
+    @FXML
+    private PasswordField novaSenha;
+    @FXML
+    private PasswordField alterarSenha;
+    @FXML
+    private Button btnAlterarSenha;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        username.setText(sessao.getUsuarioLogado().getUsuario());
-        usernamePerfil.setText(sessao.getUsuarioLogado().getUsuario());
-        userEmail.setText(sessao.getUsuarioLogado().getEmail());
-        userTelefone.setText(sessao.getUsuarioLogado().getTelefone());
+        try{
+            username.setText(sessao.getUsuarioLogado().getUsuario());
+            usernamePerfil.setText(sessao.getUsuarioLogado().getUsuario());
+            userEmail.setText(sessao.getUsuarioLogado().getEmail());
+            userTelefone.setText(sessao.getUsuarioLogado().getTelefone());
+        } catch(Exception e){
+            username.setText("Convidado");
+            usernamePerfil.setText("Convidado");
+            userEmail.setText("");
+            userTelefone.setText("");
+        }
+    }
+
+    public void alterarUsuario(){
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
+        if(UsuarioRepoList.getInstace().buscarUsuarioPorUsuario(alterarUsuario.getText()) == null){
+            sessao.getUsuarioLogado().setUsuario(alterarUsuario.getText());
+            btnAlterarUsuario.setText("Alterado!");
+            pauseTransition.setOnFinished(event -> btnAlterarUsuario.setText("Alterar"));
+            pauseTransition.play();
+            username.setText(sessao.getUsuarioLogado().getUsuario());
+        }
+        else{
+            btnAlterarUsuario.setText("Usuário já existe!");
+            pauseTransition.setOnFinished(event -> btnAlterarUsuario.setText("Alterar"));
+            pauseTransition.play();
+        }
     }
 
     public LoginController getLoginController() {
@@ -68,13 +108,7 @@ public class UsuarioController implements Initializable {
         this.userTelefone.setText(userTelefone);
     }
 
-    public TableView getTabelaHistorico() {
-        return tabelaHistorico;
-    }
 
-    public void setTabelaHistorico(TableView tabelaHistorico) {
-        this.tabelaHistorico = tabelaHistorico;
-    }
 
 
 }
