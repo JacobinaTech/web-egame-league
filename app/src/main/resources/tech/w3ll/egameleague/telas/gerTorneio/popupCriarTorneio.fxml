@@ -8,7 +8,7 @@
    <children>
       <VBox id="vboxPopupCriarTorneio" fx:id="vboxPopupCriarTorneio" prefHeight="27.0" prefWidth="450.0" style="-fx-background-color: #282a36;">
          <children>
-            <TextField id="txtCabecalho" fx:id="txtCabecalho" alignment="CENTER" disable="true" editable="false" style="-fx-background-color: 6272a4;" text="Criação De Torneio" />
+            <TextField id="txtCabecalho" fx:id="txtCabecalho" alignment="CENTER" disable="true" editable="false" style="-fx-background-color: 6272;" text="Criação De Torneio" />
          </children>
       </VBox>
       <VBox id="vboxCriarEquipes" fx:id="vboxCriarEquipes" layoutY="27.0" prefHeight="60.0" prefWidth="450.0" style="-fx-background-color: #44475a;">
