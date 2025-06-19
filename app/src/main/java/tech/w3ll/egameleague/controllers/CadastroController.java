@@ -2,20 +2,13 @@ package tech.w3ll.egameleague.controllers;
 
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import tech.w3ll.egameleague.HelloApplication;
-import tech.w3ll.egameleague.repositores.listas.Sessao;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
 
-import java.io.IOException;
 
 
 public class CadastroController {

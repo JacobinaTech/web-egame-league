@@ -7,9 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import tech.w3ll.egameleague.modelos.Usuario;
 import tech.w3ll.egameleague.repositores.listas.Sessao;
 import javafx.fxml.Initializable;
 import tech.w3ll.egameleague.repositores.listas.UsuarioRepoList;
@@ -18,8 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UsuarioController implements Initializable {
-    private LoginController loginController;
-    private Sessao sessao = new Sessao();
+    private final Sessao sessao = new Sessao();
 
     @FXML
     private Label username;
@@ -45,8 +42,6 @@ public class UsuarioController implements Initializable {
     private Button btnAlterarSenha;
     @FXML
     private ImageView fotoDePerfil;
-    @FXML
-    private Circle circulo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -87,18 +82,22 @@ public class UsuarioController implements Initializable {
 
     public void alterarTelefone(){
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
+        if(UsuarioRepoList.getInstace().validarTelefone(alterarTelefone.getText())) {
 
-        UsuarioRepoList.getInstace().getListaUsuarios().remove
-                (UsuarioRepoList.getInstace().buscarUsuarioPorUsuario(sessao.getUsuarioLogado().getUsuario()));
-        sessao.getUsuarioLogado().setTelefone(alterarTelefone.getText());
-        UsuarioRepoList.getInstace().getListaUsuarios().add(sessao.getUsuarioLogado());
-        System.out.println("usuario adicionado: " + UsuarioRepoList.getInstace().getListaUsuarios().getLast());
+            UsuarioRepoList.getInstace().getListaUsuarios().remove
+                    (UsuarioRepoList.getInstace().buscarUsuarioPorUsuario(sessao.getUsuarioLogado().getUsuario()));
+            sessao.getUsuarioLogado().setTelefone(alterarTelefone.getText());
+            UsuarioRepoList.getInstace().getListaUsuarios().add(sessao.getUsuarioLogado());
+            System.out.println("usuario adicionado: " + UsuarioRepoList.getInstace().getListaUsuarios().getLast());
 
-        userTelefone.setText(alterarTelefone.getText());
-        btnAlterarTelefone.setText("Alterado!");
+            userTelefone.setText(alterarTelefone.getText());
+            btnAlterarTelefone.setText("Alterado!");
+        }
+        else{
+            btnAlterarTelefone.setText("Telefone inválido!");
+        }
         pauseTransition.setOnFinished(event -> btnAlterarTelefone.setText("Alterar"));
         pauseTransition.play();
-
     }
 
     public void alterarSenha(){
@@ -122,40 +121,4 @@ public class UsuarioController implements Initializable {
         pauseTransition.play();
 
     }
-
-    public Label getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username.setText(username);
-    }
-
-    public Label getUsernamePerfil(){
-        return usernamePerfil;
-    }
-
-    public void setUsernamePerfil(String usernamePerfil){
-        this.usernamePerfil.setText(usernamePerfil);
-    }
-
-    public Label getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail.setText(userEmail);
-    }
-
-    public Label getUserTelefone() {
-        return userTelefone;
-    }
-
-    public void setUserTelefone(String userTelefone) {
-        this.userTelefone.setText(userTelefone);
-    }
-
-
-
-
 }
