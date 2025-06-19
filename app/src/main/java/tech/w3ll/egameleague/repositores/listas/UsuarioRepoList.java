@@ -38,7 +38,7 @@ public class UsuarioRepoList implements UsuarioInterface {
         if(buscarUsuarioPorEmail(email) != null){
             return ResultadoCadastro.EMAIL_JA_CADASTRADO;
         }
-        if(email.isBlank()){
+        if(email.isBlank() || !validarEmail(email)){
             return ResultadoCadastro.EMAIL_INVALIDO;
         }
         if(usuario.isBlank()){
@@ -47,7 +47,7 @@ public class UsuarioRepoList implements UsuarioInterface {
         if(senha.isBlank()){
             return ResultadoCadastro.SENHA_INVALIDA;
         }
-        if(telefone.isEmpty()){
+        if(telefone.isEmpty() || !validarTelefone(telefone)){
             return ResultadoCadastro.TELEFONE_INVALIDO;
         }
         Usuario usuarioCadastrado = new Usuario(usuario, email, senha, telefone);
@@ -67,7 +67,7 @@ public class UsuarioRepoList implements UsuarioInterface {
     }
 
     public Usuario buscarUsuarioPorUsuario(String usuario){
-        for(Usuario usuarioBuscar : listaUsuarios){
+        for(Usuario usuarioBuscar : getListaUsuarios()){
             if(usuarioBuscar.getUsuario().equals(usuario)){
                 return usuarioBuscar;
             }
@@ -91,5 +91,13 @@ public class UsuarioRepoList implements UsuarioInterface {
             }
         }
         return null;
+    }
+
+    public boolean validarEmail(String email) {
+        return email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+    }
+
+    public boolean validarTelefone(String telefone) {
+        return telefone.matches("^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$");
     }
 }
