@@ -1,5 +1,6 @@
 package tech.w3ll.egameleague.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
 import tech.w3ll.egameleague.HelloApplication;
 import tech.w3ll.egameleague.modelos.Torneio;
 import tech.w3ll.egameleague.repositores.listas.TorneioRepoLista;
@@ -39,7 +41,7 @@ public class ControllerPopupCriarTorneio implements Initializable {
     private String nomeTorneio;
     private String nomeJogo;
 
-    public void nomearTorneio(){
+    public void nomearTorneio(ActionEvent actionEvent) {
         nomeTorneio = txtNomeTorneio.getText();
     }
 
@@ -55,16 +57,14 @@ public class ControllerPopupCriarTorneio implements Initializable {
         return nomeJogo;
     }
 
+    // teste
+    //TorneioRepoLista torneioRepoLista = new TorneioRepoLista();
+
     public void abrirPopupEquipes() throws IOException {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/gerTorneio/popupEquipes.fxml"));
 
-        Torneio torneio = Torneio.getInstance();
-        torneio.setNomeJogo(nomeJogo);
-        torneio.setNomeDoTorneio(nomeTorneio);
-
-        TorneioRepoLista repoLista = TorneioRepoLista.getInstance();
-        repoLista.cadastrarTorneio(torneio);
-
+        ControllerPopupEquipes.torneio.setNomeDoTorneio(nomeTorneio);
+        ControllerPopupEquipes.torneio.setNomeJogo(nomeJogo);
 
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="anchorPopupCriarTorneio" fx:id="anchorPopupCriarTorneio" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.ControllerPopupCriarTorneio">
+<AnchorPane id="anchorPopupCriarTorneio" fx:id="anchorPopupCriarTorneio" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.w3ll.egameleague.controllers.ControllerPopupCriarTorneio">
    <children>
       <VBox id="vboxPopupCriarTorneio" fx:id="vboxPopupCriarTorneio" prefHeight="27.0" prefWidth="450.0" style="-fx-background-color: #282a36;">
          <children>
@@ -17,7 +16,7 @@
             <HBox id="hboxCriarNomeTorneio" fx:id="hboxCriarNomeTorneio" prefHeight="39.0" prefWidth="450.0">
                <children>
                   <Label id="lblSolicitaNome" fx:id="lblSolicitaNome" alignment="CENTER" prefHeight="18.0" prefWidth="218.0" text="Nome do Torneio:" textFill="#f8f8f8" />
-                  <TextField id="txtNomeTorneio" fx:id="txtNomeTorneio" onAction="#nomearTorneio" prefHeight="25.0" prefWidth="221.0" promptText="Ex: ''Torneio''" />
+                  <TextField id="txtNomeTorneio" fx:id="txtNomeTorneio" onAction="#nomearTorneio" onDragEntered="#nomearTorneio" prefHeight="25.0" prefWidth="221.0" promptText="Ex: ''Torneio''" />
                </children>
             </HBox>
             <HBox id="hboxNomeJogo" fx:id="hboxNomeJogo" prefHeight="39.0" prefWidth="450.0">

@@ -4,10 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import tech.w3ll.egameleague.modelos.Torneio;
 import tech.w3ll.egameleague.repositores.listas.TorneioRepoLista;
@@ -17,6 +14,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerPopupEquipes implements  Initializable {
+
+    // instancia do obejeto torneio usado no popup atual e anterior
+    public static Torneio torneio = new Torneio();
+
     @FXML
     private AnchorPane anchorPopupEquipes ;
 
@@ -35,7 +36,19 @@ public class ControllerPopupEquipes implements  Initializable {
     @FXML
     private Button btnRmvLinha;
 
+    @FXML
+    private TableView tblEquipes;
+
     private String nomeEquipe;
+
+    public Label getLblNomeEquipe() {
+        return lblNomeEquipe;
+    }
+
+    public void setLblNomeEquipe(String lblNomeEquipe) {
+        this.lblNomeEquipe.setText(lblNomeEquipe);
+    }
+
 
     public String getNomeEquipe() {
         return nomeEquipe;
@@ -45,12 +58,19 @@ public class ControllerPopupEquipes implements  Initializable {
         this.nomeEquipe = nomeEquipe;
     }
 
+    public void adicionarLinha(){
+
+    }
+
+    public void removerLinha(){
+
+    }
+
+    ControllerPopupCriarTorneio controllerPopupCriarTorneio;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ControllerPopupCriarTorneio controller = new ControllerPopupCriarTorneio();
 
-        nomeEquipe = controller.getNomeTorneio();
-        lblNomeEquipe.setText(nomeEquipe);
+        lblNomeEquipe.setText(torneio.getNomeDoTorneio());
     }
 }
