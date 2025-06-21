@@ -25,7 +25,12 @@ public class ControllerTelaTorneio{
         stage.show();
     }
 
-    public void entrarTorneio(){
-
+    public void entrarTorneio() throws IOException {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/tabela/LayoutTabela.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 }

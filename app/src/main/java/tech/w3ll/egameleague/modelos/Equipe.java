@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Equipe {
     private ArrayList<Usuario> listaDeUsuarios = new ArrayList<>();
+    private int id;
     private String nomeDaEquipe;
     private int numeroDeUsuarios;
     private boolean eliminado;
@@ -13,12 +14,25 @@ public class Equipe {
         this.numeroDeUsuarios = numeroDeUsuarios;
     }
 
+    public Equipe(String nomeDaEquipe){
+        this.nomeDaEquipe = nomeDaEquipe;
+        this.eliminado = false;
+    }
+
     public ArrayList<Usuario> getListaDeUsuarios() {
         return listaDeUsuarios;
     }
 
     public void setListaDeUsuarios(ArrayList<Usuario> listaDeUsuarios) {
         this.listaDeUsuarios = listaDeUsuarios;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNomeDaEquipe() {
@@ -39,6 +53,14 @@ public class Equipe {
 
     public boolean isEliminado() {
         return eliminado;
+    }
+
+    public void eliminar() {
+        this.eliminado = true;
+    }
+
+    public void anularEliminacao() {
+        this.eliminado = false;
     }
 
     public void setEliminado(boolean eliminado) {
