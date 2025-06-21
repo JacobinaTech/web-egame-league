@@ -102,7 +102,17 @@ public class UsuarioController implements Initializable {
 
     public void alterarSenha(){
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
-        if(alterarSenha.getText().equals(senhaAtual.getText())){
+        if(!senhaAtual.getText().equals(sessao.getUsuarioLogado().getSenha())) {
+            btnAlterarSenha.setText("Senha incorreta!");
+            pauseTransition.setOnFinished(event -> btnAlterarSenha.setText("Alterar"));
+        }
+
+        else if(senhaAtual.getText().equals(alterarSenha.getText())){
+            btnAlterarSenha.setText("Senhas iguais!");
+            pauseTransition.setOnFinished(event -> btnAlterarSenha.setText("Alterar"));
+        }
+
+        else if(senhaAtual.getText().equals(sessao.getUsuarioLogado().getSenha())){
 
             UsuarioRepoList.getInstace().getListaUsuarios().remove
                     (UsuarioRepoList.getInstace().buscarUsuarioPorUsuario(sessao.getUsuarioLogado().getUsuario()));
@@ -114,9 +124,7 @@ public class UsuarioController implements Initializable {
             btnAlterarSenha.setText("Alterado!");
             pauseTransition.setOnFinished(event -> btnAlterarSenha.setText("Alterar"));
         }
-        else{
-            btnAlterarSenha.setText("Senhas diferem!");
-        }
+
         pauseTransition.setOnFinished(event -> btnAlterarSenha.setText("Alterar"));
         pauseTransition.play();
 
