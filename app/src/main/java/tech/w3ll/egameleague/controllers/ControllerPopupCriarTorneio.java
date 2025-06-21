@@ -7,11 +7,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.controlsfx.control.action.Action;
 import tech.w3ll.egameleague.HelloApplication;
+import tech.w3ll.egameleague.modelos.Equipe;
 import tech.w3ll.egameleague.modelos.Torneio;
 import tech.w3ll.egameleague.repositores.listas.TorneioRepoLista;
 
@@ -27,7 +29,10 @@ public class ControllerPopupCriarTorneio implements Initializable {
     private TextField txtNomeJogo;
 
     @FXML
-    private TableView tblEquipes;
+    private TableView<Equipe> tblEquipes;
+
+    @FXML
+    private TableColumn<Equipe, String> clnNomesEquipes;
 
     @FXML
     private Button btnAvancar;
@@ -74,7 +79,9 @@ public class ControllerPopupCriarTorneio implements Initializable {
     }
 
     public void adicionarLinha(){
-
+       // tblEquipes.setEditable(true);
+       // tblEquipes.getItems().add(clnNomesEquipes.setText(txtNomeJogo.getText()));
+       // txtNomeJogo.setText("");
     }
 
     public void removerLinha(){
@@ -83,6 +90,7 @@ public class ControllerPopupCriarTorneio implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+       // tblEquipes.setEditable(true);
+       // clnNomesEquipes.setEditable(!clnNomesEquipes.isEditable());
     }
 }

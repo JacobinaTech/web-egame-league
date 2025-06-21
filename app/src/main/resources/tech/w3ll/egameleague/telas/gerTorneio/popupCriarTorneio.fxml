@@ -31,7 +31,7 @@
          <children>
             <TableView id="tblEquipes" fx:id="tblEquipes" layoutY="-27.0" prefHeight="212.0" prefWidth="450.0" style="-fx-background-color: #44475a;">
               <columns>
-                <TableColumn id="clnNomesUsuarios" fx:id="clnNomesUsuarios" editable="false" prefWidth="449.0" text="Equipes" />
+                <TableColumn id="clnNomesUsuarios" fx:id="clnNomesEquipes" editable="false" prefWidth="449.0" text="Equipes" />
               </columns>
             </TableView>
          </children>
