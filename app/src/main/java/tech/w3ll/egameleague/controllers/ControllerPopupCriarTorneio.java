@@ -1,5 +1,7 @@
 package tech.w3ll.egameleague.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import org.controlsfx.control.action.Action;
 import tech.w3ll.egameleague.HelloApplication;
@@ -33,6 +36,8 @@ public class ControllerPopupCriarTorneio implements Initializable {
 
     @FXML
     private TableColumn<Equipe, String> clnNomesEquipes;
+
+    private ObservableList<Equipe> listaEquipes;
 
     @FXML
     private Button btnAvancar;
@@ -79,9 +84,8 @@ public class ControllerPopupCriarTorneio implements Initializable {
     }
 
     public void adicionarLinha(){
-       // tblEquipes.setEditable(true);
-       // tblEquipes.getItems().add(clnNomesEquipes.setText(txtNomeJogo.getText()));
-       // txtNomeJogo.setText("");
+        Equipe novaEquipe = new Equipe(""); // começa com nome vazio
+        listaEquipes.add(novaEquipe);
     }
 
     public void removerLinha(){
@@ -90,7 +94,34 @@ public class ControllerPopupCriarTorneio implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       // tblEquipes.setEditable(true);
-       // clnNomesEquipes.setEditable(!clnNomesEquipes.isEditable());
+        // Inicializa a lista e vincula à tabela
+        listaEquipes = FXCollections.observableArrayList();
+        tblEquipes.setItems(listaEquipes);
+
+        // Configura a coluna
+        clnNomesEquipes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
+        clnNomesEquipes.setCellFactory(TextFieldTableCell.forTableColumn());
+        clnNomesEquipes.setOnEditCommit(event -> {
+            event.getRowValue().setNomeDaEquipe(event.getNewValue());
+        });
+
+
+        // Permite edição
+        tblEquipes.setEditable(true);
+        clnNomesEquipes.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        // Atualiza o valor no modelo quando editado
+        clnNomesEquipes.setOnEditCommit(event -> {
+            Equipe equipe = event.getRowValue();
+            equipe.setNomeDaEquipe(event.getNewValue());
+            ControllerPopupEquipes.torneio.adicionarEquipe(equipe);
+        });
+
+
+
+        clnNomesEquipes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
+        // teste
+        //System.out.println(ControllerPopupEquipes.torneio.listarEquipes());
+        //System.out.println(equipe.getNomeDaEquipe());
     }
 }

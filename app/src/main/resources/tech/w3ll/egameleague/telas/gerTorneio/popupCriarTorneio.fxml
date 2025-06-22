@@ -29,9 +29,9 @@
       </VBox>
       <Pane id="paneFundoPopupEquipes" fx:id="paneFundoPopupEquipes" layoutY="114.0" prefHeight="185.0" prefWidth="450.0" style="-fx-background-color: #44475a;">
          <children>
-            <TableView id="tblEquipes" fx:id="tblEquipes" layoutY="-27.0" prefHeight="212.0" prefWidth="450.0" style="-fx-background-color: #44475a;">
+            <TableView id="tblEquipes" fx:id="tblEquipes" editable="true" layoutY="-27.0" prefHeight="212.0" prefWidth="450.0" style="-fx-background-color: #44475a;">
               <columns>
-                <TableColumn id="clnNomesUsuarios" fx:id="clnNomesEquipes" editable="false" prefWidth="449.0" text="Equipes" />
+                <TableColumn id="clnNomesUsuarios" fx:id="clnNomesEquipes" prefWidth="449.0" text="Equipes" />
               </columns>
             </TableView>
          </children>

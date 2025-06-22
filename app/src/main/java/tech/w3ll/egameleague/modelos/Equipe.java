@@ -1,8 +1,12 @@
 package tech.w3ll.egameleague.modelos;
 
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.ArrayList;
 
 public class Equipe {
+    //teste
+    private final SimpleStringProperty nome;
     private ArrayList<Usuario> listaDeUsuarios = new ArrayList<>();
     private int id;
     private String nomeDaEquipe;
@@ -12,11 +16,15 @@ public class Equipe {
     public Equipe(String nomeDaEquipe, int numeroDeUsuarios) {
         this.nomeDaEquipe = nomeDaEquipe;
         this.numeroDeUsuarios = numeroDeUsuarios;
+        //teste
+        nome = null;
     }
 
     public Equipe(String nomeDaEquipe){
         this.nomeDaEquipe = nomeDaEquipe;
         this.eliminado = false;
+        //teste
+        this.nome = new SimpleStringProperty(nomeDaEquipe);
     }
 
     public ArrayList<Usuario> getListaDeUsuarios() {
@@ -35,12 +43,24 @@ public class Equipe {
         this.id = id;
     }
 
+    // teste
+    public SimpleStringProperty nomeProperty() {
+        return nome();
+    }
+
+    // teste
+    private SimpleStringProperty nome() {
+        return nome;
+    }
+
     public String getNomeDaEquipe() {
         return nomeDaEquipe;
     }
 
     public void setNomeDaEquipe(String nomeDaEquipe) {
         this.nomeDaEquipe = nomeDaEquipe;
+        //teste
+        this.nome.set(nomeDaEquipe);
     }
 
     public int getNumeroDeUsuarios() {

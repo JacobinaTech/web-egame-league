@@ -40,6 +40,16 @@ public class Torneio {
         this.listaDeEquipes = listaDeEquipes;
     }
 
+    public String listarEquipes() {
+        String[] lista = new String[0];
+        int contador = 0;
+        for (Equipe equipe : listaDeEquipes) {
+            contador++;
+            lista[contador] = equipe.getNomeDaEquipe();
+        }
+        return lista.toString();
+    }
+
     public int getNumeroDeEquipes() {
         return numeroDeEquipes;
     }
