@@ -6,10 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import tech.w3ll.egameleague.HelloApplication;
+import tech.w3ll.egameleague.repositores.listas.TorneioRepoLista;
 
 import java.io.IOException;
 
 public class ControllerTelaTorneio{
+    public static TorneioRepoLista torneioRepoLista = new TorneioRepoLista();
+
     @FXML
     private Button btnEntrar;
 

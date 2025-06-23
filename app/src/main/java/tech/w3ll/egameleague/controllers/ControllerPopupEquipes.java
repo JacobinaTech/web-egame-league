@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class ControllerPopupEquipes implements  Initializable {
 
     // instancia do obejeto torneio usado no popup atual e anterior
-    public static Torneio torneio = new Torneio();
+    //public static Torneio torneio = new Torneio();
 
     @FXML
     private AnchorPane anchorPopupEquipes ;
@@ -71,6 +71,6 @@ public class ControllerPopupEquipes implements  Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        lblNomeEquipe.setText(torneio.getNomeDoTorneio());
+        lblNomeEquipe.setText(ControllerPopupCriarTorneio.torneio.getNomeDoTorneio());
     }
 }

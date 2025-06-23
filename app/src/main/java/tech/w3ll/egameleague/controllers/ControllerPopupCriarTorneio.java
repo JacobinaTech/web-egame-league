@@ -43,16 +43,22 @@ public class ControllerPopupCriarTorneio implements Initializable {
     private Button btnAvancar;
 
     @FXML
+    private Button btnSalvar;
+
+    @FXML
     private Button btnAddLinha;
 
     @FXML
     private Button btnRmvLinha;
 
+    // instancia do obejeto torneio usado no popup atual e seguinte
+    public static Torneio torneio = new Torneio();
     private String nomeTorneio;
     private String nomeJogo;
 
     public void nomearTorneio(ActionEvent actionEvent) {
         nomeTorneio = txtNomeTorneio.getText();
+        torneio.setNomeDoTorneio(nomeTorneio);
     }
 
     public String getNomeTorneio() {
@@ -61,6 +67,7 @@ public class ControllerPopupCriarTorneio implements Initializable {
 
     public void definirJogo(){
         nomeJogo = txtNomeJogo.getText();
+        torneio.setNomeJogo(nomeJogo);
     }
 
     public String getNomeJogo() {
@@ -73,14 +80,23 @@ public class ControllerPopupCriarTorneio implements Initializable {
     public void abrirPopupEquipes() throws IOException {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/gerTorneio/popupEquipes.fxml"));
 
-        ControllerPopupEquipes.torneio.setNomeDoTorneio(nomeTorneio);
-        ControllerPopupEquipes.torneio.setNomeJogo(nomeJogo);
+        //teste
+        //torneio.setNomeDoTorneio(nomeTorneio);
+        //torneio.setNomeJogo(nomeJogo);
 
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    public void salvar(){
+        if (ControllerTelaTorneio.torneioRepoLista.buscarTorneioPorNome(torneio.getNomeDoTorneio()) == null){
+            ControllerTelaTorneio.torneioRepoLista.cadastrarTorneio(torneio);
+        }else {
+            System.out.println("Já existe um torneio com esse nome");
+        }
     }
 
     public void adicionarLinha(){
@@ -103,6 +119,8 @@ public class ControllerPopupCriarTorneio implements Initializable {
         clnNomesEquipes.setCellFactory(TextFieldTableCell.forTableColumn());
         clnNomesEquipes.setOnEditCommit(event -> {
             event.getRowValue().setNomeDaEquipe(event.getNewValue());
+            //teste
+            //ControllerPopupEquipes.torneio.adicionarEquipe(new Equipe(event.getNewValue()));
         });
 
 
@@ -114,7 +132,12 @@ public class ControllerPopupCriarTorneio implements Initializable {
         clnNomesEquipes.setOnEditCommit(event -> {
             Equipe equipe = event.getRowValue();
             equipe.setNomeDaEquipe(event.getNewValue());
-            ControllerPopupEquipes.torneio.adicionarEquipe(equipe);
+            torneio.adicionarEquipe(equipe);
+            //teste
+           // System.out.println(event.getNewValue());
+           // System.out.println(torneio.getListaDeEquipes().getLast());
+           // System.out.println(torneio.getNomeDoTorneio());
+           // System.out.println(torneio.getNomeJogo());
         });
 
 
