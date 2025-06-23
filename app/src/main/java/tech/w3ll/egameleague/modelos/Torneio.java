@@ -1,10 +1,14 @@
 package tech.w3ll.egameleague.modelos;
 
+import javafx.beans.property.SimpleStringProperty;
 import tech.w3ll.egameleague.repositores.listas.TorneioRepoLista;
 
 import java.util.ArrayList;
 
 public class Torneio {
+    //teste
+    private SimpleStringProperty nome;
+
     private static Torneio torneio;
     private ArrayList<Equipe> listaDeEquipes;
     private int numeroDeEquipes;
@@ -18,12 +22,16 @@ public class Torneio {
     public Torneio(String nomeDoTorneio) {
         this.nomeDoTorneio = nomeDoTorneio;
         listaDeEquipes = new ArrayList<>();
+        //teste
+        this.nome = new SimpleStringProperty(nomeDoTorneio);
     }
 
     public Torneio(String nomeDoTorneio, String nomeJogo) {
         this.nomeDoTorneio = nomeDoTorneio;
         this.nomeJogo = nomeJogo;
         listaDeEquipes = new ArrayList<>();
+        //teste
+        this.nome = new SimpleStringProperty(nomeDoTorneio);
     }
 
     public static Torneio getInstance() {
@@ -60,6 +68,11 @@ public class Torneio {
 
     public String getNomeDoTorneio() {
         return nomeDoTorneio;
+    }
+
+    //teste
+    public SimpleStringProperty nomeProperty() {
+        return nome;
     }
 
     public void setNomeDoTorneio(String nomeDoTorneio) {

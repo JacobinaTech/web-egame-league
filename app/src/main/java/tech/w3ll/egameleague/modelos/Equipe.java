@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Equipe {
     //teste
     private final SimpleStringProperty nome;
+
     private ArrayList<Usuario> listaDeUsuarios = new ArrayList<>();
     private int id;
     private String nomeDaEquipe;

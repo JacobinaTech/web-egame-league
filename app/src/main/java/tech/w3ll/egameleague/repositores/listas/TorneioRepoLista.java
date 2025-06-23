@@ -20,6 +20,14 @@ public class TorneioRepoLista implements InterfaceTorneio {
         return torneioRepoLista;
     }
 
+    public List<Torneio> getTorneios() {
+        return torneios;
+    }
+
+    public void setTorneios(List<Torneio> torneios) {
+        this.torneios = torneios;
+    }
+
     @Override
     public boolean cadastrarTorneio(Torneio torneio) {
         boolean cadastrado;
