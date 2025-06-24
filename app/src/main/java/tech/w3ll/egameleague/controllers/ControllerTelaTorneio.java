@@ -1,4 +1,5 @@
 package tech.w3ll.egameleague.controllers;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import tech.w3ll.egameleague.HelloApplication;
 import tech.w3ll.egameleague.modelos.Torneio;
@@ -36,8 +38,20 @@ public class ControllerTelaTorneio implements Initializable {
     @FXML
     private TableColumn<Torneio, String> clnNomes;
 
-    private ObservableList<Torneio> listaTorneios;
+    //testando de forma static
+    private static ObservableList<Torneio> listaTorneios;
 
+    //testando modelo do professor
+    //private static ObservableList<Torneio> listaTorneios = FXCollections.observableArrayList();
+
+    public static ObservableList<Torneio> getListaTorneios() {
+        return listaTorneios;
+    }
+
+    public void setListaTorneios(ObservableList<Torneio> listaTorneios) {
+        this.listaTorneios = listaTorneios;
+    }
+//
     public void abrirPopupTorneio() throws IOException {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/gerTorneio/popupCriarTorneio.fxml"));
         Stage stage = new Stage();
@@ -58,11 +72,27 @@ public class ControllerTelaTorneio implements Initializable {
 
     @FXML
     public void atualizarTabela(){
+        // teste
+        System.out.println("Itens no repositório:");
+        for (Torneio t : torneioRepoLista.getTorneios()) {
+            System.out.println("- " + t.getNomeDoTorneio());
+        }
+        //
+
+        listaTorneios.setAll(torneioRepoLista.getTorneios());
         //testar
-        ObservableList<Torneio> listaAtualizada = FXCollections.observableArrayList(torneioRepoLista.getTorneios());
-        tblTorneios.setItems(listaAtualizada);
+        //listaTorneios.clear();
+        //listaTorneios.addAll(torneioRepoLista.getTorneios());
+
+        // teste
+        //clnNomes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
+
         tblTorneios.refresh(); // força a tabela a redesenhar, se necessário
+        System.out.println(listaTorneios.getLast().getNomeDoTorneio());
         System.out.println(torneioRepoLista.getTorneios().getLast().getNomeDoTorneio());
+
+        System.out.println("Tamanho da listaTorneios: " + listaTorneios.size());
+        System.out.println("Tamanho do repositório: " + torneioRepoLista.getTorneios().size());
     }
 
     @Override
@@ -70,10 +100,17 @@ public class ControllerTelaTorneio implements Initializable {
         torneioRepoLista.cadastrarTorneio(new Torneio("torneio1"));
         torneioRepoLista.cadastrarTorneio(new Torneio("torneio2"));
 
-        listaTorneios = FXCollections.observableArrayList(torneioRepoLista.getTorneios());
+        listaTorneios = FXCollections.observableArrayList();
         tblTorneios.setItems(listaTorneios);
-        clnNomes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
+        //clnNomes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
+       // clnNomes.setCellValueFactory(new PropertyValueFactory<>("nomeDoTorneio"));
+        clnNomes.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomeDoTorneio()));
+
+        //teste
+        //listaTorneios.add(new Torneio("Torneio teste manual"));
 
         atualizarTabela(); // primeira carga
+
+
     }
 }

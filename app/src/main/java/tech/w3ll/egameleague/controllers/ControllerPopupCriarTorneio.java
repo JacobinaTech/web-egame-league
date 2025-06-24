@@ -74,15 +74,8 @@ public class ControllerPopupCriarTorneio implements Initializable {
         return nomeJogo;
     }
 
-    // teste
-    //TorneioRepoLista torneioRepoLista = new TorneioRepoLista();
-
     public void abrirPopupEquipes() throws IOException {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/gerTorneio/popupEquipes.fxml"));
-
-        //teste
-        //torneio.setNomeDoTorneio(nomeTorneio);
-        //torneio.setNomeJogo(nomeJogo);
 
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
@@ -94,9 +87,14 @@ public class ControllerPopupCriarTorneio implements Initializable {
     public void salvar(){
         if (ControllerTelaTorneio.torneioRepoLista.buscarTorneioPorNome(torneio.getNomeDoTorneio()) == null){
             ControllerTelaTorneio.torneioRepoLista.cadastrarTorneio(torneio);
+            //teste
+            //ControllerTelaTorneio.getListaTorneios().add(torneio);
         }else {
             System.out.println("Já existe um torneio com esse nome");
         }
+
+        Stage stage = (Stage) btnSalvar.getScene().getWindow();
+        stage.close();
     }
 
     public void adicionarLinha(){

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Torneio {
     //teste
-    private SimpleStringProperty nome;
+    //private SimpleStringProperty nome;
 
     private static Torneio torneio;
     private ArrayList<Equipe> listaDeEquipes;
@@ -23,7 +23,7 @@ public class Torneio {
         this.nomeDoTorneio = nomeDoTorneio;
         listaDeEquipes = new ArrayList<>();
         //teste
-        this.nome = new SimpleStringProperty(nomeDoTorneio);
+        //this.nome = new SimpleStringProperty(nomeDoTorneio);
     }
 
     public Torneio(String nomeDoTorneio, String nomeJogo) {
@@ -31,7 +31,7 @@ public class Torneio {
         this.nomeJogo = nomeJogo;
         listaDeEquipes = new ArrayList<>();
         //teste
-        this.nome = new SimpleStringProperty(nomeDoTorneio);
+        //this.nome = new SimpleStringProperty(nomeDoTorneio);
     }
 
     public static Torneio getInstance() {
@@ -71,9 +71,10 @@ public class Torneio {
     }
 
     //teste
-    public SimpleStringProperty nomeProperty() {
+   /* public SimpleStringProperty nomeProperty() {
         return nome;
     }
+    */
 
     public void setNomeDoTorneio(String nomeDoTorneio) {
         this.nomeDoTorneio = nomeDoTorneio;
