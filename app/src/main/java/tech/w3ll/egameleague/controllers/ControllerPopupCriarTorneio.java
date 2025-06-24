@@ -51,8 +51,7 @@ public class ControllerPopupCriarTorneio implements Initializable {
     @FXML
     private Button btnRmvLinha;
 
-    // instancia do obejeto torneio usado no popup atual e seguinte
-    public static Torneio torneio = new Torneio();
+    public static Torneio torneio;
     private String nomeTorneio;
     private String nomeJogo;
 
@@ -87,8 +86,6 @@ public class ControllerPopupCriarTorneio implements Initializable {
     public void salvar(){
         if (ControllerTelaTorneio.torneioRepoLista.buscarTorneioPorNome(torneio.getNomeDoTorneio()) == null){
             ControllerTelaTorneio.torneioRepoLista.cadastrarTorneio(torneio);
-            //teste
-            //ControllerTelaTorneio.getListaTorneios().add(torneio);
         }else {
             System.out.println("Já existe um torneio com esse nome");
         }
@@ -108,6 +105,9 @@ public class ControllerPopupCriarTorneio implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // iniciando a instacia do objeto torneio
+        torneio = new Torneio();
+
         // Inicializa a lista e vincula à tabela
         listaEquipes = FXCollections.observableArrayList();
         tblEquipes.setItems(listaEquipes);
@@ -117,8 +117,6 @@ public class ControllerPopupCriarTorneio implements Initializable {
         clnNomesEquipes.setCellFactory(TextFieldTableCell.forTableColumn());
         clnNomesEquipes.setOnEditCommit(event -> {
             event.getRowValue().setNomeDaEquipe(event.getNewValue());
-            //teste
-            //ControllerPopupEquipes.torneio.adicionarEquipe(new Equipe(event.getNewValue()));
         });
 
 
@@ -131,18 +129,10 @@ public class ControllerPopupCriarTorneio implements Initializable {
             Equipe equipe = event.getRowValue();
             equipe.setNomeDaEquipe(event.getNewValue());
             torneio.adicionarEquipe(equipe);
-            //teste
-           // System.out.println(event.getNewValue());
-           // System.out.println(torneio.getListaDeEquipes().getLast());
-           // System.out.println(torneio.getNomeDoTorneio());
-           // System.out.println(torneio.getNomeJogo());
         });
 
 
 
         clnNomesEquipes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
-        // teste
-        //System.out.println(ControllerPopupEquipes.torneio.listarEquipes());
-        //System.out.println(equipe.getNomeDaEquipe());
     }
 }

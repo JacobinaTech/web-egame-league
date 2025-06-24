@@ -88,8 +88,8 @@ public class ControllerTelaTorneio implements Initializable {
         //clnNomes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
 
         tblTorneios.refresh(); // força a tabela a redesenhar, se necessário
-        System.out.println(listaTorneios.getLast().getNomeDoTorneio());
-        System.out.println(torneioRepoLista.getTorneios().getLast().getNomeDoTorneio());
+        System.out.println("Último item da observableList: " + listaTorneios.getLast().getNomeDoTorneio());
+        System.out.println("Último item do repositório: " + torneioRepoLista.getTorneios().getLast().getNomeDoTorneio());
 
         System.out.println("Tamanho da listaTorneios: " + listaTorneios.size());
         System.out.println("Tamanho do repositório: " + torneioRepoLista.getTorneios().size());
