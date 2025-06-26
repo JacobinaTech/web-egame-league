@@ -6,8 +6,6 @@ import tech.w3ll.egameleague.repositores.listas.TorneioRepoLista;
 import java.util.ArrayList;
 
 public class Torneio {
-    //teste
-    //private SimpleStringProperty nome;
 
     private static Torneio torneio;
     private ArrayList<Equipe> listaDeEquipes;
@@ -22,16 +20,12 @@ public class Torneio {
     public Torneio(String nomeDoTorneio) {
         this.nomeDoTorneio = nomeDoTorneio;
         listaDeEquipes = new ArrayList<>();
-        //teste
-        //this.nome = new SimpleStringProperty(nomeDoTorneio);
     }
 
     public Torneio(String nomeDoTorneio, String nomeJogo) {
         this.nomeDoTorneio = nomeDoTorneio;
         this.nomeJogo = nomeJogo;
         listaDeEquipes = new ArrayList<>();
-        //teste
-        //this.nome = new SimpleStringProperty(nomeDoTorneio);
     }
 
     public static Torneio getInstance() {
@@ -70,12 +64,6 @@ public class Torneio {
         return nomeDoTorneio;
     }
 
-    //teste
-   /* public SimpleStringProperty nomeProperty() {
-        return nome;
-    }
-    */
-
     public void setNomeDoTorneio(String nomeDoTorneio) {
         this.nomeDoTorneio = nomeDoTorneio;
     }
@@ -94,5 +82,22 @@ public class Torneio {
 
     public void removerEquipe(Equipe equipe){
         listaDeEquipes.remove(equipe);
+    }
+
+    public Equipe buscarEquipePorNome(String nomeDaEquipe) {
+        Equipe equipeBuscada = null;
+
+        try {
+            for (Equipe t : listaDeEquipes){
+                if (nomeDaEquipe.equals(t.getNomeDaEquipe())){
+                    equipeBuscada = t;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar torneio!");
+            equipeBuscada = null;
+        }
+
+        return equipeBuscada;
     }
 }

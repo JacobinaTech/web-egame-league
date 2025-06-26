@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Equipe {
     //teste
-    private final SimpleStringProperty nome;
+    //private final SimpleStringProperty nome;
 
     private ArrayList<Usuario> listaDeUsuarios = new ArrayList<>();
     private int id;
@@ -18,14 +18,14 @@ public class Equipe {
         this.nomeDaEquipe = nomeDaEquipe;
         this.numeroDeUsuarios = numeroDeUsuarios;
         //teste
-        nome = null;
+        //nome = null;
     }
 
     public Equipe(String nomeDaEquipe){
         this.nomeDaEquipe = nomeDaEquipe;
         this.eliminado = false;
         //teste
-        this.nome = new SimpleStringProperty(nomeDaEquipe);
+        //this.nome = new SimpleStringProperty(nomeDaEquipe);
     }
 
     public ArrayList<Usuario> getListaDeUsuarios() {
@@ -45,14 +45,16 @@ public class Equipe {
     }
 
     // teste
-    public SimpleStringProperty nomeProperty() {
+   /* public SimpleStringProperty nomeProperty() {
         return nome();
     }
+    */
 
     // teste
-    private SimpleStringProperty nome() {
+    /*private SimpleStringProperty nome() {
         return nome;
     }
+     */
 
     public String getNomeDaEquipe() {
         return nomeDaEquipe;
@@ -61,7 +63,7 @@ public class Equipe {
     public void setNomeDaEquipe(String nomeDaEquipe) {
         this.nomeDaEquipe = nomeDaEquipe;
         //teste
-        this.nome.set(nomeDaEquipe);
+        //this.nome.set(nomeDaEquipe);
     }
 
     public int getNumeroDeUsuarios() {

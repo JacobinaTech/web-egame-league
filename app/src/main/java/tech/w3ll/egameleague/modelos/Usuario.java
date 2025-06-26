@@ -11,6 +11,10 @@ public class Usuario {
     private String senha;
     private String telefone;
 
+    public Usuario(String usuario){
+        this.usuario = usuario;
+    }
+
     public Usuario(String usuario, String email, String senha, String telefone) {
         this.usuario = usuario;
         this.email = email;

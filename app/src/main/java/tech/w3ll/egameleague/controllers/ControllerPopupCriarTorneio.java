@@ -1,5 +1,6 @@
 package tech.w3ll.egameleague.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -54,8 +55,17 @@ public class ControllerPopupCriarTorneio implements Initializable {
     public static Torneio torneio;
     private String nomeTorneio;
     private String nomeJogo;
+    private static String nomeEquipe;
 
-    public void nomearTorneio(ActionEvent actionEvent) {
+    public static String getNomeEquipe() {
+        return nomeEquipe;
+    }
+
+    public void setNomeEquipe(String nomeEquipe) {
+        this.nomeEquipe = nomeEquipe;
+    }
+
+    public void nomearTorneio() {
         nomeTorneio = txtNomeTorneio.getText();
         torneio.setNomeDoTorneio(nomeTorneio);
     }
@@ -84,10 +94,19 @@ public class ControllerPopupCriarTorneio implements Initializable {
     }
 
     public void salvar(){
+        nomearTorneio();
+        definirJogo();
+
         if (ControllerTelaTorneio.torneioRepoLista.buscarTorneioPorNome(torneio.getNomeDoTorneio()) == null){
             ControllerTelaTorneio.torneioRepoLista.cadastrarTorneio(torneio);
         }else {
             System.out.println("Já existe um torneio com esse nome");
+        }
+
+        //teste
+        System.out.println("Equipes no Torneio:");
+        for (Equipe t : torneio.getListaDeEquipes()) {
+            System.out.println("- " + t.getNomeDaEquipe());
         }
 
         Stage stage = (Stage) btnSalvar.getScene().getWindow();
@@ -100,7 +119,8 @@ public class ControllerPopupCriarTorneio implements Initializable {
     }
 
     public void removerLinha(){
-
+        listaEquipes.removeLast();
+        torneio.getListaDeEquipes().removeLast();
     }
 
     @Override
@@ -113,7 +133,9 @@ public class ControllerPopupCriarTorneio implements Initializable {
         tblEquipes.setItems(listaEquipes);
 
         // Configura a coluna
-        clnNomesEquipes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
+
+        clnNomesEquipes.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomeDaEquipe()));
+
         clnNomesEquipes.setCellFactory(TextFieldTableCell.forTableColumn());
         clnNomesEquipes.setOnEditCommit(event -> {
             event.getRowValue().setNomeDaEquipe(event.getNewValue());
@@ -131,8 +153,11 @@ public class ControllerPopupCriarTorneio implements Initializable {
             torneio.adicionarEquipe(equipe);
         });
 
-
-
-        clnNomesEquipes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
+        // Selecionar linha e exibir nos campos
+        tblEquipes.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                 nomeEquipe = newSelection.getNomeDaEquipe();
+            }
+        });
     }
 }

@@ -38,11 +38,8 @@ public class ControllerTelaTorneio implements Initializable {
     @FXML
     private TableColumn<Torneio, String> clnNomes;
 
-    //testando de forma static
+    //Observable de forma static
     private static ObservableList<Torneio> listaTorneios;
-
-    //testando modelo do professor
-    //private static ObservableList<Torneio> listaTorneios = FXCollections.observableArrayList();
 
     public static ObservableList<Torneio> getListaTorneios() {
         return listaTorneios;
@@ -77,15 +74,8 @@ public class ControllerTelaTorneio implements Initializable {
         for (Torneio t : torneioRepoLista.getTorneios()) {
             System.out.println("- " + t.getNomeDoTorneio());
         }
-        //
 
         listaTorneios.setAll(torneioRepoLista.getTorneios());
-        //testar
-        //listaTorneios.clear();
-        //listaTorneios.addAll(torneioRepoLista.getTorneios());
-
-        // teste
-        //clnNomes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
 
         tblTorneios.refresh(); // força a tabela a redesenhar, se necessário
         System.out.println("Último item da observableList: " + listaTorneios.getLast().getNomeDoTorneio());
@@ -102,12 +92,8 @@ public class ControllerTelaTorneio implements Initializable {
 
         listaTorneios = FXCollections.observableArrayList();
         tblTorneios.setItems(listaTorneios);
-        //clnNomes.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
-       // clnNomes.setCellValueFactory(new PropertyValueFactory<>("nomeDoTorneio"));
-        clnNomes.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomeDoTorneio()));
 
-        //teste
-        //listaTorneios.add(new Torneio("Torneio teste manual"));
+        clnNomes.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomeDoTorneio()));
 
         atualizarTabela(); // primeira carga
 
