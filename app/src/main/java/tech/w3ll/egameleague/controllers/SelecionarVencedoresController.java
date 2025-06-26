@@ -8,9 +8,12 @@ import javafx.stage.Stage;
 import tech.w3ll.egameleague.HelloApplication;
 import tech.w3ll.egameleague.modelos.Partida;
 import tech.w3ll.egameleague.modelos.Time;
-
+import tech.w3ll.egameleague.modelos.Historico;
+import tech.w3ll.egameleague.repositores.listas.RepoListaHistorico;
+import tech.w3ll.egameleague.repositores.listas.RepoListaEstatisticas;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,21 +31,29 @@ public class SelecionarVencedoresController {
     private List<Partida> partidasDaRodada;
     private TabelaController tabelaController;
     private boolean isEditingMode = false;
+    private String nomeDoTorneio;
 
-    public void carregarPartidas(List<Partida> partidas, TabelaController controller, boolean isEditing) {
+    private RepoListaHistorico repoHistorico = new RepoListaHistorico();
+    private RepoListaEstatisticas repoEstatisticas = new RepoListaEstatisticas();
+
+
+    public void carregarPartidas(List<Partida> partidas, TabelaController controller, boolean isEditing, String nomeTorneio) {
         this.partidasDaRodada = partidas;
         this.tabelaController = controller;
         this.isEditingMode = isEditing;
+        this.nomeDoTorneio = nomeTorneio;
         this.atualizarCards();
         this.verificarEstadoDoEmbaralhamento();
+        System.out.println("SelecionarVencedoresController: Carregando partidas para o torneio: " + nomeDoTorneio);
     }
 
     private void atualizarCards() {
         this.containerDePartidas.getChildren().clear();
         for (Partida partidaAtual : this.partidasDaRodada) {
             try {
-                URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/torneio/partida-card.fxml");
+                URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/torneio/partida-card.fxml");
                 if (fxmlLocal == null) {
+                    System.err.println("FXML para PartidaCardController não encontrado: /tech/w3ll/egameleague/telas/torneio/partida-card.fxml");
                     continue;
                 }
 
@@ -63,13 +74,17 @@ public class SelecionarVencedoresController {
 
     private void verificarEstadoDoEmbaralhamento() {
         boolean algumVencedorDefinido = this.partidasDaRodada.stream()
-                .anyMatch(p -> p.getVencedor() != null);
+                .anyMatch(p -> p.getVencedor() != null || p.getTime2() == null);
         this.botaoEmbaralhar.setDisable(algumVencedorDefinido);
     }
 
     public void onVencedorSelecionado(Partida partida, Time vencedor) {
+        System.out.println("SelecionarVencedoresController: onVencedorSelecionado() chamado.");
         partida.definirVencedor(vencedor);
         this.verificarEstadoDoEmbaralhamento();
+
+        // Salva histórico e atualiza estatísticas
+        salvarHistoricoEstatisticasDaPartida(partida);
 
         if (this.tabelaController != null) {
             this.tabelaController.habilitarBotaoDeEdicao();
@@ -91,6 +106,7 @@ public class SelecionarVencedoresController {
                     .allMatch(p -> p.getVencedor() != null || p.getTime2() == null);
 
             if (todasAsPartidasDefinidas) {
+                System.out.println("SelecionarVencedoresController: Todas as partidas da rodada definidas. Chamando rodadaConcluida().");
                 if (this.tabelaController != null) {
                     this.tabelaController.rodadaConcluida();
                 }
@@ -100,12 +116,70 @@ public class SelecionarVencedoresController {
         }
     }
 
+    private void salvarHistoricoEstatisticasDaPartida(Partida partida) {
+        System.out.println("SelecionarVencedoresController: salvarHistoricoEstatisticasDaPartida() chamado.");
+        LocalDateTime agora = LocalDateTime.now();
+
+        String tipoEvento;
+        int pontosGanhos = 0;
+        List<String> jogadoresEnvolvidos = new ArrayList<>();
+        int posicaoJogador = 0;
+
+        if (partida.getTime2() == null) { // Caso de avanço automático (Bye)
+            tipoEvento = "Avanço Automático";
+            pontosGanhos = 10;
+
+            jogadoresEnvolvidos.add(partida.getTime1().getNome());
+            posicaoJogador = 1;
+            repoHistorico.adicionar(new Historico(agora, tipoEvento, pontosGanhos, jogadoresEnvolvidos, posicaoJogador, this.nomeDoTorneio));
+            System.out.println("  -> Historico: Avanço automático para " + partida.getTime1().getNome());
+            repoEstatisticas.registrarVitoria(partida.getTime1().getNome(), this.nomeDoTorneio);
+            System.out.println("  -> Estatisticas: Vitória registrada para " + partida.getTime1().getNome());
+
+        } else { // Partida com dois times
+            Time vencedor = partida.getVencedor();
+            Time perdedor = (vencedor != null) ? (vencedor.equals(partida.getTime1()) ? partida.getTime2() : partida.getTime1()) : null;
+
+            if (vencedor != null) {
+                tipoEvento = "Partida Concluída";
+
+                // Adiciona histórico para o vencedor
+                pontosGanhos = 15;
+                repoHistorico.adicionar(new Historico(agora, tipoEvento, pontosGanhos, List.of(vencedor.getNome(), perdedor.getNome()), 1, this.nomeDoTorneio));
+                System.out.println("  -> Historico: Vitoria registrada para " + vencedor.getNome());
+
+                // Adiciona histórico para o perdedor (se houver)
+                if (perdedor != null) {
+                    pontosGanhos = 5;
+                    repoHistorico.adicionar(new Historico(agora, tipoEvento, pontosGanhos, List.of(perdedor.getNome(), vencedor.getNome()), 2, this.nomeDoTorneio));
+                    System.out.println("  -> Historico: Derrota registrada para " + perdedor.getNome());
+                }
+
+                // Atualiza Estatísticas
+                repoEstatisticas.registrarVitoria(vencedor.getNome(), this.nomeDoTorneio);
+                System.out.println("  -> Estatisticas: Vitória registrada para " + vencedor.getNome());
+                if (perdedor != null) {
+                    repoEstatisticas.registrarDerrota(perdedor.getNome(), this.nomeDoTorneio);
+                    System.out.println("  -> Estatisticas: Derrota registrada para " + perdedor.getNome());
+                }
+            }
+        }
+        System.out.println("SelecionarVencedoresController: Tamanho atual do RepoListaHistorico: " + repoHistorico.listarTodos().size());
+        System.out.println("SelecionarVencedoresController: Tamanho atual do RepoListaEstatisticas: " + repoEstatisticas.listarTodos().size());
+    }
+
     @FXML
     void aoClicarEmbaralhar() {
+        System.out.println("SelecionarVencedoresController: aoClicarEmbaralhar() chamado.");
         List<Time> timesNaRodada = new ArrayList<>();
         for (Partida p : this.partidasDaRodada) {
-            if (p.getTime1() != null) timesNaRodada.add(p.getTime1());
-            if (p.getTime2() != null) timesNaRodada.add(p.getTime2());
+            if (isEditingMode && p.getVencedor() != null) {
+                p.resetar();
+            }
+            if (p.getVencedor() == null) {
+                if (p.getTime1() != null) timesNaRodada.add(p.getTime1());
+                if (p.getTime2() != null) timesNaRodada.add(p.getTime2());
+            }
         }
 
         Collections.shuffle(timesNaRodada);
@@ -120,9 +194,15 @@ public class SelecionarVencedoresController {
         this.partidasDaRodada.clear();
         this.partidasDaRodada.addAll(novasPartidas);
 
+        for (Partida p : this.partidasDaRodada) {
+            p.resetar();
+        }
+
         this.atualizarCards();
         if (this.tabelaController != null) {
             this.tabelaController.atualizarVisualDaTabelaAtiva();
         }
+        this.verificarEstadoDoEmbaralhamento();
+        System.out.println("SelecionarVencedoresController: Embaralhamento concluído.");
     }
 }

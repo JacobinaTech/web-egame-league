@@ -13,7 +13,7 @@ public class HelloApplication extends JProApplication {
 
     @Override
     public void start(Stage stage) throws IOException {
-        URL fxmlLocation = HelloApplication.class.getResource("telas/TelaMenu.fxml");
+        URL fxmlLocation = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/estatisticas/historico-tela.fxml");
 
         if (fxmlLocation == null) {
             System.out.println("Arquivo FXML não encontrado!");
@@ -23,6 +23,7 @@ public class HelloApplication extends JProApplication {
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlLocation);
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
+
         stage.setScene(scene);
         stage.setTitle("eGameLeague - Tabela do Torneio");
         stage.sizeToScene();

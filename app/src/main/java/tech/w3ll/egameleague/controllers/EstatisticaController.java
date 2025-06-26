@@ -1,6 +1,7 @@
 package tech.w3ll.egameleague.controllers;
 
 import tech.w3ll.egameleague.modelos.Estatisticas;
+import tech.w3ll.egameleague.repositores.listas.RepoListaEstatisticas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,10 +10,8 @@ import javafx.scene.control.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
-/**
- * Controlador da interface gráfica JavaFX responsável por exibir e filtrar estatísticas de torneios.
- */
 public class EstatisticaController {
 
     @FXML private ComboBox<String> cbTorneio;
@@ -26,29 +25,14 @@ public class EstatisticaController {
     @FXML private TableColumn<Estatisticas, Integer> colRanking;
     @FXML private Label lblUltimaAtualizacao;
 
-    private Estatisticas controlador = new Estatisticas();
+    private RepoListaEstatisticas repoEstatisticas = new RepoListaEstatisticas();
 
-    /**
-     * Inicializa a interface, popula dados simulados e configura os componentes da tabela.
-     */
     @FXML
     public void initialize() {
-        // Dados simulados para teste
-        controlador.registrarVitoria("Time Alpha", "Torneio 1");
-        controlador.registrarDerrota("Time Alpha", "Torneio 1");
-        controlador.registrarVitoria("Time Beta", "Torneio 1");
-        controlador.registrarDerrota("Time Beta", "Torneio 1");
-        controlador.registrarVitoria("Jogador X", "Torneio 2");
-        controlador.registrarDerrota("Jogador X", "Torneio 2");
-
-        controlador.atualizarRanking();
-
-        ObservableList<String> torneios = FXCollections.observableArrayList();
-        for (Estatisticas e : controlador.getEstatisticasList()) {
-            if (!torneios.contains(e.getNomeTorneio())) {
-                torneios.add(e.getNomeTorneio());
-            }
-        }
+        ObservableList<String> torneios = repoEstatisticas.listarTodos().stream()
+                .map(Estatisticas::getNomeTorneio)
+                .distinct()
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
         cbTorneio.setItems(torneios);
 
         colNome.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getNomeJogadorOuEquipe()));
@@ -58,29 +42,29 @@ public class EstatisticaController {
         colPontos.setCellValueFactory(cell -> new javafx.beans.property.SimpleIntegerProperty(cell.getValue().getPontos()).asObject());
         colRanking.setCellValueFactory(cell -> new javafx.beans.property.SimpleIntegerProperty(cell.getValue().getRanking()).asObject());
 
+        if (!torneios.isEmpty()) {
+            cbTorneio.getSelectionModel().selectFirst();
+        } else {
+            tabela.setItems(FXCollections.observableArrayList());
+        }
+
         atualizarUltimaAtualizacao();
     }
 
-    /**
-     * Aplica o filtro de torneio selecionado e atualiza a tabela de estatísticas.
-     */
     @FXML
     public void aplicarFiltro() {
         String torneioSelecionado = cbTorneio.getValue();
 
+        List<Estatisticas> listaFiltrada;
         if (torneioSelecionado == null || torneioSelecionado.isEmpty()) {
-            tabela.setItems(FXCollections.observableArrayList());
-            return;
+            listaFiltrada = repoEstatisticas.listarTodos();
+        } else {
+            listaFiltrada = repoEstatisticas.filtrarPorTorneio(torneioSelecionado);
         }
-
-        List<Estatisticas> listaFiltrada = controlador.filtrarPorTorneio(torneioSelecionado);
         tabela.setItems(FXCollections.observableArrayList(listaFiltrada));
         atualizarUltimaAtualizacao();
     }
 
-    /**
-     * Atualiza o rótulo com a data e hora da última atualização.
-     */
     private void atualizarUltimaAtualizacao() {
         String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
         lblUltimaAtualizacao.setText("Última atualização: " + dataHora);

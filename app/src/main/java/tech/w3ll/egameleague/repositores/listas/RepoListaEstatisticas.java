@@ -5,14 +5,14 @@ import tech.w3ll.egameleague.repositores.InterfaceRepoListasEstatiscas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
-/**
- * Implementação do repositório de estatísticas e controladores de estatísticas usando listas.
- */
 public class RepoListaEstatisticas implements InterfaceRepoListasEstatiscas {
 
-    private final List<Estatisticas> estatisticas = new ArrayList<>();
+    private static final List<Estatisticas> estatisticas = new ArrayList<>();
 
     @Override
     public void adicionar(Estatisticas estatistica) {
@@ -83,5 +83,50 @@ public class RepoListaEstatisticas implements InterfaceRepoListasEstatiscas {
             return Optional.empty();
         }
         return Optional.of(estatisticas.get(0));
+    }
+
+    public void registrarVitoria(String nomeJogadorOuEquipe, String nomeTorneio) {
+        Estatisticas estatistica = buscarOuCriarEstatistica(nomeJogadorOuEquipe, nomeTorneio);
+        estatistica.adicionarVitoria();
+        atualizarRanking();
+    }
+
+    public void registrarDerrota(String nomeJogadorOuEquipe, String nomeTorneio) {
+        Estatisticas estatistica = buscarOuCriarEstatistica(nomeJogadorOuEquipe, nomeTorneio);
+        estatistica.adicionarDerrota();
+        atualizarRanking();
+    }
+
+    private Estatisticas buscarOuCriarEstatistica(String nomeJogadorOuEquipe, String nomeTorneio) {
+        return estatisticas.stream()
+                .filter(e -> e.getNomeJogadorOuEquipe().equalsIgnoreCase(nomeJogadorOuEquipe) &&
+                        e.getNomeTorneio().equalsIgnoreCase(nomeTorneio))
+                .findFirst()
+                .orElseGet(() -> {
+                    Estatisticas novaEstatistica = new Estatisticas(nomeJogadorOuEquipe, nomeTorneio, 0, 0, 0);
+                    estatisticas.add(novaEstatistica);
+                    return novaEstatistica;
+                });
+    }
+
+    public void atualizarRanking() {
+        Map<String, List<Estatisticas>> estatisticasPorTorneio = estatisticas.stream()
+                .collect(Collectors.groupingBy(Estatisticas::getNomeTorneio));
+
+        for (List<Estatisticas> statsDoTorneio : estatisticasPorTorneio.values()) {
+            statsDoTorneio.sort(Comparator.comparingInt(Estatisticas::getPontos).reversed());
+            for (int i = 0; i < statsDoTorneio.size(); i++) {
+                statsDoTorneio.get(i).setRanking(i + 1);
+            }
+        }
+    }
+
+    public List<Estatisticas> filtrarPorTorneio(String nomeTorneio) {
+        if (nomeTorneio == null || nomeTorneio.trim().isEmpty()) {
+            return listarTodos();
+        }
+        return estatisticas.stream()
+                .filter(e -> e.getNomeTorneio().equalsIgnoreCase(nomeTorneio))
+                .collect(Collectors.toList());
     }
 }

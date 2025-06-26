@@ -23,7 +23,7 @@
                                 <Font name="Arial" size="14.0" />
                             </font>
                         </Label>
-                        <ComboBox fx:id="cbTorneio" layoutX="25.0" layoutY="102.0" prefHeight="25.0" prefWidth="177.0" promptText="Selecionar o Torneio" style="-fx-background-color: #282a36; -fx-background-radius: 16; -fx-padding: 4;" stylesheets="@TabelaCor.css" />
+                        <ComboBox fx:id="cbTorneio" layoutX="25.0" layoutY="102.0" prefHeight="25.0" prefWidth="177.0" promptText="Selecionar o Torneio" style="-fx-background-color: #282a36; -fx-background-radius: 16; -fx-padding: 4;" stylesheets="@TabelaCor.css" onAction="#aplicarFiltro" />
                         <Button fx:id="btnAplicar" layoutX="87.0" layoutY="152.0" onAction="#aplicarFiltro" style="-fx-background-color: #282a36; -fx-background-radius: 16px; -fx-text-fill: #6272a4;" text="Aplicar" />
                     </children>
                 </Pane>
@@ -58,15 +58,15 @@
             </children>
         </HBox>
     </bottom>
-   <top>
-      <VBox alignment="CENTER" prefHeight="39.0" prefWidth="1920.0" style="-fx-background-color: #282a36;" BorderPane.alignment="CENTER">
-         <children>
-            <Label style="-fx-text-fill: #6272a4;" text="Estatisticas Campeonato" textAlignment="CENTER">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-   </top>
+    <top>
+        <VBox alignment="CENTER" prefHeight="39.0" prefWidth="1920.0" style="-fx-background-color: #282a36;" BorderPane.alignment="CENTER">
+            <children>
+                <Label style="-fx-text-fill: #6272a4;" text="Estatisticas Campeonato" textAlignment="CENTER">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+    </top>
 </BorderPane>

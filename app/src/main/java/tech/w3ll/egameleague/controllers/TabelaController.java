@@ -47,21 +47,20 @@ public class TabelaController {
     private int rodadaAtualNumero = 0;
     private boolean isEditing = false;
     private List<ObservableList<Partida>> historicoDeRodadas = new ArrayList<>();
+    private String nomeDoTorneio = "Campeonato eGameLeague";
 
     private static final double ALTURA_DA_LINHA = 48.0;
 
     @FXML
     public void initialize() {
+        System.out.println("TabelaController: initialize() chamado.");
         carregarDadosIniciais();
     }
 
-
     private void carregarDadosIniciais() {
-
+        System.out.println("TabelaController: Carregando dados iniciais.");
         try {
-
             TimeRepoLista repositorioDeTimes = new TimeRepoLista();
-
             repositorioDeTimes.resetarTabela();
 
             repositorioDeTimes.adicionar(new Time("Breno"));
@@ -82,13 +81,16 @@ public class TabelaController {
             repositorioDeTimes.adicionar(new Time("Vinicius"));
 
             iniciarTorneio(new ArrayList<>(repositorioDeTimes.listarTodos()));
+            System.out.println("TabelaController: Dados iniciais carregados e torneio iniciado.");
 
         } catch (Exception e) {
-            System.out.println("Erro ao carregar dados iniciais: " + e.getMessage());
+            System.out.println("Erro ao carregar dados iniciais: ");
+            e.printStackTrace();
         }
     }
 
     public void iniciarTorneio(ArrayList<Time> times) {
+        System.out.println("TabelaController: Iniciando torneio com " + times.size() + " times.");
         if (times.size() < 2) {
             return;
         }
@@ -103,6 +105,7 @@ public class TabelaController {
     }
 
     private void avancarParaProximaRodada() {
+        System.out.println("TabelaController: Avançando para a próxima rodada.");
         if (rodadaAtualNumero > 0) {
             ObservableList<Partida> ultimaRodada = historicoDeRodadas.get(historicoDeRodadas.size() - 1);
             tabela.avancarParaProximaFase(ultimaRodada);
@@ -124,10 +127,12 @@ public class TabelaController {
 
         botaoJogarRodada.setText("Jogar " + gerarNomeDaRodada(partidasObservaveis.size()));
         botaoJogarRodada.setDisable(false);
+        // O botão "Jogar Rodada" chama aoClicarJogarRodada, que abre SelecionarVencedoresController
         botaoJogarRodada.setOnAction(event -> aoClicarJogarRodada());
         botaoEditarRodada.setVisible(false);
 
         scrollarSuavemente();
+        System.out.println("TabelaController: Rodada " + rodadaAtualNumero + " gerada com " + novasPartidas.size() + " partidas.");
     }
 
     private void scrollarSuavemente() {
@@ -182,27 +187,28 @@ public class TabelaController {
 
     @FXML
     void aoClicarJogarRodada() {
+        System.out.println("TabelaController: Clicou Jogar Rodada.");
         this.isEditing = false;
         abrirJanelaVencedores(historicoDeRodadas.get(historicoDeRodadas.size() - 1));
     }
 
     @FXML
     void aoClicarEditarRodada() {
+        System.out.println("TabelaController: Clicou Editar Rodada.");
         this.isEditing = true;
         abrirJanelaVencedores(historicoDeRodadas.get(historicoDeRodadas.size() - 1));
     }
 
     public void rodadaConcluida() {
+        System.out.println("TabelaController: rodadaConcluida() chamada.");
         this.isEditing = false;
         atualizarVisualDaTabelaAtiva();
         botaoEditarRodada.setVisible(true);
 
-        Tabela tabelaSimulada = new Tabela(new ArrayList<>(tabela.getTimes()));
-        tabelaSimulada.avancarParaProximaFase(historicoDeRodadas.get(historicoDeRodadas.size() - 1));
-
-        if (tabelaSimulada.temCampeao()) {
+        if (tabela.temCampeao()) {
             exibirCampeao();
         } else {
+            // Se o torneio não acabou, prepara para a próxima rodada
             botaoJogarRodada.setText("Próxima Rodada");
             botaoJogarRodada.setOnAction(event -> avancarParaProximaRodada());
         }
@@ -213,6 +219,7 @@ public class TabelaController {
             Node ultimoNo = containerDasRodadas.getChildren().get(containerDasRodadas.getChildren().size() - 1);
             if (ultimoNo instanceof TableView) {
                 ((TableView<Partida>) ultimoNo).refresh();
+                System.out.println("TabelaController: Tabela ativa atualizada.");
             }
         }
     }
@@ -231,26 +238,56 @@ public class TabelaController {
     }
 
     private void exibirCampeao() {
+        System.out.println("TabelaController: Exibindo campeão. Campeão: " + (tabela.getCampeao() != null ? tabela.getCampeao().getNome() : "N/A"));
         atualizarVisualDaTabelaAtiva();
         desabilitarTabelaAnterior();
 
+        // Altera a ação do botão para exibir estatísticas quando o torneio termina
         botaoJogarRodada.setText("Exibir Estatísticas");
-        botaoJogarRodada.setDisable(true);
+        // O evento onAction do botão JogarRodada agora chamará aoClicarExibirEstatisticas
+        botaoJogarRodada.setOnAction(event -> aoClicarExibirEstatisticas());
+        botaoJogarRodada.setDisable(false); // Garante que o botão esteja habilitado
         botaoEditarRodada.setVisible(false);
     }
 
+    // NOVO MÉTODO: Abre a tela de estatísticas
+    @FXML
+    private void aoClicarExibirEstatisticas() {
+        System.out.println("TabelaController: Clicou Exibir Estatísticas. Abrindo estatistica-list.fxml.");
+        try {
+            // Caminho para o FXML da tela de estatísticas
+            URL fxmlLocation = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/estatisticas/estatistica-list.fxml"); // Asumi que está aqui
+            if (fxmlLocation == null) {
+                System.err.println("Erro: FXML de estatísticas não encontrado: /tech/w3ll/egameleague/telas/estatisticas/estatistica-list.fxml");
+                return;
+            }
+
+            FXMLLoader fxmlLoader = new FXMLLoader(fxmlLocation);
+            Parent root = fxmlLoader.load();
+            Stage stage = (Stage) botaoJogarRodada.getScene().getWindow(); // Reutiliza o Stage atual
+            stage.setScene(new Scene(root));
+            stage.setTitle("eGameLeague - Estatísticas do Torneio");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erro ao carregar a tela de estatísticas: " + e.getMessage());
+        }
+    }
+
+
     private void abrirJanelaVencedores(ObservableList<Partida> partidas) {
+        System.out.println("TabelaController: Abrindo janela de vencedores para " + partidas.size() + " partidas.");
         if (partidas == null || partidas.isEmpty()) return;
         try {
-            URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/torneio/selecionar-vencedores-view.fxml");
+            URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/torneio/selecionar-vencedores-view.fxml");
             FXMLLoader carregador = new FXMLLoader(fxmlLocal);
             Parent raiz = carregador.load();
 
             SelecionarVencedoresController controlador = carregador.getController();
-            controlador.carregarPartidas(partidas, this, this.isEditing);
+            controlador.carregarPartidas(partidas, this, this.isEditing, this.nomeDoTorneio);
 
             Stage janela = new Stage();
-            janela.setTitle("Definir Vencedores da Rodada");
+            janela.setTitle("Definir Vencedores da Rodada - " + nomeDoTorneio);
             janela.initModality(Modality.APPLICATION_MODAL);
 
             double alturaBase = 200.0;
