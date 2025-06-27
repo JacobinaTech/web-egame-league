@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 public class ConexaoPostgres {
     private static final Logger LOGGER = Logger.getLogger(ConexaoPostgres.class.getName());
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/egameleague";
-    private static final String USUARIO = "postgres";
-    private static final String SENHA = "12345678";
+    private static final String URL = "";
+    private static final String USUARIO = "";
+    private static final String SENHA = "";
 
     public static Connection getConnection() {
         try {
