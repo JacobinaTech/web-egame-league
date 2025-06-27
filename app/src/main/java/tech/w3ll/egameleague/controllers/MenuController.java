@@ -10,6 +10,11 @@ import javafx.stage.Stage;
 public class MenuController {
 
     @FXML
+    private void onCadastroClicked(ActionEvent e) {
+        openWindow("telas/cadastro/interfaceGraficaCadastro.fxml", "Cadastro");
+    }
+
+    @FXML
     private void onLoginClicked(ActionEvent event) {
         openWindow("telas/cadastro/InterfaceGraficaLogin.fxml", "Login");
     }
@@ -20,25 +25,24 @@ public class MenuController {
         openWindow("telas/cadastro/interfaceGraficaUsuario.fxml", "Usuários");
     }
 
-    @FXML
-    private void onCadastroClicked(ActionEvent e) {
-        openWindow("telas/cadastro/interfaceGraficaCadastro.fxml", "Cadastro");
-    }
-
+    // falta re------------------------------------------------------------------
     @FXML
     private void onTorneiosClicked(ActionEvent e) {
-        openWindow("telas/TelaTorneios.fxml", "Torneios");
+        openWindow("telas/torneio/LayoutTorneio-V1.fxml, "Torneios");
     }
 
     @FXML
     private void onStatsClicked(ActionEvent e) {
-        openWindow("telas/Estatisticas.fxml", "Estatísticas");
+        openWindow("telas/estatisticas/estatistica-list.fxml, "Estatísticas");
     }
 
     @FXML
     private void onGerenciamentoClicked(ActionEvent e) {
         openWindow("telas/Gerenciamento.fxml", "Gerenciamento");
     }
+    // falta re------------------------------------------------------------------
+
+    //telas q n vão funcionar
     @FXML
     private void onStatsCS2(ActionEvent e) {
         openWindow("telas/EstatisticasCS2.fxml", "Estatísticas CS2");

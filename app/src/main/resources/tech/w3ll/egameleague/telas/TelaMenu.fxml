@@ -73,7 +73,11 @@
                               </Button>
       
                                           <!-- Botão Torneios -->
-                              <Button onAction="#onTorneiosClicked" prefHeight="31.0" prefWidth="175.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #6272a4; -fx-border-color: #6272a4; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;" text="Torneios" textAlignment="CENTER" textFill="WHITE">
+                              <Button onAction="#onTorneiosClicked"
+                                      prefHeight="31.0"
+                                      prefWidth="175.0"
+                                      style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #282a36, #44475a); -fx-text-fill: #6272a4; -fx-border-color: #6272a4; -fx-background-radius: 16px; -fx-padding: 5px; -fx-border-width: 3px; -fx-border-radius: 16px;"
+                                      text="Torneios" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
