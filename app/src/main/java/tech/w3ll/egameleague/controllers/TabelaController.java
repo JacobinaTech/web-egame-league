@@ -29,10 +29,12 @@ import tech.w3ll.egameleague.HelloApplication;
 import tech.w3ll.egameleague.modelos.Partida;
 import tech.w3ll.egameleague.modelos.Tabela;
 import tech.w3ll.egameleague.modelos.Time;
-import tech.w3ll.egameleague.repositores.listas.TimeRepoLista;
+import tech.w3ll.egameleague.repositores.jdbc.ConexaoPostgres;
+import tech.w3ll.egameleague.repositores.jdbc.TimeDBLista;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,38 +57,32 @@ public class TabelaController {
         carregarDadosIniciais();
     }
 
-
     private void carregarDadosIniciais() {
 
-        try {
+        Connection conn = ConexaoPostgres.getConnection();
+        TimeDBLista repositorioDeTimes = new TimeDBLista();
 
-            TimeRepoLista repositorioDeTimes = new TimeRepoLista();
+        repositorioDeTimes.resetarTabela();
 
-            repositorioDeTimes.resetarTabela();
+        repositorioDeTimes.adicionar(new Time("Breno"));
+        repositorioDeTimes.adicionar(new Time("Dalmatas"));
+        repositorioDeTimes.adicionar(new Time("Kauã"));
+        repositorioDeTimes.adicionar(new Time("Davi"));
+        repositorioDeTimes.adicionar(new Time("Pedro"));
+        repositorioDeTimes.adicionar(new Time("Paulo"));
+        repositorioDeTimes.adicionar(new Time("Lucas"));
+        repositorioDeTimes.adicionar(new Time("Gabriel"));
+        repositorioDeTimes.adicionar(new Time("Matheus"));
+        repositorioDeTimes.adicionar(new Time("Felipe"));
+        repositorioDeTimes.adicionar(new Time("Gustavo"));
+        repositorioDeTimes.adicionar(new Time("Rafael"));
+        repositorioDeTimes.adicionar(new Time("Bruno"));
+        repositorioDeTimes.adicionar(new Time("Thiago"));
+        repositorioDeTimes.adicionar(new Time("Rodrigo"));
+        repositorioDeTimes.adicionar(new Time("Vinicius"));
 
-            repositorioDeTimes.adicionar(new Time("Breno"));
-            repositorioDeTimes.adicionar(new Time("Dalmatas"));
-            repositorioDeTimes.adicionar(new Time("Kauã"));
-            repositorioDeTimes.adicionar(new Time("Davi"));
-            repositorioDeTimes.adicionar(new Time("Pedro"));
-            repositorioDeTimes.adicionar(new Time("Paulo"));
-            repositorioDeTimes.adicionar(new Time("Lucas"));
-            repositorioDeTimes.adicionar(new Time("Gabriel"));
-            repositorioDeTimes.adicionar(new Time("Matheus"));
-            repositorioDeTimes.adicionar(new Time("Felipe"));
-            repositorioDeTimes.adicionar(new Time("Gustavo"));
-            repositorioDeTimes.adicionar(new Time("Rafael"));
-            repositorioDeTimes.adicionar(new Time("Bruno"));
-            repositorioDeTimes.adicionar(new Time("Thiago"));
-            repositorioDeTimes.adicionar(new Time("Rodrigo"));
-            repositorioDeTimes.adicionar(new Time("Vinicius"));
+        iniciarTorneio(new ArrayList<>(repositorioDeTimes.listarTodos()));
 
-            iniciarTorneio(new ArrayList<>(repositorioDeTimes.listarTodos()));
-
-        } catch (Exception e) {
-            System.out.println("Erro ao carregar dados iniciais: ");
-            e.printStackTrace();
-        }
     }
 
     public void iniciarTorneio(ArrayList<Time> times) {
