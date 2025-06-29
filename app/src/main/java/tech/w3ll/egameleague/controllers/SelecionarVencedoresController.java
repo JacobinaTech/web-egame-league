@@ -51,7 +51,7 @@ public class SelecionarVencedoresController {
         this.containerDePartidas.getChildren().clear();
         for (Partida partidaAtual : this.partidasDaRodada) {
             try {
-                URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/torneio/partida-card.fxml");
+                URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/tabela/partida-card.fxml");
                 if (fxmlLocal == null) {
                     System.err.println("FXML para PartidaCardController não encontrado: /tech/w3ll/egameleague/telas/torneio/partida-card.fxml");
                     continue;

@@ -29,11 +29,11 @@ import tech.w3ll.egameleague.HelloApplication;
 import tech.w3ll.egameleague.modelos.Partida;
 import tech.w3ll.egameleague.modelos.Tabela;
 import tech.w3ll.egameleague.modelos.Equipe;
+import tech.w3ll.egameleague.modelos.Torneio;
 import tech.w3ll.egameleague.repositores.listas.EquipeRepoLista;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +55,17 @@ public class TabelaController {
     @FXML
     public void initialize() {
         System.out.println("TabelaController: initialize() chamado.");
-        carregarDadosIniciais();
+    }
+
+    public void carregarTorneio(Torneio torneioSelecionado) {
+        this.nomeDoTorneio = torneioSelecionado.getNomeDoTorneio();
+
+        if (torneioSelecionado.getListaDeEquipes() != null && !torneioSelecionado.getListaDeEquipes().isEmpty()) {
+            iniciarTorneio(new ArrayList<>(torneioSelecionado.getListaDeEquipes()));
+        }
+        else {
+            carregarDadosIniciais();
+        }
     }
 
     private void carregarDadosIniciais() {
@@ -209,8 +219,14 @@ public class TabelaController {
         if (tabela.temCampeao()) {
             exibirCampeao();
         } else {
-            // Se o torneio não acabou, prepara para a próxima rodada
-            botaoJogarRodada.setText("Próxima Rodada");
+            String nomeRodada = gerarNomeDaRodada(tabela.getPartidasAtuais().size());
+
+            if ("Final".equalsIgnoreCase(nomeRodada)) {
+                botaoJogarRodada.setText("Finalizar");
+            } else {
+                botaoJogarRodada.setText("Próxima Rodada");
+            }
+
             botaoJogarRodada.setOnAction(event -> avancarParaProximaRodada());
         }
     }
@@ -279,12 +295,12 @@ public class TabelaController {
     private void abrirJanelaVencedores(ObservableList<Partida> partidas) {
         System.out.println("TabelaController: Abrindo janela de vencedores para " + partidas.size() + " partidas.");
         if (partidas == null || partidas.isEmpty()) return;
-        try {
-            URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/torneio/selecionar-vencedores-view.fxml");
-            FXMLLoader carregador = new FXMLLoader(fxmlLocal);
-            Parent raiz = carregador.load();
 
-            SelecionarVencedoresController controlador = carregador.getController();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tech/w3ll/egameleague/telas/tabela/selecionar-vencedores-view.fxml"));
+            Parent raiz = loader.load();
+
+            SelecionarVencedoresController controlador = loader.getController();
             controlador.carregarPartidas(partidas, this, this.isEditing, this.nomeDoTorneio);
 
             Stage janela = new Stage();

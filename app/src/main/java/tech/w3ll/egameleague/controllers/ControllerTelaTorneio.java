@@ -59,9 +59,20 @@ public class ControllerTelaTorneio implements Initializable {
     }
 
     public void entrarTorneio() throws IOException {
+        Torneio torneioSelecionado = tblTorneios.getSelectionModel().getSelectedItem();
+
+        if (torneioSelecionado == null) {
+            System.out.println("O torneio não foi selecionado!");
+            return;
+        }
+
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("telas/tabela/LayoutTabela.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
+
+        TabelaController controller = loader.getController();
+        controller.carregarTorneio(torneioSelecionado);
+
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

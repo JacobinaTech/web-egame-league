@@ -77,6 +77,9 @@ public class Torneio {
     }
 
     public void adicionarEquipe(Equipe equipe){
+        if (listaDeEquipes == null) {
+            listaDeEquipes = new ArrayList<>();
+        }
         listaDeEquipes.add(equipe);
     }
 
