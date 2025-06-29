@@ -198,13 +198,17 @@ public class TabelaController {
         atualizarVisualDaTabelaAtiva();
         botaoEditarRodada.setVisible(true);
 
-        Tabela tabelaSimulada = new Tabela(new ArrayList<>(tabela.getTimes()));
-        tabelaSimulada.avancarParaProximaFase(historicoDeRodadas.get(historicoDeRodadas.size() - 1));
-
-        if (tabelaSimulada.temCampeao()) {
+        if (tabela.temCampeao()) {
             exibirCampeao();
         } else {
-            botaoJogarRodada.setText("Próxima Rodada");
+            String nomeRodada = gerarNomeDaRodada(tabela.getPartidasAtuais().size());
+
+            if ("Final".equalsIgnoreCase(nomeRodada)) {
+                botaoJogarRodada.setText("Finalizar");
+            } else {
+                botaoJogarRodada.setText("Próxima Rodada");
+            }
+
             botaoJogarRodada.setOnAction(event -> avancarParaProximaRodada());
         }
     }
