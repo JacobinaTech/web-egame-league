@@ -13,7 +13,7 @@ public class HelloApplication extends JProApplication {
 
     @Override
     public void start(Stage stage) throws IOException {
-        URL fxmlLocation = HelloApplication.class.getResource("telas/TelaMenu.fxml");
+        URL fxmlLocation = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/torneio/LayoutTabela.fxml");
 
         if (fxmlLocation == null) {
             System.out.println("Arquivo FXML não encontrado!");
