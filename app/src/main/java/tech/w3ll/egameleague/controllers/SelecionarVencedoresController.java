@@ -41,7 +41,7 @@ public class SelecionarVencedoresController {
         this.containerDePartidas.getChildren().clear();
         for (Partida partidaAtual : this.partidasDaRodada) {
             try {
-                URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/torneio/partida-card.fxml");
+                URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/torneio/partida-card.fxml");
                 if (fxmlLocal == null) {
                     continue;
                 }

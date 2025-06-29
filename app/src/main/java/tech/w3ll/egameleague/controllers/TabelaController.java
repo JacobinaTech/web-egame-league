@@ -84,7 +84,8 @@ public class TabelaController {
             iniciarTorneio(new ArrayList<>(repositorioDeTimes.listarTodos()));
 
         } catch (Exception e) {
-            System.out.println("Erro ao carregar dados iniciais: " + e.getMessage());
+            System.out.println("Erro ao carregar dados iniciais: ");
+            e.printStackTrace();
         }
     }
 
@@ -197,13 +198,17 @@ public class TabelaController {
         atualizarVisualDaTabelaAtiva();
         botaoEditarRodada.setVisible(true);
 
-        Tabela tabelaSimulada = new Tabela(new ArrayList<>(tabela.getTimes()));
-        tabelaSimulada.avancarParaProximaFase(historicoDeRodadas.get(historicoDeRodadas.size() - 1));
-
-        if (tabelaSimulada.temCampeao()) {
+        if (tabela.temCampeao()) {
             exibirCampeao();
         } else {
-            botaoJogarRodada.setText("Próxima Rodada");
+            String nomeRodada = gerarNomeDaRodada(tabela.getPartidasAtuais().size());
+
+            if ("Final".equalsIgnoreCase(nomeRodada)) {
+                botaoJogarRodada.setText("Finalizar");
+            } else {
+                botaoJogarRodada.setText("Próxima Rodada");
+            }
+
             botaoJogarRodada.setOnAction(event -> avancarParaProximaRodada());
         }
     }
@@ -242,7 +247,7 @@ public class TabelaController {
     private void abrirJanelaVencedores(ObservableList<Partida> partidas) {
         if (partidas == null || partidas.isEmpty()) return;
         try {
-            URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/torneio/selecionar-vencedores-view.fxml");
+            URL fxmlLocal = HelloApplication.class.getResource("/tech/w3ll/egameleague/telas/torneio/selecionar-vencedores-view.fxml");
             FXMLLoader carregador = new FXMLLoader(fxmlLocal);
             Parent raiz = carregador.load();
 
