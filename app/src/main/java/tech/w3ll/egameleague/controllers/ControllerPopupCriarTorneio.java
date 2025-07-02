@@ -116,6 +116,7 @@ public class ControllerPopupCriarTorneio implements Initializable {
     public void adicionarLinha(){
         Equipe novaEquipe = new Equipe(""); // começa com nome vazio
         listaEquipes.add(novaEquipe);
+        novaEquipe.setNomeDaEquipe("Equipe " + (listaEquipes.indexOf(novaEquipe)+1)); // muda o nome de acordo com a posição na lista
     }
 
     public void removerLinha(){

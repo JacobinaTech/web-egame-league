@@ -73,6 +73,7 @@ public class ControllerPopupEquipes implements  Initializable {
     public void adicionarLinha(){
         Usuario novoUsuario = new Usuario(""); // começa com nome vazio
         listaUsuarios.add(novoUsuario);
+        novoUsuario.setUsuario("Jogador " + (listaUsuarios.indexOf(novoUsuario)+1)); // muda o nome enumerando de acordo ao lugar na lista
     }
 
     public void removerLinha(){
